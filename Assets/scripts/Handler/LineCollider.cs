@@ -15,12 +15,12 @@ public class LineCollider : MonoBehaviour {
 		camera = Camera.main;
 	}
 
-	void Update () {
-		if (IsOutsideOfBounds())
-		{
-			line.ResetLine();
-		}
-	}
+	// void Update () {
+	// 	if (IsOutsideOfBounds())
+	// 	{
+	// 		line.ResetLine();
+	// 	}
+	// }
 
 	void OnCollisionEnter2D(Collision2D coll) {
 

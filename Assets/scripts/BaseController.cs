@@ -5,36 +5,48 @@ using UnityEngine;
 public class BaseController : MonoBehaviour {
 
 	public PlayerController player;
-	float depletionRate  = .08f;
+	float depletionRate  = .15f;
 
 	public SpriteRenderer spriteRenderer;
 
-	public Vector3 targetLocation;
 	public Vector3 targetScale;
 	public bool hadPlayer;
 
 	public bool shouldRotate = true;
 	public static float DIRECTION = -1f;
+
+	private float velocity;
+
+	private Vector3 targetLocation;
+
+	public Vector3 targetPoint;
+
+	public CoinGroup coinGroup;
+
+	ObjectSpawner objectSpawner;
+
 	void Start()
 	{
+		SetVelocity(3f);
+		//targetLocation = transform.position;
+		objectSpawner = ObjectSpawner.Instance;
 
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
-
 	void Update()
 	{
-		if (targetLocation != null && hadPlayer)
-		{
-			transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime / transform.localScale.x);
-			transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime / transform.localScale.x);
-		}
-		// Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
-		// Debug.Log(position);
+
 		if (player != null)
 		{
+			Vector3 targetDir = objectSpawner.nextBase.transform.position - player.transform.position;
+			float distance = Vector3.Angle(targetDir, player.transform.right);
+
+
 			if (shouldRotate) {
-				transform.Rotate(Vector3.forward, Time.deltaTime * 160f * DIRECTION);
+				transform.Rotate(Vector3.forward, Time.deltaTime * ((velocity * distance) * .3f + 200f) * DIRECTION);
+
 			}
-			if (transform.localScale.magnitude > 0) {
+			if (transform.localScale.x > .1f) {
 				//transform.localScale -= new Vector3(Time.deltaTime * depletionRate, Time.deltaTime * depletionRate, Time.deltaTime * depletionRate);
 			}
 		} else
@@ -42,21 +54,23 @@ public class BaseController : MonoBehaviour {
 			gameObject.layer = 8;
 		}
 
-		if (IsOutsideOfBounds())
-		{
-			//transform.position = new Vector3(transform.position.x, 4f, 0);
-			transform.position = Camera.main.ScreenToWorldPoint(new Vector3(transform.position.x, Screen.height, 0));
-		}
+		//	transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime * 5f);
 	}
 
-	bool IsOutsideOfBounds()
+	public void SetVelocity(float vel)
 	{
-		Vector3 bounds = Camera.main.WorldToScreenPoint(transform.position);
-		if (bounds.x > Screen.width || bounds.x < 0 || bounds.y > Screen.height || bounds.y < 0)
-		{
-			return true;
-		}
-		return false;
+		this.velocity = vel;
+	}
+
+	public void SetTargetLocation(Vector3 location)
+	{
+
+		this.targetLocation = location;
+	}
+
+	public void SetTargetScale(Vector3 scale)
+	{
+		this.targetScale = scale;
 	}
 }
 

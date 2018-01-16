@@ -12,8 +12,10 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 targetLocation = Vector3.zero;
 	private float defaultScale;
 	private float scale;
-
-
+	private float distaceToKeep;
+	private Vector3 targetLocalPosition;
+	ObjectSpawner objectSpawner;
+	public GameObject effect;
 	void Awake()
 	{
 		if (Instance == null)
@@ -25,8 +27,9 @@ public class PlayerController : MonoBehaviour {
 		}
 
 
-		targetLocation = transform.position;
 
+		targetLocation = transform.position;
+		targetLocalPosition = transform.localPosition;
 
 	}
 
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour {
 	void Start ()
 	{
 		line = transform.GetChild(0).GetComponent<LineController>();
+		objectSpawner = ObjectSpawner.Instance;
 
 		if (currentBase != null)
 		{
@@ -52,65 +56,52 @@ public class PlayerController : MonoBehaviour {
 
 		defaultScale = transform.localScale.x;
 		targetPos  = transform.position;
+		targetLocation = transform.localPosition;
+
+
 	}
 
 
 	float rotatingDir;
+	[Range(.5f, 5f)]
+	public float aa = 0;
+	public float angle = 0;
 	void Update ()
 	{
 
-		rotatingDir = Input.GetKey(KeyCode.D) ? rotatingDir = -160f : Input.GetKey(KeyCode.A) ? rotatingDir = 160f : 0;
 
 		transform.right = transform.position - currentBase.transform.position;
-
-		//transform.RotateAround(currentBase.transform.position, Vector3.forward, direction * Time.deltaTime * -160f);
 
 		scale = (defaultScale / currentBase.transform.localScale.x);
 		transform.localScale = new Vector3(scale, scale, scale);
 
+		// Vector3 targetDir = objectSpawner.nextBase.transform.position - transform.position;
+		// float anglea = Vector3.Angle(targetDir, transform.right);
+
+		// if (anglea < 2f)
+		// {
+		// 	line.Shoot();
+		// }
+		//Round();
 
 	}
 
-	void LateUpdate()
+	public void Round()
 	{
-
+		angle = (int)CalculateAngle(transform.position, currentBase.transform.position);
+		float y = aa * Mathf.Sin(angle * Mathf.Deg2Rad);
+		float xx = aa * Mathf.Cos(angle * Mathf.Deg2Rad);
+		Vector3 pos = new Vector3(xx, y, 0);
+		transform.localPosition  = pos;
 	}
 
-	void AttachPlayer()
+	public  float CalculateAngle(Vector3 from, Vector3 to)
 	{
-
+		return Quaternion.FromToRotation(-currentBase.transform.right, to - from).eulerAngles.z;
 	}
 
 	void OnBaseHit(BaseController hitBase, Vector2 hitPoint)
 	{
-		// //RaycastHit2D hit = Physics2D.Raycast(transform.position,  transform.right, Mathf.Infinity, LayerMask.GetMask("Base"));
-		// //currentBase.hadPlayer = true;
-		// currentBase.player = null;
-		// //float scale = 1f;
-		// //currentBase.targetScale = new Vector3(scale, scale, scale);
-		// //currentBase.targetLocation = new Vector3(currentBase.transform.position.x, hitBase.transform.position.y + Random.Range( 3f, 4f), 0);
-		// currentBase.transform.gameObject.layer = 8;
-		// currentBase = hitBase;
-		// transform.SetParent(currentBase.transform);
-		// transform.position = new Vector3(hitPoint.x, hitPoint.y, 0);
-		// currentBase.player = this;
-		// currentBase.transform.gameObject.layer = 9;
-
-		// direction *= -1;
-	}
-
-	IEnumerator PositionTranslation()
-	{
-		bool locked = false;
-		while (!locked)
-		{
-			transform.position = Vector3.Lerp(transform.position, targetPos, 4f * Time.deltaTime);
-			// if (Vector3.Distance(targetPosition, transform.position) < .1f)
-			// {
-			// 	locked = true;
-			// }
-			yield return null;
-		}
 	}
 
 	public void SetTargetLocation(Vector2 targetLocation)
@@ -130,8 +121,34 @@ public class PlayerController : MonoBehaviour {
 		currentBase = hitBase;
 		transform.SetParent(currentBase.transform);
 		currentBase.player = this;
-		currentBase.transform.gameObject.layer = 9;
-		direction *= -1;
+
+		//BaseController.DIRECTION *= GetDirection();
+	}
+
+	void OnCollisionEnter2D(Collision2D col)
+	{
+		if (col.gameObject == currentBase.transform.gameObject)
+		{
+			float shake = Random.Range(2.5f, 3.0f);
+			float shrinkFactor = Random.Range(5.5f, 6.5f);
+			Camera.main.transform.GetComponent<CameraController>().Jitter(shake, shrinkFactor);
+			//Instantiate(AppResources.Effect, transform.position, Quaternion.identity);
+
+		}
+
+	}
+
+	public void SetTargetLocalPosition(Vector3 position)
+	{
+		this.targetLocalPosition = position;
+	}
+
+
+	private int GetDirection()
+	{
+		int value = Random.Range(-1, 1);
+		if (value == 0) return 1;
+		return value;
 	}
 
 
