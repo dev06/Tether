@@ -8,7 +8,7 @@ public class CoinController : MonoBehaviour {
 
 	void Update()
 	{
-		transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime * 4.0f);
+		transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime * 20.0f);
 	}
 
 	public void SetTargetLocation(Vector2 location)

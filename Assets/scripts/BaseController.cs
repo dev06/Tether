@@ -25,6 +25,7 @@ public class BaseController : MonoBehaviour {
 
 	ObjectSpawner objectSpawner;
 
+	public bool b;
 	void Start()
 	{
 		SetVelocity(3f);
@@ -55,8 +56,32 @@ public class BaseController : MonoBehaviour {
 		}
 
 		//	transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime * 5f);
+
+		if (IsOutsideOfBounds() && !b)
+		{
+			PoolBase();
+		}
+	}
+	bool IsOutsideOfBounds()
+	{
+		Vector3 bounds = Camera.main.WorldToViewportPoint(transform.position);
+		if (bounds.y < -.5f)
+		{
+			return true;
+		}
+		return false;
 	}
 
+	void PoolBase()
+	{
+		BaseController lastBase = transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<BaseController>();
+
+		float xRange = Random.Range(-1.15f, 2.15f);
+		float yRange = Random.Range(3f, 5f);
+		transform.position = lastBase.transform.position + new Vector3(xRange, yRange, 0);
+		transform.SetSiblingIndex(transform.parent.childCount - 1);
+
+	}
 	public void SetVelocity(float vel)
 	{
 		this.velocity = vel;

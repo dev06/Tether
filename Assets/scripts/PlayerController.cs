@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
 
-
 		transform.right = transform.position - currentBase.transform.position;
 
 		scale = (defaultScale / currentBase.transform.localScale.x);
@@ -147,7 +146,7 @@ public class PlayerController : MonoBehaviour {
 	private int GetDirection()
 	{
 		int value = Random.Range(-1, 1);
-		if (value == 0) return 1;
+		if (value == 0) { return 1; }
 		return value;
 	}
 

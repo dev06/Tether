@@ -8,12 +8,16 @@ public class CoinGroup : MonoBehaviour {
 	public List<CoinController> CoinQueue = new List<CoinController>();
 
 	ObjectSpawner spawner;
+	PlayerController player;
 	public Transform target;
+	private Vector2 position;
+
 
 	void Start () {
 		InstantiateCoinObject(10);
 
 		spawner = ObjectSpawner.Instance;
+		player = PlayerController.Instance;
 
 	}
 	private void InstantiateCoinObject(int n)
@@ -22,21 +26,18 @@ public class CoinGroup : MonoBehaviour {
 		{
 			GameObject clone = (GameObject)Instantiate(AppResources.Coin, new Vector3(0, -10, 0), Quaternion.identity) as GameObject;
 			clone.transform.SetParent(transform);
-			clone.SetActive(false);
 			CoinQueue.Add(clone.GetComponent<CoinController>());
+			clone.SetActive(false);
 		}
-	}
-
-	void Update () {
-
 	}
 
 
 	public void Toggle(bool b)
 	{
-		foreach (CoinController c in CoinQueue)
+
+		for (int i = 0; i < CoinQueue.Count; i++)
 		{
-			c.gameObject.SetActive(b);
+			CoinQueue[i].transform.gameObject.SetActive(b);
 		}
 	}
 
@@ -53,43 +54,46 @@ public class CoinGroup : MonoBehaviour {
 	}
 
 
-	public void PositionCoins(Transform t)
-	{
-		// StopCoroutine("IPositionCoins");
-		// StartCoroutine("IPositionCoins", spawner.nextBase.transform);
-		Transform center = t;
-		transform.position = center.position;
-		float dt = (2f * Mathf.PI) / 10f;
-		float radius = center.transform.localScale.x * .55f;
-
-		for (int i = 0; i < CoinQueue.Count; i++)
-		{
-			CoinQueue[i].transform.gameObject.SetActive(true);
-			float x = center.position.x + Mathf.Cos((float)i * dt) * radius;
-			float y = center.position.y + Mathf.Sin((float)i * dt) * radius;
-			Vector2 loc = new Vector2(x, y);
-			CoinQueue[i].SetTargetLocation(loc);
-		}
-
-	}
-
-	// public IEnumerator IPositionCoins(Transform center)
+	// public void PositionCoins(Transform t)
 	// {
-	// 	// int i = 0;
-	// 	// float dt = (2f * Mathf.PI) / 10f;
-	// 	// float radius = center.transform.localScale.x * .55f;
+	// 	// StopCoroutine("IPositionCoins");
+	// 	// StartCoroutine("IPositionCoins", spawner.nextBase.transform);
+	// 	Transform center = t;
+	// 	transform.position = center.position;
+	// 	float dt = (2f * Mathf.PI) / 10f;
+	// 	float radius = center.transform.localScale.x * .55f;
 
-	// 	// while (i < CoinQueue.Count)
-	// 	// {
-	// 	// 	CoinQueue[i].transform.gameObject.SetActive(true);
-	// 	// 	float x = center.position.x + Mathf.Cos((float)i * dt) * radius;
-	// 	// 	float y = center.position.y + Mathf.Sin((float)i * dt) * radius;
-	// 	// 	Vector2 loc = new Vector2(x, y);
-	// 	// 	CoinQueue[i].SetTargetLocation(loc);
-	// 	// 	i++;
-	// 	// 	yield return null;
-	// 	// }
+	// 	for (int i = 0; i < CoinQueue.Count; i++)
+	// 	{
+	// 		CoinQueue[i].transform.gameObject.SetActive(true);
+	// 		float x = center.position.x + Mathf.Cos((float)i * dt) * radius;
+	// 		float y = center.position.y + Mathf.Sin((float)i * dt) * radius;
+	// 		Vector2 loc = new Vector2(x, y);
+	// 		CoinQueue[i].SetTargetLocation(loc);
+	// 	}
+
 	// }
 
 
+	public void SetTarget(Transform current, Transform next)
+	{
+		Toggle(true);
+		SetCoins(current, next);
+	}
+
+
+	public void SetCoins(Transform current, Transform next)
+	{
+		RaycastHit2D hit = Physics2D.Raycast(current.position, -(current.position - next.position), 10, LayerMask.GetMask("Base") );
+		RaycastHit2D hit2 = Physics2D.Raycast(next.position,    (current.position - next.position), 10, LayerMask.GetMask("CurrentBase"));
+
+		Vector2 direction = hit2.point - hit.point;
+		float centerSpacing = .8f;
+		for (int i = 0; i < CoinQueue.Count; i++)
+		{
+
+			Vector2 offset = ((Vector2)hit.point + (Vector2)hit2.point) / 2f +  ((direction * centerSpacing) / 2f);
+			CoinQueue[i].SetTargetLocation(((-(i + .5f) / CoinQueue.Count) * direction * centerSpacing + offset));
+		}
+	}
 }

@@ -81,7 +81,7 @@ public class LineController : MonoBehaviour {
 
 	public void Shoot()
 	{
-		if (attached) return;
+		if (attached) { return; }
 
 		float length = 5f;
 
@@ -152,7 +152,8 @@ public class LineController : MonoBehaviour {
 		if (hitBase != null)
 		{
 			player.SetTargetBase(hitBase);
-			ObjectSpawner.Instance.PositionNextBase();
+			//ObjectSpawner.Instance.PositionNextBase();
+
 			//	ObjectSpawner.Instance.CalculateDirection();
 		}
 

@@ -14,8 +14,8 @@ public class ObjectSpawner : MonoBehaviour {
 	public List<CoinGroup> CoinGroupQueue = new List<CoinGroup>();
 
 
-	private Transform obj_bases;
-	private Transform obj_coins;
+	public Transform obj_bases;
+	private Transform obj_coingroup;
 
 	public BaseController nextBase;
 
@@ -37,11 +37,13 @@ public class ObjectSpawner : MonoBehaviour {
 		player = PlayerController.Instance;
 
 		obj_bases = GameObject.FindWithTag("Objects/bases").transform;
-		obj_coins = GameObject.FindWithTag("Objects/coins").transform;
+		obj_coingroup = GameObject.FindWithTag("Objects/coingroup").transform;
 
-		InstantiateBaseObject(5, Vector2.up * 20);
-		PositionNextBase();
-		InstantiateCoinObject(10);
+		InstantiateBaseObject(5, Vector2.up * 4);
+		InstantiateCoinGroup(3);
+		//PositionNextBase();
+
+		PositionBases();
 	}
 
 	void Update()
@@ -49,14 +51,11 @@ public class ObjectSpawner : MonoBehaviour {
 		//CalculateDirection
 		if (Input.GetKeyDown(KeyCode.L))
 		{
-			PositionCoins(player.currentBase.transform, nextBase.transform);
+
 		}
 
-		Vector3 dirA = player.currentBase.transform.position -  (nextBase.transform.up * nextBase.transform.localScale.x * .55f);
-		Vector3 dirB = nextBase.transform.position;
+		FetchNextBase();
 
-
-		Debug.DrawRay(Vector3.zero, dirA + dirB);
 
 	}
 
@@ -67,27 +66,29 @@ public class ObjectSpawner : MonoBehaviour {
 		{
 			GameObject clone = (GameObject)Instantiate(AppResources.Base, initialPostion, Quaternion.identity) as GameObject;
 			clone.transform.SetParent(obj_bases);
+			clone.name = "Base_" + i;
 			clone.SetActive(false);
 			BaseQueue.Add(clone.GetComponent<BaseController>());
 		}
 	}
 
-	private void InstantiateCoinObject(int n)
-	{
-		for (int i = 0; i < n; i++)
-		{
-			GameObject clone = (GameObject)Instantiate(AppResources.Coin, new Vector3(0, -10, 0), Quaternion.identity) as GameObject;
-			clone.transform.SetParent(obj_coins);
-			//clone.SetActive(false);
-			CoinQueue.Add(clone.GetComponent<CoinController>());
-		}
-	}
+	// private void InstantiateCoinObject(int n)
+	// {
+	// 	for (int i = 0; i < n; i++)
+	// 	{
+	// 		GameObject clone = (GameObject)Instantiate(AppResources.Coin, new Vector3(0, -10, 0), Quaternion.identity) as GameObject;
+	// 		clone.transform.SetParent(obj_coins);
+	// 		//clone.SetActive(false);
+	// 		CoinQueue.Add(clone.GetComponent<CoinController>());
+	// 	}
+	// }
 
 	private void InstantiateCoinGroup(int n)
 	{
 		for (int i = 0; i < n; i++)
 		{
 			GameObject clone = (GameObject)Instantiate(AppResources.CoinGroup, new Vector3(0, -10, 0), Quaternion.identity) as GameObject;
+			clone.transform.SetParent(obj_coingroup);
 			CoinGroupQueue.Add(clone.GetComponent<CoinGroup>());
 		}
 	}
@@ -114,8 +115,10 @@ public class ObjectSpawner : MonoBehaviour {
 			nextBase = BaseQueue[0];
 		}
 
-		this.nextBase = nextBase;
 		nextBase.transform.gameObject.SetActive(true);
+
+		//nextBase = obj_bases.GetChild(0).transform.GetComponent<BaseController>();
+		this.nextBase = nextBase;
 		return nextBase;
 	}
 
@@ -132,7 +135,33 @@ public class ObjectSpawner : MonoBehaviour {
 
 	public  float CalculateAngle(Vector3 from, Vector3 to)
 	{
-		return Quaternion.FromToRotation((nextBase.transform.position - player.transform.position), to - from).eulerAngles.z;
+		return Quaternion.FromToRotation(from, to).eulerAngles.z;
+	}
+
+	public void PositionBases()
+	{
+		for (int i = 0; i < BaseQueue.Count; i++)
+		{
+			BaseQueue[i].transform.gameObject.SetActive(true);
+
+
+			BaseController currentBase = BaseQueue[i];
+			BaseController previousBase = null;
+			if (i >= 1)
+			{
+				previousBase = BaseQueue[i - 1];
+			}
+
+			if (previousBase != null)
+			{
+				float xRange = Random.Range(-1.15f, 2.15f);
+				float yRange = Random.Range(3f, 5f);
+				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
+			}
+
+
+		}
+
 	}
 
 
@@ -153,20 +182,25 @@ public class ObjectSpawner : MonoBehaviour {
 		float minBound = 5f;
 		float maxBound = 6f;
 		currentBase.SetVelocity(Random.Range(minBound, maxBound));
+
+		CoinGroup grp = FetchNextCoinGroup();
+
+		grp.SetTarget(player.currentBase.transform, nextBase.transform);
+
 	}
 
 
-
-	public void PositionCoins(Transform current, Transform next)
+	public CoinGroup FetchNextCoinGroup()
 	{
-		RaycastHit2D hit = Physics2D.Raycast(current.position,  -(current.position - next.position), 10, LayerMask.GetMask("Base"));
-		RaycastHit2D hit2 = Physics2D.Raycast(next.position,  (current.position - next.position), 10, LayerMask.GetMask("CurrentBase"));
-
-		Debug.DrawRay(current.position,  -(current.position - next.position));
-		for (int i = 0; i < CoinQueue.Count; i++)
+		for (int i = 0; i < CoinGroupQueue.Count; i++)
 		{
-			CoinQueue[i].SetTargetLocation(current.transform.position + -i / 10f * (current.position - next.position));
+			CoinGroup grp = CoinGroupQueue[i];
+			if (grp.HasRemainingCoins() == false)
+			{
+				return grp;
+			}
 		}
+		return CoinGroupQueue[0];
 	}
 
 	int GetDirection(float v)
