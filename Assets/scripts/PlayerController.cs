@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 targetLocalPosition;
 	ObjectSpawner objectSpawner;
 	public GameObject effect;
+	public ParticleSystem[] system;
+	private SpriteRenderer renderer;
+	private CameraController cameraController;
 	void Awake()
 	{
 		if (Instance == null)
@@ -57,7 +60,9 @@ public class PlayerController : MonoBehaviour {
 		defaultScale = transform.localScale.x;
 		targetPos  = transform.position;
 		targetLocation = transform.localPosition;
-
+		cameraController = Camera.main.GetComponent<CameraController>();
+		renderer = transform.GetChild(2).GetComponent<SpriteRenderer>();
+		SetCurrentBase();
 
 	}
 
@@ -66,23 +71,70 @@ public class PlayerController : MonoBehaviour {
 	[Range(.5f, 5f)]
 	public float aa = 0;
 	public float angle = 0;
+	float timer = 0;
+	float boostTimer = 0;
+	public bool activeBoost;
+	public BoostSpriteMask bsm;
 	void Update ()
 	{
-
 		transform.right = transform.position - currentBase.transform.position;
 
 		scale = (defaultScale / currentBase.transform.localScale.x);
 		transform.localScale = new Vector3(scale, scale, scale);
 
-		// Vector3 targetDir = objectSpawner.nextBase.transform.position - transform.position;
-		// float anglea = Vector3.Angle(targetDir, transform.right);
+		if (Input.GetKeyDown(KeyCode.L))
+		{
+			activeBoost = true;
+			cameraController.StartVortex();
+			bsm.Activate();
 
-		// if (anglea < 2f)
-		// {
-		// 	line.Shoot();
-		// }
-		//Round();
+		}
+		if (boostTimer > 4f)
+		{
+			boostTimer = 0;
+			BaseController.VELOCITY_SCALE = 1f;
+			activeBoost = false;
+			boostTimer = 0;
+			spikes.GetComponent<Particle>().Stop();
+			spikes.gameObject.SetActive(false);
+			cameraController.SetGlow(.14f);
 
+
+		}
+		if (activeBoost)
+		{
+			UpdateBoost();
+		}
+	}
+
+	float timeVel;
+	void UpdateBoost()
+	{
+		if (!activeBoost) {
+			return;
+		}
+		boostTimer += Time.deltaTime;
+		BaseController.VELOCITY_SCALE = 0f;
+		timer += Time.deltaTime;
+		transform.position = objectSpawner.nextBase.transform.position;
+		line.Shoot();
+		Round();
+		Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1.5f, ref timeVel, Time.unscaledDeltaTime * 100f);
+		Time.fixedDeltaTime = Time.timeScale * .02f;
+		spikes.gameObject.SetActive(true);
+		spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
+		spikes.GetComponent<Particle>().Play();
+		float shake = Random.Range(3.0f, 3.7f);
+		float shrinkFactor = Random.Range(8.0f, 8.5f);
+		Camera.main.transform.GetComponent<CameraController>().Jitter(shake, shrinkFactor);
+	}
+
+	public void SetCurrentBase()
+	{
+		BaseController b = objectSpawner.obj_bases.transform.GetChild(0).transform.GetComponent<BaseController>();
+		currentBase = b;
+		SetTargetBase(currentBase);
+		Round();
 	}
 
 	public void Round()
@@ -120,21 +172,64 @@ public class PlayerController : MonoBehaviour {
 		currentBase = hitBase;
 		transform.SetParent(currentBase.transform);
 		currentBase.player = this;
-
+		currentBase.transform.gameObject.layer = 9;
 		//BaseController.DIRECTION *= GetDirection();
 	}
 
+
+	public Transform spikes;
+	private Color scheme = Color.black;
 	void OnCollisionEnter2D(Collision2D col)
 	{
 		if (col.gameObject == currentBase.transform.gameObject)
 		{
-			float shake = Random.Range(2.5f, 3.0f);
-			float shrinkFactor = Random.Range(5.5f, 6.5f);
-			Camera.main.transform.GetComponent<CameraController>().Jitter(shake, shrinkFactor);
-			//Instantiate(AppResources.Effect, transform.position, Quaternion.identity);
+			if (!activeBoost)
+			{
+				float shake = Random.Range(2.0f, 2.3f);
+				float shrinkFactor = Random.Range(6.0f, 6.5f);
+				Camera.main.transform.GetComponent<CameraController>().Jitter(shake, shrinkFactor);
+			}
+			if (scheme.r == 0f)
+			{
+				scheme = Color.white;
+			} else if (scheme.r == 1f)
+			{
+				scheme = Color.black;
+			}
+			objectSpawner.SpawnParticle(ParticleType.BOOM, currentBase.transform.position, scheme);
+
+			InvertColors();
+
+
+
 
 		}
 
+	}
+
+	void InvertColors()
+	{
+		Color current = renderer.color;
+		Color invert = scheme;
+		system[0].startColor = invert;
+		system[1].startColor = invert;
+		currentBase.SetColor(invert);
+		line.line.SetColors(scheme, scheme);
+		if (invert.r == 1)
+		{
+			cameraController.SetGlow(.118f);
+		}
+		renderer.color = invert;
+
+		if (renderer.color.r == 0)
+		{
+			objectSpawner.SpawnParticle(ParticleType.SMOKE, currentBase.transform.position);
+
+		} else
+		{
+			currentBase.SpawnRing(scheme);
+
+		}
 	}
 
 	public void SetTargetLocalPosition(Vector3 position)

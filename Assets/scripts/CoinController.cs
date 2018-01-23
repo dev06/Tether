@@ -20,7 +20,7 @@ public class CoinController : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Player")
 		{
-			//gameObject.SetActive(false);
+			gameObject.SetActive(false);
 		}
 	}
 }

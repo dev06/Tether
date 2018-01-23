@@ -11,11 +11,14 @@ public class CoinGroup : MonoBehaviour {
 	PlayerController player;
 	public Transform target;
 	private Vector2 position;
-
+	private bool b;
 
 	void Start () {
-		InstantiateCoinObject(10);
+	}
 
+	public void Initialze()
+	{
+		InstantiateCoinObject(4);
 		spawner = ObjectSpawner.Instance;
 		player = PlayerController.Instance;
 
@@ -31,7 +34,30 @@ public class CoinGroup : MonoBehaviour {
 		}
 	}
 
+	void Update()
+	{
 
+		if (IsOutsideOfBounds())
+		{
+			if (!b)
+			{
+				Toggle(false);
+				b = true;
+			}
+		}
+
+
+	}
+
+	bool IsOutsideOfBounds()
+	{
+		Vector3 bounds = Camera.main.WorldToViewportPoint(transform.position);
+		if (bounds.y < -.5f)
+		{
+			return true;
+		}
+		return false;
+	}
 	public void Toggle(bool b)
 	{
 
@@ -54,38 +80,41 @@ public class CoinGroup : MonoBehaviour {
 	}
 
 
-	// public void PositionCoins(Transform t)
-	// {
-	// 	// StopCoroutine("IPositionCoins");
-	// 	// StartCoroutine("IPositionCoins", spawner.nextBase.transform);
-	// 	Transform center = t;
-	// 	transform.position = center.position;
-	// 	float dt = (2f * Mathf.PI) / 10f;
-	// 	float radius = center.transform.localScale.x * .55f;
+	public void PositionCoins(Transform t)
+	{
+		// StopCoroutine("IPositionCoins");
+		// StartCoroutine("IPositionCoins", spawner.nextBase.transform);
+		Transform center = t;
+		transform.position = center.position;
+		float dt = (2f * Mathf.PI) / 4f;
+		float radius = center.transform.localScale.x * .55f;
 
-	// 	for (int i = 0; i < CoinQueue.Count; i++)
-	// 	{
-	// 		CoinQueue[i].transform.gameObject.SetActive(true);
-	// 		float x = center.position.x + Mathf.Cos((float)i * dt) * radius;
-	// 		float y = center.position.y + Mathf.Sin((float)i * dt) * radius;
-	// 		Vector2 loc = new Vector2(x, y);
-	// 		CoinQueue[i].SetTargetLocation(loc);
-	// 	}
+		for (int i = 0; i < CoinQueue.Count; i++)
+		{
+			CoinQueue[i].transform.gameObject.SetActive(true);
+			float x = center.position.x + Mathf.Cos((float)i * dt) * radius;
+			float y = center.position.y + Mathf.Sin((float)i * dt) * radius;
+			Vector2 loc = new Vector2(x, y);
+			CoinQueue[i].SetTargetLocation(loc);
+		}
 
-	// }
+	}
 
 
 	public void SetTarget(Transform current, Transform next)
 	{
 		Toggle(true);
-		SetCoins(current, next);
+		//SetCoins(current, next);
+		PositionCoins(current);
+		b = false;
 	}
 
 
 	public void SetCoins(Transform current, Transform next)
 	{
+		transform.position = next.position;
 		RaycastHit2D hit = Physics2D.Raycast(current.position, -(current.position - next.position), 10, LayerMask.GetMask("Base") );
-		RaycastHit2D hit2 = Physics2D.Raycast(next.position,    (current.position - next.position), 10, LayerMask.GetMask("CurrentBase"));
+		RaycastHit2D hit2 = Physics2D.Raycast(next.position,    (current.position - next.position), 10, LayerMask.GetMask("Base"));
 
 		Vector2 direction = hit2.point - hit.point;
 		float centerSpacing = .8f;

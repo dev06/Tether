@@ -12,5 +12,6 @@ public class AppResources : MonoBehaviour {
 	public static GameObject Base = (GameObject)Resources.Load("prefabs/Base") as GameObject;
 
 	public static GameObject Effect = (GameObject)Resources.Load("prefabs/Effect") as GameObject;
+	public static GameObject Boom = (GameObject)Resources.Load("prefabs/Boom") as GameObject;
 
 }

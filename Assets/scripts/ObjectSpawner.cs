@@ -13,7 +13,16 @@ public class ObjectSpawner : MonoBehaviour {
 
 	public List<CoinGroup> CoinGroupQueue = new List<CoinGroup>();
 
+	public int boom_index = 0;
 
+	public int smoke_index = 0;
+
+	public int powerup_index = 0;
+
+	public Transform Particle_Boom;
+	public Transform Particle_Smoke;
+
+	public Transform obj_powerup;
 	public Transform obj_bases;
 	private Transform obj_coingroup;
 
@@ -40,22 +49,14 @@ public class ObjectSpawner : MonoBehaviour {
 		obj_coingroup = GameObject.FindWithTag("Objects/coingroup").transform;
 
 		InstantiateBaseObject(5, Vector2.up * 4);
-		InstantiateCoinGroup(3);
-		//PositionNextBase();
+
 
 		PositionBases();
 	}
 
 	void Update()
 	{
-		//CalculateDirection
-		if (Input.GetKeyDown(KeyCode.L))
-		{
-
-		}
-
 		FetchNextBase();
-
 
 	}
 
@@ -68,20 +69,11 @@ public class ObjectSpawner : MonoBehaviour {
 			clone.transform.SetParent(obj_bases);
 			clone.name = "Base_" + i;
 			clone.SetActive(false);
-			BaseQueue.Add(clone.GetComponent<BaseController>());
+			BaseController controller = clone.GetComponent<BaseController>();
+			BaseQueue.Add(controller);
+			controller.Initialize();
 		}
 	}
-
-	// private void InstantiateCoinObject(int n)
-	// {
-	// 	for (int i = 0; i < n; i++)
-	// 	{
-	// 		GameObject clone = (GameObject)Instantiate(AppResources.Coin, new Vector3(0, -10, 0), Quaternion.identity) as GameObject;
-	// 		clone.transform.SetParent(obj_coins);
-	// 		//clone.SetActive(false);
-	// 		CoinQueue.Add(clone.GetComponent<CoinController>());
-	// 	}
-	// }
 
 	private void InstantiateCoinGroup(int n)
 	{
@@ -90,10 +82,85 @@ public class ObjectSpawner : MonoBehaviour {
 			GameObject clone = (GameObject)Instantiate(AppResources.CoinGroup, new Vector3(0, -10, 0), Quaternion.identity) as GameObject;
 			clone.transform.SetParent(obj_coingroup);
 			CoinGroupQueue.Add(clone.GetComponent<CoinGroup>());
+			clone.transform.GetComponent<CoinGroup>().Initialze();
 		}
 	}
 
-	private BaseController FetchNextBase()
+
+	public  float CalculateAngle(Vector3 from, Vector3 to)
+	{
+		return Quaternion.FromToRotation(from, to).eulerAngles.z;
+	}
+
+	public void PositionBases()
+	{
+		for (int i = 0; i < BaseQueue.Count; i++)
+		{
+			BaseQueue[i].transform.gameObject.SetActive(true);
+			BaseController currentBase = BaseQueue[i];
+			BaseController previousBase = null;
+			if (i >= 1)
+			{
+				previousBase = BaseQueue[i - 1];
+			}
+
+			if (previousBase != null)
+			{
+				float xRange = Random.Range(-1.15f, 2.15f);
+				float yRange = Random.Range(3f, 4f);
+				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
+				float scale = Random.Range(1f, 1.5f);
+				BaseQueue[i].transform.localScale = new Vector3(scale, scale, scale);
+			}
+		}
+	}
+
+
+	public CoinGroup FetchNextCoinGroup()
+	{
+		for (int i = 0; i < CoinGroupQueue.Count; i++)
+		{
+			CoinGroup grp = CoinGroupQueue[i];
+			if (grp.HasRemainingCoins() == false)
+			{
+				return grp;
+			}
+		}
+		return CoinGroupQueue[0];
+	}
+
+	public void PlaceCoin(int i, int j )
+	{
+		BaseController b2 = GetBase(j);
+		BaseController b1 = GetBase(i);
+
+		CoinGroup grp = FetchNextCoinGroup();
+		grp.SetTarget(b1.transform, b2.transform);
+	}
+
+	public BaseController GetBase(int n)
+	{
+		BaseController toRet = null;
+		for (int i = 0; i < BaseQueue.Count; i++)
+		{
+			if (BaseQueue[i] != null)
+			{
+				if (i + n > BaseQueue.Count - 1)
+				{
+					toRet = BaseQueue[0];
+					break;
+				} else
+				{
+					toRet = BaseQueue[i + n];
+					break;
+				}
+			}
+		}
+
+		return toRet;
+	}
+
+	public  BaseController FetchNextBase()
 	{
 		BaseController nextBase = null;
 		for (int i = 0; i < BaseQueue.Count; i++)
@@ -115,96 +182,76 @@ public class ObjectSpawner : MonoBehaviour {
 			nextBase = BaseQueue[0];
 		}
 
-		nextBase.transform.gameObject.SetActive(true);
-
-		//nextBase = obj_bases.GetChild(0).transform.GetComponent<BaseController>();
 		this.nextBase = nextBase;
+		nextBase.transform.gameObject.SetActive(true);
 		return nextBase;
 	}
 
-	public void CalculateDirection()
+	public void SpawnParticle(ParticleType type, Vector3 position, Color c)
 	{
-		//Debug.DrawRay(nextBase.transform.position, -(nextBase.transform.position - player.currentBase.transform.position));
-		RaycastHit2D hit = Physics2D.Raycast(nextBase.transform.position, -(nextBase.transform.position - player.currentBase.transform.position), 10, LayerMask.GetMask("CurrentBase"));
-		//Debug.Log(hit.collider);
-		BaseController hitBase = hit.transform.GetComponent<BaseController>();
-		hitBase.targetPoint = hit.point;
-		BaseController.DIRECTION = GetDirection(CalculateAngle(hit.point, player.transform.position));
-
-	}
-
-	public  float CalculateAngle(Vector3 from, Vector3 to)
-	{
-		return Quaternion.FromToRotation(from, to).eulerAngles.z;
-	}
-
-	public void PositionBases()
-	{
-		for (int i = 0; i < BaseQueue.Count; i++)
+		switch (type)
 		{
-			BaseQueue[i].transform.gameObject.SetActive(true);
-
-
-			BaseController currentBase = BaseQueue[i];
-			BaseController previousBase = null;
-			if (i >= 1)
+			case ParticleType.BOOM:
 			{
-				previousBase = BaseQueue[i - 1];
-			}
+				Particle_Boom.transform.GetChild(boom_index).GetComponent<Particle>().Play(position, c);
 
-			if (previousBase != null)
-			{
-				float xRange = Random.Range(-1.15f, 2.15f);
-				float yRange = Random.Range(3f, 5f);
-				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
-			}
-
-
-		}
-
-	}
-
-
-	public void PositionNextBase()
-	{
-		BaseController nextBase = FetchNextBase();
-		BaseController currentBase = PlayerController.Instance.currentBase;
-		float xRange = Random.Range(-1.15f, 2.15f);
-		float yRange = Random.Range(3f, 5f);
-		Vector3 basePosition = currentBase.transform.position + new Vector3(xRange, yRange, currentBase.transform.position.z);
-		float distance = Vector3.Distance(basePosition, currentBase.transform.position);
-
-		float scale = distance * Random.Range(.25f, .4f);
-		nextBase.transform.localScale = new Vector3(scale, scale, 1);
-
-		nextBase.transform.position = basePosition;
-		nextBase.transform.rotation = Quaternion.Euler(Vector2.zero);
-		float minBound = 5f;
-		float maxBound = 6f;
-		currentBase.SetVelocity(Random.Range(minBound, maxBound));
-
-		CoinGroup grp = FetchNextCoinGroup();
-
-		grp.SetTarget(player.currentBase.transform, nextBase.transform);
-
-	}
-
-
-	public CoinGroup FetchNextCoinGroup()
-	{
-		for (int i = 0; i < CoinGroupQueue.Count; i++)
-		{
-			CoinGroup grp = CoinGroupQueue[i];
-			if (grp.HasRemainingCoins() == false)
-			{
-				return grp;
+				boom_index++;
+				if (boom_index > Particle_Boom.childCount - 1)
+				{
+					boom_index = 0;
+				}
+				break;
 			}
 		}
-		return CoinGroupQueue[0];
 	}
 
-	int GetDirection(float v)
+	public void SpawnParticle(ParticleType type, Vector3 position)
 	{
-		return (v > 180) ? 1 : -1;
+		switch (type)
+		{
+			case ParticleType.BOOM:
+			{
+				Particle_Boom.transform.GetChild(boom_index).GetComponent<Particle>().Play(position);
+
+				boom_index++;
+				if (boom_index > Particle_Boom.childCount - 1)
+				{
+					boom_index = 0;
+				}
+				break;
+			}
+
+			case ParticleType.SMOKE:
+			{
+				Particle_Smoke.transform.GetChild(smoke_index).GetComponent<Particle>().Play(position);
+
+				smoke_index++;
+				if (smoke_index > Particle_Smoke.childCount - 1)
+				{
+					smoke_index = 0;
+				}
+				break;
+			}
+		}
 	}
+
+	public void SpawnPowerup(Vector3 position)
+	{
+		GameObject obj = obj_powerup.transform.GetChild(powerup_index).transform.gameObject;
+		obj.SetActive(true);
+		obj.transform.position = position;
+		powerup_index++;
+		if (powerup_index > obj_powerup.childCount - 1)
+		{
+			powerup_index = 0;
+		}
+	}
+}
+
+public enum ParticleType
+{
+	BOOM,
+	EFFECT,
+	SMOKE,
+
 }
