@@ -6,6 +6,7 @@ using  UnityStandardAssets.ImageEffects;
 public class CameraController : MonoBehaviour {
 
 	public bool freezeCamera;
+	public Color defaultBackgroundColor;
 
 	private float jitterAmount;
 	private float shakeAmount;
@@ -35,14 +36,15 @@ public class CameraController : MonoBehaviour {
 		positions.Add(spawner.transform.position);
 		mkglow = transform.GetComponent<MKGlowFree>();
 		def_glowintensity = mkglow.GlowIntensityInner;
+		defaultBackgroundColor = camera.backgroundColor;
 		vortex = GetComponent<Vortex>();
 	}
 
 	void FixedUpdate ()
 	{
-		if (freezeCamera) return;
-		if (spawner.nextBase == null) return;
-		positions[0] = player.transform.position;
+		if (freezeCamera) { return; }
+		if (spawner.nextBase == null) { return; }
+		positions[0] = player.currentBase.transform.position;
 		positions[1] = spawner.nextBase.transform.position;
 		Vector2 jitter = JitterCamera();
 		Camera.main.orthographicSize = Mathf.SmoothDamp(Camera.main.orthographicSize, GetDistance(), ref vel, Time.deltaTime * 15f);
@@ -76,6 +78,9 @@ public class CameraController : MonoBehaviour {
 	}
 
 
+
+
+
 	Color GetColor()
 	{
 		float hue = Mathf.PingPong(Time.time / 25f, 1.0f);
@@ -86,7 +91,8 @@ public class CameraController : MonoBehaviour {
 
 	float GetDistance()
 	{
-		return 	Vector2.Distance(player.currentBase.transform.position, positions[1]);
+		float averageSize = (player.currentBase.size + spawner.nextBase.size) / 10f;
+		return 	Vector2.Distance(player.currentBase.transform.position, positions[1]) + averageSize;
 	}
 
 	Vector2 JitterCamera()

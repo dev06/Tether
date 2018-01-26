@@ -60,7 +60,7 @@ public class LineController : MonoBehaviour {
 	{
 		if (!player.activeBoost)
 		{
-			Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1f, ref timeVel, Time.unscaledDeltaTime * 20f);
+			Time.timeScale = 1f;
 			Time.fixedDeltaTime = Time.timeScale * .02f;
 		}
 		transform.right = player.transform.right;
@@ -112,6 +112,12 @@ public class LineController : MonoBehaviour {
 				Camera.main.GetComponent<CameraController>().StartVortex();
 				all.transform.gameObject.SetActive(false);
 				player.bsm.Activate();
+				Time.timeScale = .4f;
+				Time.fixedDeltaTime = Time.timeScale * .02f;
+				if (EventManager.OnBoostStart != null)
+				{
+					EventManager.OnBoostStart();
+				}
 			}
 		}
 
@@ -185,6 +191,12 @@ public class LineController : MonoBehaviour {
 			player.SetTargetBase(hitBase);
 			gameplayController.IncrementScore();
 			hitBase.SetFreeze(true);
+
+			if (EventManager.OnBaseHit != null)
+			{
+				EventManager.OnBaseHit();
+			}
+
 		} else
 		{
 			if (!player.activeBoost)
@@ -216,7 +228,10 @@ public class LineController : MonoBehaviour {
 
 		if (Camera.main.GetComponent<CameraController>().freezeCamera)
 		{
-			UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+			if (EventManager.OnGameOver != null)
+			{
+				EventManager.OnGameOver();
+			}
 		}
 	}
 

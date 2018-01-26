@@ -1,0 +1,65 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+public class ScoreHandler : MonoBehaviour {
+
+
+	private Text scoreText;
+	private Color defaultColor;
+	private Vector3 defaultScale;
+	private float scaleMultipler = 1;
+	private bool inBoost;
+	void OnEnable()
+	{
+		EventManager.OnBaseHit += OnBaseHit;
+		EventManager.OnBoostEnd += OnBoostEnd;
+		EventManager.OnBoostStart += OnBoostStart;
+	}
+	void OnDisable()
+	{
+		EventManager.OnBaseHit -= OnBaseHit;
+		EventManager.OnBoostEnd -= OnBoostEnd;
+		EventManager.OnBoostStart -= OnBoostStart;
+
+	}
+
+	void Start ()
+	{
+		scoreText = GetComponent<Text>();
+		defaultColor = scoreText.color;
+		defaultScale = transform.localScale;
+		scoreText.text = GameplayController.SCORE.ToString();
+	}
+
+	void Update ()
+	{
+		transform.localScale = Vector3.Lerp(transform.localScale, defaultScale, Time.deltaTime * 10f);
+	}
+
+	private void OnBaseHit()
+	{
+		scoreText.text = (GameplayController.SCORE).ToString();
+		scaleMultipler = inBoost ? 2.5f : 1.5f;
+		Vector3 addition = defaultScale * scaleMultipler;
+		transform.localScale = addition;
+	}
+
+	private void OnBoostStart()
+	{
+		SetColor(Color.black);
+		inBoost = true;
+	}
+
+
+	private void OnBoostEnd()
+	{
+		SetColor(defaultColor);
+		inBoost = false;
+	}
+
+	public void SetColor(Color c)
+	{
+		scoreText.color = c;
+	}
+}

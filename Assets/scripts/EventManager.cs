@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour {
 
-	public delegate void BaseHit(BaseController hitBase, Vector2 hitPoint);
+	public delegate void BaseHit();
 	public static BaseHit OnBaseHit;
+
+
+	public delegate void Boost();
+	public static Boost OnBoostStart;
+	public static Boost OnBoostEnd;
+
+
+	public delegate void Gameplay();
+	public static Gameplay OnGameOver;
+
+
+
 }

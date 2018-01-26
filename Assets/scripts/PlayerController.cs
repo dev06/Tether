@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
 	public static PlayerController Instance;
 	public BaseController currentBase;
-
 	private LineController line;
 	private int direction = -1;
 	private Vector3 targetLocation = Vector3.zero;
@@ -19,6 +18,9 @@ public class PlayerController : MonoBehaviour {
 	public ParticleSystem[] system;
 	private SpriteRenderer renderer;
 	private CameraController cameraController;
+
+	public Transform spikes;
+	private Color scheme = Color.black;
 	void Awake()
 	{
 		if (Instance == null)
@@ -39,10 +41,14 @@ public class PlayerController : MonoBehaviour {
 	void OnEnable()
 	{
 		EventManager.OnBaseHit += OnBaseHit;
+		EventManager.OnBoostEnd += OnBoostEnd;
+		EventManager.OnBoostStart += OnBoostStart;
 	}
 
 	void OnDisable() {
 		EventManager.OnBaseHit -= OnBaseHit;
+		EventManager.OnBoostEnd -= OnBoostEnd;
+		EventManager.OnBoostStart -= OnBoostStart;
 
 	}
 
@@ -87,11 +93,13 @@ public class PlayerController : MonoBehaviour {
 			activeBoost = true;
 			cameraController.StartVortex();
 			bsm.Activate();
-
+			if (EventManager.OnBoostStart != null)
+			{
+				EventManager.OnBoostStart();
+			}
 		}
 		if (boostTimer > 4f)
 		{
-			boostTimer = 0;
 			BaseController.VELOCITY_SCALE = 1f;
 			activeBoost = false;
 			boostTimer = 0;
@@ -99,12 +107,32 @@ public class PlayerController : MonoBehaviour {
 			spikes.gameObject.SetActive(false);
 			cameraController.SetGlow(.14f);
 
+			if (EventManager.OnBoostEnd != null)
+			{
+				EventManager.OnBoostEnd();
+			}
+
+			boostTimer = 0;
+
 
 		}
 		if (activeBoost)
 		{
 			UpdateBoost();
 		}
+
+
+
+	}
+
+	void OnBoostStart()
+	{
+
+	}
+
+	void OnBoostEnd()
+	{
+
 	}
 
 	float timeVel;
@@ -119,7 +147,7 @@ public class PlayerController : MonoBehaviour {
 		transform.position = objectSpawner.nextBase.transform.position;
 		line.Shoot();
 		Round();
-		Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1.5f, ref timeVel, Time.unscaledDeltaTime * 100f);
+		Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1.5f, ref timeVel, Time.deltaTime * 75f);
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 		spikes.gameObject.SetActive(true);
 		spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
@@ -127,6 +155,7 @@ public class PlayerController : MonoBehaviour {
 		float shake = Random.Range(3.0f, 3.7f);
 		float shrinkFactor = Random.Range(8.0f, 8.5f);
 		Camera.main.transform.GetComponent<CameraController>().Jitter(shake, shrinkFactor);
+
 	}
 
 	public void SetCurrentBase()
@@ -151,7 +180,7 @@ public class PlayerController : MonoBehaviour {
 		return Quaternion.FromToRotation(-currentBase.transform.right, to - from).eulerAngles.z;
 	}
 
-	void OnBaseHit(BaseController hitBase, Vector2 hitPoint)
+	void OnBaseHit()
 	{
 	}
 
@@ -177,8 +206,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
-	public Transform spikes;
-	private Color scheme = Color.black;
 	void OnCollisionEnter2D(Collision2D col)
 	{
 		if (col.gameObject == currentBase.transform.gameObject)
@@ -199,10 +226,6 @@ public class PlayerController : MonoBehaviour {
 			objectSpawner.SpawnParticle(ParticleType.BOOM, currentBase.transform.position, scheme);
 
 			InvertColors();
-
-
-
-
 		}
 
 	}

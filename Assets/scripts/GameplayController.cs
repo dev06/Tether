@@ -7,6 +7,16 @@ public class GameplayController : MonoBehaviour {
 	public static GameplayController Instance;
 
 	public static int SCORE = 0;
+
+	void OnEnable()
+	{
+		EventManager.OnGameOver += OnGameOver;
+	}
+
+	void OnDisable()
+	{
+		EventManager.OnGameOver -= OnGameOver;
+	}
 	void Awake()
 	{
 		if (Instance == null)
@@ -25,6 +35,13 @@ public class GameplayController : MonoBehaviour {
 
 	void Update () {
 	}
+
+	void OnGameOver()
+	{
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+		SCORE = 0;
+	}
+
 
 	public void IncrementScore()
 	{

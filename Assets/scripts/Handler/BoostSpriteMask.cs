@@ -8,22 +8,20 @@ public class BoostSpriteMask : MonoBehaviour {
 	private PlayerController player;
 	private bool isInit;
 	private SpriteRenderer negative;
-	void Start ()
-	{
-	}
 
 	public void Init()
 	{
 		camera = Camera.main;
 		player = PlayerController.Instance;
 		negative = transform.GetChild(0).GetComponent<SpriteRenderer>();
+
 		isInit = true;
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		if (camera == null) return;
+		if (camera == null) { return; }
 		transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y, 0);
 		transform.localScale = new Vector3(transform.localScale.x, camera.orthographicSize * 2f, 1f);
 	}
@@ -58,16 +56,20 @@ public class BoostSpriteMask : MonoBehaviour {
 			timer -= Time.deltaTime;
 			timer = Mathf.Clamp(timer, 1.5f, timer);
 			Color c = GetColor();
+			Color negativeColor = new Color(1f - c.r, c.g, c.b, 1f);
 			transform.GetComponent<SpriteRenderer>().color = c;
-			negative.color = new Color(1f - c.r, c.g, c.b, 1f);
+
+			negative.color = new Color(c.r, c.g, 1f - c.b, 1f);
+			Camera.main.backgroundColor = negativeColor;
 			transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(0f, camera.orthographicSize * 2f), Time.deltaTime * timer);
 			float sy = camera.orthographicSize * 2f;
 			transform.localScale = new Vector3(transform.localScale.x, sy, 1);
-
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
 		timer = 2.5f;
 		camera.transform.GetComponent<CameraController>().SetGlow(.15f);
+		Camera.main.backgroundColor = Camera.main.GetComponent<CameraController>().defaultBackgroundColor;
+
 		transform.gameObject.SetActive(false);
 	}
 

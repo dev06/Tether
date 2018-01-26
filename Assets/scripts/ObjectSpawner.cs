@@ -109,9 +109,10 @@ public class ObjectSpawner : MonoBehaviour {
 				float xRange = Random.Range(-1.15f, 2.15f);
 				float yRange = Random.Range(3f, 4f);
 				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
-				float scale = Random.Range(1f, 1.5f);
-				BaseQueue[i].transform.localScale = new Vector3(scale, scale, scale);
 			}
+
+			float scale = Random.Range(BaseController.DEFAULT_MIN_SCALE, BaseController.DEFAULT_MAX_SCALE);
+			BaseQueue[i].transform.localScale = new Vector3(scale, scale, scale);
 		}
 	}
 

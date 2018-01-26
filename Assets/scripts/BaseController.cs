@@ -9,8 +9,11 @@ public class BaseController : MonoBehaviour {
 	public static float MAX_VELOCITY = 300F;
 	public static float BASE_VELOCITY = 200f;
 	public static float VELOCITY_SCALE = 1f;
+	public static float DEFAULT_MIN_SCALE = 1.2F;
+	public static float DEFAULT_MAX_SCALE = 1.6F;
 
 	public PlayerController player;
+	public float size;
 	public Vector3 targetScale;
 	public bool shouldRotate = true;
 	public Transform outerRing;
@@ -70,8 +73,10 @@ public class BaseController : MonoBehaviour {
 
 	bool IsOutsideOfBounds()
 	{
-		Vector3 bounds = Camera.main.WorldToViewportPoint(transform.position);
-		if (bounds.y < -0.5f)
+		float offset = .5f * transform.localScale.y;
+		Vector3 topPoint = new Vector3(transform.position.x, transform.position.y + offset, 0);
+		Vector3 bounds = Camera.main.WorldToViewportPoint(topPoint);
+		if (bounds.y < 0.0f)
 		{
 			return true;
 		}
@@ -96,7 +101,7 @@ public class BaseController : MonoBehaviour {
 			UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 		}
 
-
+		size = transform.localScale.sqrMagnitude;
 
 	}
 
@@ -135,11 +140,10 @@ public class BaseController : MonoBehaviour {
 		float yRange = Random.Range(3f, 4f);
 		transform.position = lastBase.transform.position + new Vector3(xRange, yRange, 0);
 		transform.SetSiblingIndex(transform.parent.childCount - 1);
-		float scale = Random.Range(1f, 1.5f);
+		float scale = Random.Range(DEFAULT_MIN_SCALE, DEFAULT_MAX_SCALE);
 		transform.localScale = new Vector3(scale, scale, scale);
 		transform.gameObject.SetActive(false);
 		SetFreeze(false);
-		//SetColor(Color.black);
 		if (GameplayController.SCORE % 5 == 0)
 		{
 			Vector3 pos = (transform.parent.GetChild(transform.parent.childCount - 2).transform.position + transform.position) / 2f;
