@@ -9,6 +9,8 @@ public class CoinController : MonoBehaviour {
 	void Update()
 	{
 		transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime * 20.0f);
+
+		
 	}
 
 	public void SetTargetLocation(Vector2 location)
@@ -23,4 +25,6 @@ public class CoinController : MonoBehaviour {
 			gameObject.SetActive(false);
 		}
 	}
+
+
 }

@@ -15,26 +15,37 @@ public class ScoreHandler : MonoBehaviour {
 		EventManager.OnBaseHit += OnBaseHit;
 		EventManager.OnBoostEnd += OnBoostEnd;
 		EventManager.OnBoostStart += OnBoostStart;
+		EventManager.OnGameStart+=OnGameStart; 
 	}
 	void OnDisable()
 	{
 		EventManager.OnBaseHit -= OnBaseHit;
 		EventManager.OnBoostEnd -= OnBoostEnd;
 		EventManager.OnBoostStart -= OnBoostStart;
+		EventManager.OnGameStart-=OnGameStart; 
 
 	}
 
-	void Start ()
+	void Init()
 	{
 		scoreText = GetComponent<Text>();
 		defaultColor = scoreText.color;
 		defaultScale = transform.localScale;
 		scoreText.text = GameplayController.SCORE.ToString();
 	}
+	void Start ()
+	{
+		Init(); 
+	}
 
 	void Update ()
 	{
 		transform.localScale = Vector3.Lerp(transform.localScale, defaultScale, Time.deltaTime * 10f);
+	}
+
+	void OnGameStart()
+	{
+		Init(); 
 	}
 
 	private void OnBaseHit()

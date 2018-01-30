@@ -20,29 +20,50 @@ public class ObjectSpawner : MonoBehaviour {
 	public int powerup_index = 0;
 
 	public Transform Particle_Boom;
+	
 	public Transform Particle_Smoke;
 
 	public Transform obj_powerup;
+	
 	public Transform obj_bases;
+	
 	private Transform obj_coingroup;
 
 	public BaseController nextBase;
 
 	PlayerController player;
 
+	void OnEnable()
+	{
+		EventManager.OnGameStart+=OnGameStart; 
+	}
+
+	void OnDisable()
+	{
+		EventManager.OnGameStart-=OnGameStart; 
+	}
+
+	void OnGameStart()
+	{
+		//PositionBases(); 
+	}
+
 	void Awake()
 	{
 		if (Instance == null)
 		{
 			Instance = this;
-		} else
+		} 
+		else
 		{
 			DestroyImmediate(gameObject);
 		}
+
 	}
 
 	void Start ()
 	{
+
 		player = PlayerController.Instance;
 
 		obj_bases = GameObject.FindWithTag("Objects/bases").transform;
@@ -107,37 +128,16 @@ public class ObjectSpawner : MonoBehaviour {
 			if (previousBase != null)
 			{
 				float xRange = Random.Range(-1.15f, 2.15f);
-				float yRange = Random.Range(3f, 4f);
+				float yRange = Random.Range(4f, 6f);
 				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
 			}
 
-			float scale = Random.Range(BaseController.DEFAULT_MIN_SCALE, BaseController.DEFAULT_MAX_SCALE);
+			float scale = BaseController.DEFAULT_MAX_SCALE; 
 			BaseQueue[i].transform.localScale = new Vector3(scale, scale, scale);
+			BaseQueue[i].transform.gameObject.SetActive(false); 
 		}
 	}
 
-
-	public CoinGroup FetchNextCoinGroup()
-	{
-		for (int i = 0; i < CoinGroupQueue.Count; i++)
-		{
-			CoinGroup grp = CoinGroupQueue[i];
-			if (grp.HasRemainingCoins() == false)
-			{
-				return grp;
-			}
-		}
-		return CoinGroupQueue[0];
-	}
-
-	public void PlaceCoin(int i, int j )
-	{
-		BaseController b2 = GetBase(j);
-		BaseController b1 = GetBase(i);
-
-		CoinGroup grp = FetchNextCoinGroup();
-		grp.SetTarget(b1.transform, b2.transform);
-	}
 
 	public BaseController GetBase(int n)
 	{
@@ -150,7 +150,8 @@ public class ObjectSpawner : MonoBehaviour {
 				{
 					toRet = BaseQueue[0];
 					break;
-				} else
+				}
+				else
 				{
 					toRet = BaseQueue[i + n];
 					break;
@@ -164,14 +165,17 @@ public class ObjectSpawner : MonoBehaviour {
 	public  BaseController FetchNextBase()
 	{
 		BaseController nextBase = null;
+		BaseController currentBase = null; 
 		for (int i = 0; i < BaseQueue.Count; i++)
 		{
 			if (BaseQueue[i].player != null)
 			{
+				currentBase = BaseQueue[i]; 
 				if (i + 1 > BaseQueue.Count - 1)
 				{
 					nextBase = BaseQueue[0];
-				} else
+				}
+				else
 				{
 					nextBase = BaseQueue[i + 1];
 				}
@@ -184,6 +188,7 @@ public class ObjectSpawner : MonoBehaviour {
 		}
 
 		this.nextBase = nextBase;
+		currentBase.transform.gameObject.SetActive(true); 
 		nextBase.transform.gameObject.SetActive(true);
 		return nextBase;
 	}

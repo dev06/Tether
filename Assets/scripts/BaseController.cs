@@ -4,56 +4,95 @@ using UnityEngine;
 
 public class BaseController : MonoBehaviour {
 
+	
 	public static float DIRECTION = -1f;
+	
 	public static float MIN_VELOCITY = 215f;
+	
 	public static float MAX_VELOCITY = 300F;
+	
 	public static float BASE_VELOCITY = 200f;
+	
 	public static float VELOCITY_SCALE = 1f;
-	public static float DEFAULT_MIN_SCALE = 1.2F;
-	public static float DEFAULT_MAX_SCALE = 1.6F;
+	
+	public static float DEFAULT_MIN_SCALE = .8F;
+	
+	public static float DEFAULT_MAX_SCALE = 2f;
 
+
+	
 	public PlayerController player;
+	
 	public float size;
+	
 	public Vector3 targetScale;
+	
 	public bool shouldRotate = true;
+
+	public bool visited; 
+	
 	public Transform outerRing;
+	
 	public Transform maskTransform;
 
+
+	
 	private GameplayController gameplayController;
+	
 	private float velocity;
+	
 	private float depletionRate  = .15f;
+	
 	private float minScaleThreshold = .1f;
+	
+	private float alpha = 1f;
+	
 	private Vector3 targetLocation;
+	
 	private ObjectSpawner objectSpawner;
+	
 	private bool freeze;
+	
 	private SpriteRenderer renderer;
 
-
-
-
+	private ParticleSystem zap; 
 
 	public void Initialize()
 	{
+		
 		SetVelocity(3f);
+		
 		objectSpawner = ObjectSpawner.Instance;
+		
 		SetFreeze(true);
+		
 		renderer = GetComponent<SpriteRenderer>();
+		
 		gameplayController = GameplayController.Instance;
+
+		zap = GameObject.Find("Zap").GetComponent<ParticleSystem>(); 
 	}
 	void Update()
 	{
+		if(GameplayController.GAME_STATE != State.GAME) return; 
 
-		// if (!freeze)
-		// {
-		// 	Vector3 position = transform.position;
-		// 	position.x = Mathf.PingPong(Time.time, 1.5f) - 0.75f;
-		// 	transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * 5f);
-		// }
-
-		if (IsOutsideOfBounds())
+		if(player == null && visited)
 		{
+			zap.transform.position = transform.position; 
+			zap.startColor = renderer.color; 
+			Camera.main.GetComponent<CameraController>().SetGlow(.118f); 
+			zap.Play(); 
 			PoolBase();
+
 		}
+
+		if(Input.GetKeyDown(KeyCode.Y))
+		{
+			zap.transform.position = transform.position; 
+			zap.startColor = renderer.color; 
+			zap.Play(); 	
+		}
+
 
 		if (player == null)
 		{
@@ -73,30 +112,44 @@ public class BaseController : MonoBehaviour {
 
 	bool IsOutsideOfBounds()
 	{
+
+		
 		float offset = .5f * transform.localScale.y;
+		
 		Vector3 topPoint = new Vector3(transform.position.x, transform.position.y + offset, 0);
+		
 		Vector3 bounds = Camera.main.WorldToViewportPoint(topPoint);
+		
 		if (bounds.y < 0.0f)
 		{
 			return true;
 		}
+		
 		return false;
 	}
-	float alpha = 1f;
 	void UpdateTransform()
 	{
 
 		if (shouldRotate)
 		{
+			
 			Vector3 targetDir = objectSpawner.nextBase.transform.position - player.transform.position;
+			
 			float distance = Vector3.Angle(targetDir, player.transform.right);
+			
 			transform.Rotate(Vector3.forward, (Time.deltaTime * ((velocity * distance) * .6f + BASE_VELOCITY) * VELOCITY_SCALE)  * DIRECTION);
+
+			//Debug.Log(BASE_VELOCITY); 
 		}
 
 		if (transform.localScale.x > minScaleThreshold)
 		{
-			//transform.localScale -= new Vector3(Time.deltaTime * depletionRate, Time.deltaTime * depletionRate, Time.deltaTime * depletionRate);
-		} else
+			if(!gameplayController.DEBUG)
+			{
+				transform.localScale -= new Vector3(Time.deltaTime * depletionRate, Time.deltaTime * depletionRate, Time.deltaTime * depletionRate);				
+			}
+		} 
+		else
 		{
 			UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 		}
@@ -107,22 +160,33 @@ public class BaseController : MonoBehaviour {
 
 	public void SpawnRing(Color c)
 	{
+		
 		StopCoroutine("ISpawnRing");
+		
 		StartCoroutine("ISpawnRing", c);
 	}
 
 	private IEnumerator ISpawnRing(Color c)
 	{
 		float offset = 1.3f;
-		while (true)
+		
+		while (player != null)
 		{
+			
 			outerRing.gameObject.SetActive(true);
+			
 			alpha -= Time.deltaTime ;
+			
 			Color col = new Color(c.r, c.g, c.b, alpha);
+			
 			outerRing.GetComponent<SpriteRenderer>().color = col;
+			
 			Vector3 scale = new Vector3(transform.localScale.x + offset, transform.localScale.y + offset, transform.localScale.z + offset);
+			
 			outerRing.transform.localScale = Vector3.Lerp(outerRing.transform.localScale, scale, Time.deltaTime * 3f);
+			
 			float speed = (1.7f - maskTransform.localScale.x) * Time.deltaTime;
+			
 			if (maskTransform.localScale.x < 1.9f)
 			{
 				maskTransform.transform.localScale += new Vector3(speed, speed, speed);
@@ -133,22 +197,45 @@ public class BaseController : MonoBehaviour {
 
 	}
 
-	void PoolBase()
+	private void PoolBase()
 	{
+		
 		BaseController lastBase = transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<BaseController>();
-		float xRange = Random.Range(-1.15f, 2.15f);
-		float yRange = Random.Range(3f, 4f);
+		
+		float xRange = Random.Range(-1.15f, 2.15f) * GameplayController.DIFFICULTY * .2f;
+
+		xRange = Mathf.Clamp(xRange, -3.5f, 3.5f); 
+		
+		float yRange = Random.Range(4f, 6f) * GameplayController.DIFFICULTY * .2F;
+
+		yRange = Mathf.Clamp(yRange, 4f, 6f); 
+		
 		transform.position = lastBase.transform.position + new Vector3(xRange, yRange, 0);
+		
 		transform.SetSiblingIndex(transform.parent.childCount - 1);
-		float scale = Random.Range(DEFAULT_MIN_SCALE, DEFAULT_MAX_SCALE);
+
+		float scale = DEFAULT_MAX_SCALE - (GameplayController.DIFFICULTY * .08F) + Random.Range(-.5f, 1f);  
+
+		scale = Mathf.Clamp(scale, DEFAULT_MIN_SCALE, DEFAULT_MAX_SCALE); 
+		
 		transform.localScale = new Vector3(scale, scale, scale);
+		
 		transform.gameObject.SetActive(false);
+		
+		transform.rotation = Quaternion.Euler(Vector3.zero); 
+		
 		SetFreeze(false);
-		if (GameplayController.SCORE % 5 == 0)
+		
+		if (GameplayController.SCORE % 6 == 0)
 		{
+			
 			Vector3 pos = (transform.parent.GetChild(transform.parent.childCount - 2).transform.position + transform.position) / 2f;
+			
 			objectSpawner.SpawnPowerup(pos);
 		}
+
+		visited = false; 
+		
 		ResetOuterRing();
 
 
@@ -156,25 +243,30 @@ public class BaseController : MonoBehaviour {
 
 	private void ResetOuterRing()
 	{
+		
 		outerRing.transform.localScale = new Vector3(1, 1, 1);
+		
 		maskTransform.localScale = new Vector3(1, 1, 1);
+		
 		outerRing.gameObject.SetActive(false);
+		
 		alpha = 1f;
 
 	}
 
 	public void SetFreeze(bool f)
 	{
+		
 		this.freeze = f;
 	}
 	public void SetVelocity(float vel)
 	{
+		
 		this.velocity = vel;
 	}
 
 	public void SetTargetLocation(Vector3 location)
 	{
-
 		this.targetLocation = location;
 	}
 

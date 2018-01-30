@@ -6,7 +6,9 @@ public class BorderController : MonoBehaviour {
 
 	Camera camera;
 	Vector3 position;
-	float borderThickness = .2f;
+	float borderThickness = 1f;
+
+	GameplayController gameplayController; 
 
 	public enum BorderType
 	{
@@ -21,12 +23,15 @@ public class BorderController : MonoBehaviour {
 	void Start ()
 	{
 		camera = Camera.main;
+		gameplayController = GameplayController.Instance; 
 	}
 
 
 	void Update ()
 	{
 		SetPosition(type);
+
+		transform.gameObject.SetActive(!gameplayController.DEBUG); 
 	}
 
 	void SetPosition(BorderType type)
@@ -37,16 +42,16 @@ public class BorderController : MonoBehaviour {
 			{
 				position = Camera.main.ViewportToWorldPoint(new Vector3(0, .5f, 0));
 				position.z = 0;
-				transform.localScale = new Vector3(borderThickness + .1f, camera.orthographicSize * 2, 0);
-				transform.position = position;
+				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2, 0);
+				transform.position = position + new Vector3(transform.localScale.x * .32f, 0, 0);
 				break;
 			}
 			case BorderType.RIGHT:
 			{
 				position = Camera.main.ViewportToWorldPoint(new Vector3(1, .5f, 0));
 				position.z = 0;
-				transform.localScale = new Vector3(borderThickness + .1f, camera.orthographicSize * 2, 0);
-				transform.position = position;
+				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2, 0);
+				transform.position = position -  new Vector3(transform.localScale.x * .32f, 0, 0);;
 				break;
 			}
 

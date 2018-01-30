@@ -6,27 +6,44 @@ public class LineController : MonoBehaviour {
 
 	public static LineController Instance;
 
+	
 	private Vector3 endLinePosition;
+	
 	private Vector3 startLinePosition;
 
 
+	
 	private float defaultLineWidth = .08f;
+	
 	private float lineWidthVel;
+	
 	private float retractTimer = 0;
+	
 	private ObjectSpawner objectSpawner;
+	
 	private GameplayController gameplayController;
 
+	
 	private bool attached = false;
+	
 	private bool endLineToPlayer = true;
+	
 	private bool hitSomething = false;
 
+
 	public float speed = 3.0f;
+
 	public PlayerController player;
+
 	public LineCollider collider;
+
 	public GameObject currentBase;
+
 	public Vector3 hitPoint;
+
 	public LineRenderer line;
-	public float length = 2.0f;
+
+	private float length = 2.0f;
 
 	private float time = 1f;
 
@@ -35,7 +52,8 @@ public class LineController : MonoBehaviour {
 		if (Instance == null)
 		{
 			Instance = this;
-		} else
+		} 
+		else
 		{
 			DestroyImmediate(gameObject);
 		}
@@ -44,30 +62,31 @@ public class LineController : MonoBehaviour {
 	{
 		line = GetComponent<LineRenderer>();
 
-
 		player = PlayerController.Instance;
+		
 		endLinePosition = player.transform.position;
+		
 		startLinePosition = player.transform.position;
+		
 		hitPoint = player.transform.position;
+		
 		line.startWidth = line.endWidth = defaultLineWidth;
+		
 		objectSpawner = ObjectSpawner.Instance;
+		
 		gameplayController = GameplayController.Instance;
+		
+		line.startWidth = line.endWidth = 0; 
 	}
 
 	float timeVel;
 
 	void Update ()
 	{
-		if (!player.activeBoost)
-		{
-			Time.timeScale = 1f;
-			Time.fixedDeltaTime = Time.timeScale * .02f;
-		}
+		if(GameplayController.GAME_STATE != State.GAME) return; 
+
 		transform.right = player.transform.right;
-		if (Input.GetMouseButtonDown(0))
-		{
-			Shoot();
-		}
+
 		if (!attached)
 		{
 			startLinePosition = player.transform.position;
@@ -83,47 +102,71 @@ public class LineController : MonoBehaviour {
 			endLinePosition = player.transform.position;
 		}
 
+		
 		line.SetPosition(0, startLinePosition);
+		
 		line.SetPosition(1, endLinePosition);
+		
 		line.endWidth = Mathf.SmoothDamp(line.endWidth, defaultLineWidth, ref lineWidthVel, Time.deltaTime * 20f);
 
-
+		if (Input.GetMouseButtonDown(0))
+		{
+			Shoot();
+		}
 	}
+	
 	public  float CalculateAngle(Vector3 from, Vector3 to)
 	{
-		return Quaternion.FromToRotation(from, to ).eulerAngles.z;
+		return Quaternion.FromToRotation(Vector3.right, from - to).eulerAngles.z;
 	}
+
 	public LayerMask layer, allHit;
+
+	private IEnumerator IStartPowerUp()
+	{
+
+		yield return null; 
+
+		player.activeBoost = true;
+
+		player.bsm.Activate();
+
+		Time.timeScale = .7f;
+
+		Time.fixedDeltaTime = Time.timeScale * .02f;
+
+		if (EventManager.OnBoostStart != null)
+		{
+			EventManager.OnBoostStart();
+		}
+
+	}
+
 	public void Shoot()
 	{
 		if (attached) { return; }
 
-		float length = 8f;
+		float tether_legth = 15f;
 
-		RaycastHit2D hit = Physics2D.Raycast(transform.position,  transform.right, length, layer);
+		RaycastHit2D hit = Physics2D.Raycast(transform.position,  transform.right, tether_legth, layer);
 
-		RaycastHit2D all = Physics2D.Raycast(transform.position,  transform.right, length, allHit);
+		RaycastHit2D all = Physics2D.Raycast(transform.position,  transform.right, tether_legth, allHit);
 
 		if (all.collider != null)
 		{
 			if (all.transform.gameObject.tag == "Objects/powerup" && !player.activeBoost)
 			{
-				player.activeBoost = true;
-				Camera.main.GetComponent<CameraController>().StartVortex();
 				all.transform.gameObject.SetActive(false);
-				player.bsm.Activate();
-				Time.timeScale = .4f;
-				Time.fixedDeltaTime = Time.timeScale * .02f;
-				if (EventManager.OnBoostStart != null)
-				{
-					EventManager.OnBoostStart();
-				}
+
+				StopCoroutine("IStartPowerUp"); 
+
+				StartCoroutine("IStartPowerUp");
 			}
 		}
 
 		startLinePosition = player.transform.position;
 
-		endLinePosition = transform.position + (transform.right * length);
+		endLinePosition = transform.position + (transform.right * tether_legth);
 
 		endLineToPlayer = false;
 
@@ -136,14 +179,7 @@ public class LineController : MonoBehaviour {
 
 			float a = CalculateAngle(hit.point, hit.transform.position);
 
-			BaseController.DIRECTION = (a > 0 && a < 180) ? 1 : -1;
-
-			Particle effect = player.effect.GetComponent<Particle>();
-
-			effect.SetPosition(hit.point);
-
-			effect.Play();
-
+			BaseController.DIRECTION = (a > 0 && a < 270) ? -1 : 1;
 
 			hitPoint = hit.point;
 
@@ -160,8 +196,6 @@ public class LineController : MonoBehaviour {
 
 			StartCoroutine("Attach", objs);
 
-
-
 		}
 
 		if (!hitSomething)
@@ -172,24 +206,24 @@ public class LineController : MonoBehaviour {
 		}
 	}
 
-	bool IsOutsideOfBounds()
-	{
-		Vector3 bounds = Camera.main.WorldToScreenPoint(line.GetPosition(1));
-		if (bounds.x > Screen.width || bounds.x < 0 || bounds.y > Screen.height || bounds.y < 0)
-		{
-			return true;
-		}
-		return false;
-	}
 	IEnumerator Attach(object[] objs)
 	{
+		
 		BaseController hitBase = (BaseController)objs[0];
+		
 		Vector2 hitPosition = (Vector2)objs[1];
+		
 		attached = true;
+
+		bool gameOver = false; 
+		
 		if (hitBase != null)
 		{
+			
 			player.SetTargetBase(hitBase);
+			
 			gameplayController.IncrementScore();
+			
 			hitBase.SetFreeze(true);
 
 			if (EventManager.OnBaseHit != null)
@@ -197,36 +231,58 @@ public class LineController : MonoBehaviour {
 				EventManager.OnBaseHit();
 			}
 
-		} else
+		} 
+		else
 		{
 			if (!player.activeBoost)
 			{
+				
 				Camera.main.GetComponent<CameraController>().freezeCamera = true;
-				Time.timeScale = .2f;
+				
+				Time.timeScale = .1f;
+				
+				Time.fixedDeltaTime = Time.timeScale * .02f; 
+
+
+				StopCoroutine("LerpTimeToNormal"); 
+				
+				StartCoroutine("LerpTimeToNormal"); 
+
+				gameOver = true; 
 			}
 		}
 
-		player.currentBase.shouldRotate = false;
-		endLineToPlayer = false;
-		yield return new WaitForSeconds(.15f);
-		hitSomething = false;
 
+		player.currentBase.shouldRotate = false;
+		
+		endLineToPlayer = false;
+		
+		yield return new WaitForSeconds(.15f);
+		
+		hitSomething = false;
 
 		while (Mathf.Abs(Vector2.Distance(hitPosition, startLinePosition)) > .01f)
 		{
-
+			
 			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.deltaTime * 20f);
+			
 			player.SetLocation(startLinePosition);
+			
 			yield return null;
 		}
 
+		
 		attached = false;
+		
 		player.currentBase.shouldRotate = true;
+		
 		endLineToPlayer = true;
+		
 		player.currentBase.transform.gameObject.layer = 9;
+		
 		player.Round();
 
-		if (Camera.main.GetComponent<CameraController>().freezeCamera)
+		if(gameOver)
 		{
 			if (EventManager.OnGameOver != null)
 			{
@@ -240,11 +296,30 @@ public class LineController : MonoBehaviour {
 
 		while (Mathf.Abs(Vector2.Distance(endLinePosition, player.transform.position)) > .07f)
 		{
+			
 			endLinePosition = Vector3.Lerp(endLinePosition, player.transform.position, Time.deltaTime * 10f);
+			
 			yield return null;
 		}
 
 		endLineToPlayer = true;
+	}
+
+
+	IEnumerator LerpTimeToNormal()
+	{
+		float timeScaleVel = 0; 
+
+		while(Time.timeScale < 1)
+		{
+			Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1f, ref timeScaleVel, Time.deltaTime * 50f); 
+
+			Time.fixedDeltaTime = Time.timeScale * .02f; 
+
+			yield return null; 
+		}
+
+
 	}
 
 }

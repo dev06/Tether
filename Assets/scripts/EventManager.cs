@@ -15,7 +15,9 @@ public class EventManager : MonoBehaviour {
 
 	public delegate void Gameplay();
 	public static Gameplay OnGameOver;
+	public static Gameplay OnGameStart; 
 
 
-
+	public delegate void GameState(State s);
+	public static GameState OnStateChange; 
 }

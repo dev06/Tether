@@ -18,19 +18,29 @@ public class Particle : MonoBehaviour {
 
 	public void Play()
 	{
-		if (particle == null) return;
-		if (particle.isPlaying) return;
+		if(particle == null)
+		{
+			particle = GetComponent<ParticleSystem>(); 
+		}
 		particle.Play();
 	}
 
 	public void Play(Vector3 position)
 	{
+		if(particle == null)
+		{
+			particle = GetComponent<ParticleSystem>(); 
+		}
 		SetPosition(position);
 		particle.Play();
 	}
 
 	public void Play(Vector3 position, Color c)
 	{
+		if(particle == null)
+		{
+			particle = GetComponent<ParticleSystem>(); 
+		}
 		particle.startColor = c;
 		SetPosition(position);
 		particle.Play();
@@ -38,6 +48,10 @@ public class Particle : MonoBehaviour {
 
 	public void Stop()
 	{
+		if(particle == null)
+		{
+			particle = GetComponent<ParticleSystem>(); 
+		}
 		particle.Stop();
 	}
 	public void SetPosition(Vector3 position)
