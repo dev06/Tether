@@ -6,9 +6,9 @@ public class BorderController : MonoBehaviour {
 
 	Camera camera;
 	Vector3 position;
-	float borderThickness = 1f;
+	float borderThickness = .2f;
 
-	GameplayController gameplayController; 
+	GameplayController gameplayController;
 
 	public enum BorderType
 	{
@@ -23,7 +23,7 @@ public class BorderController : MonoBehaviour {
 	void Start ()
 	{
 		camera = Camera.main;
-		gameplayController = GameplayController.Instance; 
+		gameplayController = GameplayController.Instance;
 	}
 
 
@@ -31,7 +31,7 @@ public class BorderController : MonoBehaviour {
 	{
 		SetPosition(type);
 
-		transform.gameObject.SetActive(!gameplayController.DEBUG); 
+		transform.gameObject.SetActive(!gameplayController.DEBUG);
 	}
 
 	void SetPosition(BorderType type)

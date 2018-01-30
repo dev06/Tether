@@ -1,31 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 public class ParentUI : MonoBehaviour {
 
-	protected CanvasGroup canvasGroup; 
+	public bool showInEdit;
+
+	protected CanvasGroup canvasGroup;
 
 	protected GameplayController gameplayController;
 
 	protected void Init()
 	{
-		canvasGroup = GetComponent<CanvasGroup>(); 
+		canvasGroup = GetComponent<CanvasGroup>();
 
-		gameplayController = GameplayController.Instance; 
+		gameplayController = GameplayController.Instance;
+	}
+
+	void OnValidate()
+	{
+		if (canvasGroup == null)
+		{
+			canvasGroup = GetComponent<CanvasGroup>();
+		}
+
+		if (showInEdit)
+		{
+			Show();
+		}
+		else
+		{
+			Hide();
+		}
 	}
 
 	protected void Show()
 	{
-		if(canvasGroup == null) return; 
-		canvasGroup.blocksRaycasts = true; 
-		canvasGroup.alpha = 1f; 
+		if (canvasGroup == null) { return; }
+		canvasGroup.blocksRaycasts = true;
+		canvasGroup.alpha = 1f;
 	}
 
 	protected void Hide()
 	{
-		if(canvasGroup == null) return; 
-		canvasGroup.blocksRaycasts = false; 
-		canvasGroup.alpha = 0f; 
+		if (canvasGroup == null) { return; }
+		canvasGroup.blocksRaycasts = false;
+		canvasGroup.alpha = 0f;
 	}
 }

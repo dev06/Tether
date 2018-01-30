@@ -10,19 +10,21 @@ public class ScoreHandler : MonoBehaviour {
 	private Vector3 defaultScale;
 	private float scaleMultipler = 1;
 	private bool inBoost;
+
+	public Color boostColor = Color.white;
 	void OnEnable()
 	{
 		EventManager.OnBaseHit += OnBaseHit;
 		EventManager.OnBoostEnd += OnBoostEnd;
 		EventManager.OnBoostStart += OnBoostStart;
-		EventManager.OnGameStart+=OnGameStart; 
+		EventManager.OnGameStart += OnGameStart;
 	}
 	void OnDisable()
 	{
 		EventManager.OnBaseHit -= OnBaseHit;
 		EventManager.OnBoostEnd -= OnBoostEnd;
 		EventManager.OnBoostStart -= OnBoostStart;
-		EventManager.OnGameStart-=OnGameStart; 
+		EventManager.OnGameStart -= OnGameStart;
 
 	}
 
@@ -35,7 +37,7 @@ public class ScoreHandler : MonoBehaviour {
 	}
 	void Start ()
 	{
-		Init(); 
+		Init();
 	}
 
 	void Update ()
@@ -45,20 +47,20 @@ public class ScoreHandler : MonoBehaviour {
 
 	void OnGameStart()
 	{
-		Init(); 
+		Init();
 	}
 
 	private void OnBaseHit()
 	{
 		scoreText.text = (GameplayController.SCORE).ToString();
-		scaleMultipler = inBoost ? 2.5f : 1.5f;
+		scaleMultipler = inBoost ? 4.5f : 1.5f;
 		Vector3 addition = defaultScale * scaleMultipler;
 		transform.localScale = addition;
 	}
 
 	private void OnBoostStart()
 	{
-		SetColor(Color.black);
+		SetColor(boostColor);
 		inBoost = true;
 	}
 
