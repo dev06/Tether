@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Menu : ParentUI {
 
+	public CanvasGroup titleOverlay;
+
 	void Start ()
 	{
 		Init();
@@ -35,6 +37,8 @@ public class Menu : ParentUI {
 		{
 			Hide();
 
+
+
 			GameplayController.SetState(State.GAME);
 
 
@@ -43,5 +47,22 @@ public class Menu : ParentUI {
 				EventManager.OnGameStart();
 			}
 		}
+	}
+
+	public virtual void Show()
+	{
+		base.Show();
+
+		titleOverlay.alpha = 1;
+
+		titleOverlay.blocksRaycasts = true;
+	}
+
+	public virtual void Hide()
+	{
+		base.Hide();
+		titleOverlay.alpha = 0;
+
+		titleOverlay.blocksRaycasts = false;
 	}
 }

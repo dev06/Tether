@@ -1,107 +1,128 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio; 
+using UnityEngine.Audio;
 public class AudioController : MonoBehaviour {
 
 
-	public static AudioController Instance; 
+	public static AudioController Instance;
 
-	private Mixer mixer; 
+	private Mixer mixer;
 
-	private PlayerController player; 
+	private PlayerController player;
 
-	private AudioSource source; 
+	private AudioSource source;
+
+	private float slowmo_freq = 300f;
+
+	private float default_freq = 1200f;
 
 
 	void Awake()
 	{
-		if(Instance == null)
+		DontDestroyOnLoad(gameObject);
+		if (Instance == null)
 		{
-			Instance = this; 
+			Instance = this;
 		}
 		else
 		{
-			DestroyImmediate(gameObject); 
+			DestroyImmediate(gameObject);
 		}
 	}
 
 	void OnEnable()
 	{
-		EventManager.OnGameStart+=OnGameStart; 
-		EventManager.OnGameOver+=OnGameOver; 
-		EventManager.OnHoldStatus+=OnHoldStatus; 
+		EventManager.OnGameStart += OnGameStart;
+		EventManager.OnGameOver += OnGameOver;
+		EventManager.OnHoldStatus += OnHoldStatus;
 
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnGameStart-=OnGameStart; 
-		EventManager.OnGameOver-=OnGameOver; 
-		EventManager.OnHoldStatus-=OnHoldStatus; 
+		EventManager.OnGameStart -= OnGameStart;
+		EventManager.OnGameOver -= OnGameOver;
+		EventManager.OnHoldStatus -= OnHoldStatus;
 	}
 
-	void Start () 
+	void Start ()
 	{
-		Init(); 
+		Init();
 	}
-	
+
 	void Init()
 	{
-		player = PlayerController.Instance; 
+		player = PlayerController.Instance;
 
-		source = GetComponent<AudioSource>(); 
+		source = GetComponent<AudioSource>();
 
-		mixer = GetComponent<Mixer>(); 
+		mixer = GetComponent<Mixer>();
 
-		source.time = Random.Range(1f, 3f); 
+		mixer.SetFloat("Lowpass", slowmo_freq);
 
+		StartCoroutine("SetPitch", .85f);
 	}
 
 	void OnGameStart()
 	{
-		
-		StartCoroutine("SetMixer", 5000f); 
-		//mixer.SetFloat("Lowpass", 5000f); 
+		StopAllCoroutines();
+		StartCoroutine("SetPitch", 1f);
+		StartCoroutine("SetMixer", default_freq);
+		//mixer.SetFloat("Lowpass", 5000f);
 	}
 
 	void OnGameOver()
 	{
-		//StartCoroutine("SetMixer", 200f); 
-		mixer.SetFloat("Lowpass", 200f); 
+		StopAllCoroutines();
+		StartCoroutine("SetMixer", slowmo_freq);
+		StartCoroutine("SetPitch", .85f);
+		//mixer.SetFloat("Lowpass", slowmo_freq);
 	}
 
-	void Update () 
+	void Update ()
 	{
+
 	}
 
 	IEnumerator SetMixer(float v)
 	{
-		float mixerVel = 0; 
-		float current ; 
-		float vv =0 ;
+		float mixerVel = 0;
+		float current ;
+		float vv = 0 ;
 
-		while(true)
+		while (true)
 		{
-			mixer.GetFloat("Lowpass", out vv); 
-			current = Mathf.SmoothDamp(vv , v, ref mixerVel, Time.deltaTime * 15f); 
-			mixer.SetFloat("Lowpass", current); 
-			yield return null; 
+			mixer.GetFloat("Lowpass", out vv);
+			current = Mathf.SmoothDamp(vv , v, ref mixerVel, Time.deltaTime * 15f);
+			mixer.SetFloat("Lowpass", current);
+			yield return null;
+		}
+	}
+
+	IEnumerator SetPitch(float p)
+	{
+		float pitchVel = 0;
+		float current;
+		while (true)
+		{
+			current = Mathf.SmoothDamp(source.pitch, p, ref pitchVel, Time.deltaTime * 10f);
+			source.pitch = current;
+			yield return null;
 		}
 	}
 
 	void OnHoldStatus(int i)
 	{
-		if(i == 1)
+		if (i == 1)
 		{
-			StopCoroutine("SetMixer"); 
-			StartCoroutine("SetMixer", 100f); 
-			//mixer.SetFloat("Lowpass", 50f); 
+			StopCoroutine("SetMixer");
+			StartCoroutine("SetMixer", slowmo_freq);
 		}
 		else
 		{
-			StopCoroutine("SetMixer"); 
-			StartCoroutine("SetMixer", 5000f); 
+			StopCoroutine("SetMixer");
+			StartCoroutine("SetMixer", default_freq);
 		}
 	}
 }

@@ -6,28 +6,28 @@ public class LineController : MonoBehaviour {
 
 	public static LineController Instance;
 
-	
+
 	private Vector3 endLinePosition;
-	
+
 	private Vector3 startLinePosition;
 
 
-	
+
 	private float defaultLineWidth = .08f;
-	
+
 	private float lineWidthVel;
-	
+
 	private float retractTimer = 0;
-	
+
 	private ObjectSpawner objectSpawner;
-	
+
 	private GameplayController gameplayController;
 
-	
+
 	private bool attached = false;
-	
+
 	private bool endLineToPlayer = true;
-	
+
 	private bool hitSomething = false;
 
 
@@ -45,20 +45,20 @@ public class LineController : MonoBehaviour {
 
 	private float length = 2.0f;
 
-	private float time = 1f;
+	private float controlTimer = 0;
 
-	private float holdStartDelayTimer; 
+	private float holdStartDelayTimer;
 
-	private float holdTimer; 
+	private float holdTimer;
 
-	private bool pressed; 
+	private bool pressed;
 
 	void Awake()
 	{
 		if (Instance == null)
 		{
 			Instance = this;
-		} 
+		}
 		else
 		{
 			DestroyImmediate(gameObject);
@@ -69,27 +69,32 @@ public class LineController : MonoBehaviour {
 		line = GetComponent<LineRenderer>();
 
 		player = PlayerController.Instance;
-		
+
 		endLinePosition = player.transform.position;
-		
+
 		startLinePosition = player.transform.position;
-		
+
 		hitPoint = player.transform.position;
-		
+
 		line.startWidth = line.endWidth = defaultLineWidth;
-		
+
 		objectSpawner = ObjectSpawner.Instance;
-		
+
 		gameplayController = GameplayController.Instance;
-		
-		line.startWidth = line.endWidth = 0; 
+
+		line.startWidth = line.endWidth = 0;
 	}
 
 	float timeVel;
 
 	void Update ()
 	{
-		if(GameplayController.GAME_STATE != State.GAME) return; 
+		if (GameplayController.GAME_STATE != State.GAME) { return; }
+
+		if (controlTimer < 1)
+		{
+			controlTimer += Time.unscaledDeltaTime;
+		}
 
 		transform.right = player.transform.right;
 
@@ -108,55 +113,55 @@ public class LineController : MonoBehaviour {
 			endLinePosition = player.transform.position;
 		}
 
-		
+
 		line.SetPosition(0, startLinePosition);
-		
+
 		line.SetPosition(1, endLinePosition);
-		
+
 		line.endWidth = Mathf.SmoothDamp(line.endWidth, defaultLineWidth, ref lineWidthVel, Time.deltaTime * 20f);
 
-		if(Input.GetMouseButton(0) && !player.activeBoost)
+		if (Input.GetMouseButton(0) && !player.activeBoost)
 		{
-			holdStartDelayTimer+=Time.unscaledDeltaTime; 
+			holdStartDelayTimer += Time.unscaledDeltaTime;
 
-			if(holdStartDelayTimer > .6f)
+			if (holdStartDelayTimer > .6f)
 			{
-				if(!inSlowmo)
+				if (!inSlowmo)
 				{
-					if(EventManager.OnHoldStatus != null)
+					if (EventManager.OnHoldStatus != null)
 					{
-						EventManager.OnHoldStatus(1); 
+						EventManager.OnHoldStatus(1);
 					}
 				}
 				inSlowmo = true;
 
-				player.isHolding = true; 				
+				player.isHolding = true;
 				Time.timeScale = .3f;
-				Time.fixedDeltaTime = Time.timeScale * .02f; 
+				Time.fixedDeltaTime = Time.timeScale * .02f;
 			}
 
 		}
 
-		if (Input.GetMouseButtonUp(0))
+		if (Input.GetMouseButtonUp(0) && controlTimer > .2f)
 		{
-			
+
 			player.isHolding = false ;
-			holdStartDelayTimer = 0; 
-			Time.timeScale = 1f; 
-			Time.fixedDeltaTime = Time.timeScale * .02f; 
+			holdStartDelayTimer = 0;
+			Time.timeScale = 1f;
+			Time.fixedDeltaTime = Time.timeScale * .02f;
 			Shoot();
-			if(inSlowmo)
+			if (inSlowmo)
 			{
-				if(EventManager.OnHoldStatus != null)
+				if (EventManager.OnHoldStatus != null)
 				{
-					EventManager.OnHoldStatus(0); 
+					EventManager.OnHoldStatus(0);
 				}
 			}
-			inSlowmo = false; 
+			inSlowmo = false;
 		}
 	}
 
-	bool inSlowmo; 
+	bool inSlowmo;
 	public  float CalculateAngle(Vector3 from, Vector3 to)
 	{
 		return Quaternion.FromToRotation(Vector3.right, from - to).eulerAngles.z;
@@ -167,7 +172,7 @@ public class LineController : MonoBehaviour {
 	private IEnumerator IStartPowerUp()
 	{
 
-		yield return null; 
+		yield return null;
 
 		player.activeBoost = true;
 
@@ -184,7 +189,7 @@ public class LineController : MonoBehaviour {
 
 	}
 
-	
+
 
 	public void Shoot()
 	{
@@ -194,7 +199,7 @@ public class LineController : MonoBehaviour {
 
 		RaycastHit2D hit = Physics2D.Raycast(transform.position,  transform.right, tether_legth, layer);
 
-		if(!player.activeBoost)
+		if (!player.activeBoost)
 		{
 			RaycastHit2D all = Physics2D.Raycast(transform.position,  transform.right, tether_legth, allHit);
 
@@ -205,7 +210,7 @@ public class LineController : MonoBehaviour {
 
 					all.transform.gameObject.SetActive(false);
 
-					StopCoroutine("IStartPowerUp"); 
+					StopCoroutine("IStartPowerUp");
 
 					StartCoroutine("IStartPowerUp");
 
@@ -213,7 +218,7 @@ public class LineController : MonoBehaviour {
 			}
 		}
 
-		player.currentBase.shouldRotate = false; 	
+		player.currentBase.shouldRotate = false;
 
 
 
@@ -240,12 +245,12 @@ public class LineController : MonoBehaviour {
 
 			line.endWidth = .25f;
 
-			player.hit_base = hit.transform; 
-			//Camera.main.GetComponent<CameraController>().SetYOffset(transform.right * 20f); 
+			player.hit_base = hit.transform;
+			//Camera.main.GetComponent<CameraController>().SetYOffset(transform.right * 20f);
 
-			player.thrustDirection = transform.right * Random.Range(5f, 11f); 
+			player.thrustDirection = transform.right * Random.Range(5f, 11f);
 
-			Camera.main.GetComponent<CameraController>().SetYOffset(-player.thrustDirection * .5f); 
+			Camera.main.GetComponent<CameraController>().SetYOffset(-player.thrustDirection * .5f);
 
 
 
@@ -269,8 +274,8 @@ public class LineController : MonoBehaviour {
 
 		if (!hitSomething)
 		{
-			Time.timeScale = 1f; 
-			Time.fixedDeltaTime = Time.timeScale * .02f; 
+			Time.timeScale = 1f;
+			Time.fixedDeltaTime = Time.timeScale * .02f;
 
 			StopCoroutine("Retract");
 
@@ -287,7 +292,7 @@ public class LineController : MonoBehaviour {
 
 		attached = true;
 
-		bool gameOver = false; 
+		bool gameOver = false;
 
 		if (hitBase != null)
 		{
@@ -305,7 +310,7 @@ public class LineController : MonoBehaviour {
 				EventManager.OnBaseHit();
 			}
 
-		} 
+		}
 		else
 		{
 			if (!player.activeBoost)
@@ -315,14 +320,14 @@ public class LineController : MonoBehaviour {
 
 				Time.timeScale = .1f;
 
-				Time.fixedDeltaTime = Time.timeScale * .02f; 
+				Time.fixedDeltaTime = Time.timeScale * .02f;
 
 
-				StopCoroutine("LerpTimeToNormal"); 
+				StopCoroutine("LerpTimeToNormal");
 
-				StartCoroutine("LerpTimeToNormal"); 
+				StartCoroutine("LerpTimeToNormal");
 
-				gameOver = true; 
+				gameOver = true;
 			}
 		}
 
@@ -357,7 +362,7 @@ public class LineController : MonoBehaviour {
 
 		player.Round();
 
-		if(gameOver)
+		if (gameOver)
 		{
 			if (EventManager.OnGameOver != null)
 			{
@@ -378,10 +383,10 @@ public class LineController : MonoBehaviour {
 			yield return null;
 		}
 
-		BaseController.VELOCITY_SCALE = 1F; 
+		BaseController.VELOCITY_SCALE = 1F;
 
 
-		player.currentBase.shouldRotate = true; 
+		player.currentBase.shouldRotate = true;
 
 		endLineToPlayer = true;
 	}
@@ -389,15 +394,15 @@ public class LineController : MonoBehaviour {
 
 	IEnumerator LerpTimeToNormal()
 	{
-		float timeScaleVel = 0; 
+		float timeScaleVel = 0;
 
-		while(Time.timeScale < 1)
+		while (Time.timeScale < 1)
 		{
-			Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1f, ref timeScaleVel, Time.unscaledDeltaTime * 6f); 
+			Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1f, ref timeScaleVel, Time.unscaledDeltaTime * 6f);
 
-			Time.fixedDeltaTime = Time.timeScale * .02f; 
+			Time.fixedDeltaTime = Time.timeScale * .02f;
 
-			yield return null; 
+			yield return null;
 		}
 
 

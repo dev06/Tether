@@ -16,8 +16,8 @@ public class AppResources : MonoBehaviour {
 
 
 
-	public static AudioClip IntoTheDarkness = (AudioClip)Resources.Load("audio/tracks/theme") as AudioClip; 
+	// public static AudioClip IntoTheDarkness = (AudioClip)Resources.Load("audio/tracks/theme") as AudioClip;
 
-	public static AudioClip Kill = (AudioClip)Resources.Load("audio/tracks/kill") as AudioClip; 
+	// public static AudioClip Kill = (AudioClip)Resources.Load("audio/tracks/kill") as AudioClip;
 
 }

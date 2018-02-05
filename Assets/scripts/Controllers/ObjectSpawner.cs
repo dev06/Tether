@@ -20,13 +20,13 @@ public class ObjectSpawner : MonoBehaviour {
 	public int powerup_index = 0;
 
 	public Transform Particle_Boom;
-	
+
 	public Transform Particle_Smoke;
 
 	public Transform obj_powerup;
-	
+
 	public Transform obj_bases;
-	
+
 	private Transform obj_coingroup;
 
 	public BaseController nextBase;
@@ -35,17 +35,17 @@ public class ObjectSpawner : MonoBehaviour {
 
 	void OnEnable()
 	{
-		EventManager.OnGameStart+=OnGameStart; 
+		EventManager.OnGameStart += OnGameStart;
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnGameStart-=OnGameStart; 
+		EventManager.OnGameStart -= OnGameStart;
 	}
 
 	void OnGameStart()
 	{
-		//PositionBases(); 
+		//PositionBases();
 	}
 
 	void Awake()
@@ -53,7 +53,7 @@ public class ObjectSpawner : MonoBehaviour {
 		if (Instance == null)
 		{
 			Instance = this;
-		} 
+		}
 		else
 		{
 			DestroyImmediate(gameObject);
@@ -69,7 +69,7 @@ public class ObjectSpawner : MonoBehaviour {
 		obj_bases = GameObject.FindWithTag("Objects/bases").transform;
 		obj_coingroup = GameObject.FindWithTag("Objects/coingroup").transform;
 
-		InstantiateBaseObject(5, Vector2.up * 4);
+		InstantiateBaseObject(5, Vector2.up * 10);
 
 
 		PositionBases();
@@ -92,9 +92,9 @@ public class ObjectSpawner : MonoBehaviour {
 			clone.SetActive(false);
 			BaseController controller = clone.GetComponent<BaseController>();
 			BaseQueue.Add(controller);
-			if(i % 2 != 0)
+			if (i % 2 != 0)
 			{
-				clone.GetComponent<SpriteRenderer>().color = Color.white; 
+				clone.GetComponent<SpriteRenderer>().color = Color.white;
 			}
 			controller.Initialize();
 		}
@@ -136,9 +136,9 @@ public class ObjectSpawner : MonoBehaviour {
 				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
 			}
 
-			float scale = BaseController.DEFAULT_MAX_SCALE; 
+			float scale = BaseController.DEFAULT_MAX_SCALE;
 			BaseQueue[i].transform.localScale = new Vector3(scale, scale, scale);
-			BaseQueue[i].transform.gameObject.SetActive(false); 
+			BaseQueue[i].transform.gameObject.SetActive(false);
 		}
 	}
 
@@ -169,12 +169,12 @@ public class ObjectSpawner : MonoBehaviour {
 	public  BaseController FetchNextBase()
 	{
 		BaseController nextBase = null;
-		BaseController currentBase = null; 
+		BaseController currentBase = null;
 		for (int i = 0; i < BaseQueue.Count; i++)
 		{
 			if (BaseQueue[i].player != null)
 			{
-				currentBase = BaseQueue[i]; 
+				currentBase = BaseQueue[i];
 				if (i + 1 > BaseQueue.Count - 1)
 				{
 					nextBase = BaseQueue[0];
@@ -192,7 +192,7 @@ public class ObjectSpawner : MonoBehaviour {
 		}
 
 		this.nextBase = nextBase;
-		currentBase.transform.gameObject.SetActive(true); 
+		currentBase.transform.gameObject.SetActive(true);
 		nextBase.transform.gameObject.SetActive(true);
 		return nextBase;
 	}

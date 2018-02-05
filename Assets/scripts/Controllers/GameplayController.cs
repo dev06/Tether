@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GameplayController : MonoBehaviour 
+public class GameplayController : MonoBehaviour
 {
 
 	public static GameplayController Instance;
 
 	public static int SCORE = 0;
 
-	public static State GAME_STATE = State.MENU; 
+	public static State GAME_STATE = State.MENU;
 
-	public bool DEBUG; 
+	public bool DEBUG;
 
-	public static float DIFFICULTY; 
+	public static float DIFFICULTY;
 
-	public static long VIBRATION_DURATION = 5; 
+	public static long VIBRATION_DURATION = 5;
 
 	public static void SetState(State s)
 	{
-		GAME_STATE = s; 
+		GAME_STATE = s;
 
-		if(EventManager.OnStateChange != null)
+		if (EventManager.OnStateChange != null)
 		{
-			EventManager.OnStateChange(GAME_STATE); 
+			EventManager.OnStateChange(GAME_STATE);
 		}
 	}
 
@@ -32,7 +32,7 @@ public class GameplayController : MonoBehaviour
 	{
 		EventManager.OnGameOver += OnGameOver;
 
-		EventManager.OnGameStart+=OnGameStart; 
+		EventManager.OnGameStart += OnGameStart;
 	}
 
 
@@ -40,7 +40,7 @@ public class GameplayController : MonoBehaviour
 	{
 		EventManager.OnGameOver -= OnGameOver;
 
-		EventManager.OnGameStart-=OnGameStart; 
+		EventManager.OnGameStart -= OnGameStart;
 	}
 	void Awake()
 	{
@@ -48,34 +48,38 @@ public class GameplayController : MonoBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-		} 		
+		}
 		else
 		{
 			DestroyImmediate(gameObject);
 		}
 
-		InitGame(); 
+		InitGame();
 
 
 	}
 
 	void Start ()
 	{
-		Application.targetFrameRate = 60; 
+		Application.targetFrameRate = 60;
 	}
 
 	public void InitGame()
 	{
 
-		Time.timeScale = 1f; 
-		Time.fixedDeltaTime = Time.timeScale * .02f; 
-		DIFFICULTY = 0F; 
-		SCORE = 0; 
-		SetState(State.MENU); 
+		Time.timeScale = 1f;
+		Time.fixedDeltaTime = Time.timeScale * .02f;
+		DIFFICULTY = 0F;
+		SCORE = 0;
+		SetState(State.MENU);
 	}
 
-	void Update () 
+	void Update ()
 	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			DEBUG = !DEBUG;
+		}
 	}
 
 	void OnGameOver()
@@ -86,22 +90,22 @@ public class GameplayController : MonoBehaviour
 
 	void OnGameStart()
 	{
-		
+
 	}
 
 
 	public void IncrementScore()
 	{
 		SCORE++;
-		DIFFICULTY = Mathf.Log(SCORE); 
-		DIFFICULTY = Mathf.Clamp(DIFFICULTY, 0, 10F); 
+		DIFFICULTY = Mathf.Log(SCORE);
+		DIFFICULTY = Mathf.Clamp(DIFFICULTY, 0, 10F);
 	}
 }
 
 
 public enum State
 {
-	MENU, 
+	MENU,
 	GAME,
 }
 
