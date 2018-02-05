@@ -8,9 +8,9 @@ public class BoostSpriteMask : MonoBehaviour {
 	private CameraController cameraController; 
 	private PlayerController player;
 	private bool isInit;
-	private SpriteRenderer negative;
 	private SpriteRenderer renderer; 
-	private float saturation; 
+	private float maskOffsetTimer; 
+	private Transform circle; 
 
 	public void Init()
 	{
@@ -18,8 +18,7 @@ public class BoostSpriteMask : MonoBehaviour {
 		player = PlayerController.Instance;
 		cameraController = camera.transform.GetComponent<CameraController>(); 
 		renderer = GetComponent<SpriteRenderer>(); 
-		negative = transform.GetChild(0).GetComponent<SpriteRenderer>();
-
+		circle = transform.GetChild(0).transform; 
 		isInit = true;
 	}
 
@@ -27,7 +26,11 @@ public class BoostSpriteMask : MonoBehaviour {
 	void Update ()
 	{
 		if (camera == null) { return; }
-		transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y, 0);
+		if(player.activeBoost)
+		{
+			maskOffsetTimer+=Time.unscaledDeltaTime; 
+			transform.position = new Vector3(camera.transform.position.x + Mathf.PingPong(maskOffsetTimer * 100f, .15f) - .075f, camera.transform.position.y, 0);
+		}
 		transform.localScale = new Vector3(transform.localScale.x, camera.orthographicSize * 2f, 1f);
 	}
 
@@ -47,31 +50,31 @@ public class BoostSpriteMask : MonoBehaviour {
 	}
 	Color GetColor()
 	{
-		float hue = Mathf.PingPong(Time.time / 20f, 1.0f);
+		float hue = Mathf.PingPong(Time.time / 10f, 1.0f);
 		float sat = 1f;
 		float bright = .5f;
 		return Color.HSVToRGB(hue, sat, bright);
 	}
-	float timer =2.5f;
+	float timer =1f;
 	private IEnumerator IActivate()
 	{	
 
 		while (player.activeBoost)
 		{
-			timer -= Time.deltaTime;
-			timer = Mathf.Clamp(timer, 1.7f, timer);
+			timer += Time.unscaledDeltaTime * .3f ;
+			timer = Mathf.Clamp(timer, 1f, timer);
 			renderer.color = Color.white; 
-
-			negative.color = GetColor();  
-			Camera.main.backgroundColor = new Color(negative.color.r, 1f- negative.color.g, 1f - negative.color.b, 1f); 
-			transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(0f, camera.orthographicSize * 2f), Time.deltaTime * timer);
+			Camera.main.backgroundColor = GetColor(); 
+			circle.transform.localPosition = Vector3.zero; 
+			circle.localScale = new Vector3(transform.localScale.y, transform.localScale.x, 1); 
+			transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(.2f, camera.orthographicSize * 2f), Time.unscaledDeltaTime * timer);
 			float sy = camera.orthographicSize * 2f;
 			transform.localScale = new Vector3(transform.localScale.x, sy, 1);
 			yield return null; 
 		}
-		timer = 2.5f;
-		cameraController.SetGlow(.15f);
-		Camera.main.backgroundColor = Camera.main.GetComponent<CameraController>().defaultBackgroundColor;
+		maskOffsetTimer = 0; 
+		timer = 1f;
+		//Camera.main.backgroundColor = Camera.main.GetComponent<CameraController>().defaultBackgroundColor;
 		transform.gameObject.SetActive(false);
 	}
 
