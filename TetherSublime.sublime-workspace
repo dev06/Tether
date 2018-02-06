@@ -4,6 +4,62 @@
 		"selected_items":
 		[
 			[
+				"OnGame",
+				"OnGameEnd"
+			],
+			[
+				"Ler",
+				"LerpTimeToNormal"
+			],
+			[
+				"Start",
+				"StartCoroutine"
+			],
+			[
+				"LErp",
+				"LerpTimeToNormal"
+			],
+			[
+				"def",
+				"default_depletion_rate"
+			],
+			[
+				"sho",
+				"shotViaTimer"
+			],
+			[
+				"hol",
+				"holdStartDelayTimer"
+			],
+			[
+				"Sta",
+				"StartCoroutine"
+			],
+			[
+				"trail",
+				"trialRenderer"
+			],
+			[
+				"trai",
+				"trialRenderer"
+			],
+			[
+				"Cl",
+				"CameraLerpColor"
+			],
+			[
+				"came",
+				"camera"
+			],
+			[
+				"back",
+				"backgroundColor"
+			],
+			[
+				"vel",
+				"velocity"
+			],
+			[
 				"out",
 				"outerRingColor"
 			],
@@ -80,10 +136,6 @@
 				"jitterAmount"
 			],
 			[
-				"came",
-				"cameraController"
-			],
-			[
 				"Came",
 				"CameraController"
 			],
@@ -100,16 +152,8 @@
 				"OnGameOver"
 			],
 			[
-				"OnGame",
-				"OnGameStart"
-			],
-			[
 				"DEFA",
 				"DEFAULT_MAX_SCALE"
-			],
-			[
-				"def",
-				"DEFAULT_MIN_SCALE"
 			],
 			[
 				"base",
@@ -164,55 +208,54 @@
 	"buffers":
 	[
 		{
-			"file": "Assets/scripts/LineController.cs",
+			"file": "Assets/scripts/Controllers/PlayerController.cs",
 			"settings":
 			{
-				"buffer_size": 6209,
+				"buffer_size": 7557,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Assets/scripts/Handler/LogoParallex.cs",
+			"file": "Assets/scripts/Controllers/CameraController.cs",
 			"settings":
 			{
-				"buffer_size": 935,
+				"buffer_size": 5675,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Assets/scripts/Handler/BoostSpriteMask.cs",
+			"file": "Assets/scripts/Controllers/LineController.cs",
 			"settings":
 			{
-				"buffer_size": 2394,
+				"buffer_size": 7132,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Assets/scripts/BaseController.cs",
+			"file": "Assets/scripts/Controllers/AudioController.cs",
 			"settings":
 			{
-				"buffer_size": 5676,
+				"buffer_size": 2173,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Assets/scripts/Handler/ScoreHandler.cs",
+			"file": "Assets/resources/shaders/$dd_Invert.shader",
 			"settings":
 			{
-				"buffer_size": 1679,
-				"encoding": "UTF-8 with BOM",
+				"buffer_size": 859,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Assets/scripts/PlayerController.cs",
+			"file": "Assets/scripts/System/AppResources.cs",
 			"settings":
 			{
-				"buffer_size": 7063,
+				"buffer_size": 809,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Unix"
 			}
@@ -258,37 +301,44 @@
 	],
 	"file_history":
 	[
-		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Handler/BoostSpriteMask.cs",
-		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/GameplayController.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Audio/Mixer.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Event/EventManager.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Handler/LineCollider.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/UI/Menu.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Handler/NegativeImage.cs",
-		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/CameraController.cs",
-		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/BaseController.cs",
-		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/BorderController.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/LineController.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/PlayerController.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/CameraController.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/GameplayController.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/BaseController.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Handler/BoostSpriteMask.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Vibration.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Handler/LogoParallex.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Handler/ScoreHandler.cs",
+		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/BorderController.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/ObjectSpawner.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Particle.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/CameraController.cs.meta",
-		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/UI/Menu.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/PowerUp.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/CoinController.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/UI/ParentUI.cs",
 		"/Users/devan/Library/Application Support/Sublime Text 3/Packages/User/Prettier.sublime-settings",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/EventManager.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Game.meta",
-		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/LineController.cs",
 		"/Users/devan/Documents/Unity/Github/Tether/Assets/scripts/Game/State.cs",
 		"/Users/devan/Library/Application Support/Sublime Text 3/Packages/User/Package Control.sublime-settings"
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 22.0
 	},
 	"find_in_files":
 	{
 		"height": 101.0,
 		"where_history":
 		[
+			"",
+			"<current file>",
 			"",
 			"<current file>"
 		]
@@ -298,6 +348,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"VIBRATION_DURATION",
+			"holdDelayTimer",
+			"SetGlow",
+			"Shoot",
+			"SetGlow",
+			"running",
+			"OnBoostEnd",
+			"defaultBackgroundColor",
+			"OnBoost",
+			"3f",
 			"sety",
 			"SetGlow",
 			"hit_base",
@@ -323,6 +383,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"holdStartDelayTimer",
+			"started",
 			"particleSystems"
 		],
 		"reverse": false,
@@ -334,24 +396,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Assets/scripts/LineController.cs",
+					"file": "Assets/scripts/Controllers/PlayerController.cs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6209,
+						"buffer_size": 7557,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4582,
-								4582
+								0,
+								0
 							]
 						],
 						"settings":
@@ -360,27 +422,141 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3328.0,
+						"translation.y": 2584.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "Assets/scripts/Handler/LogoParallex.cs",
+					"file": "Assets/scripts/Controllers/CameraController.cs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 935,
+						"buffer_size": 5675,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								124,
-								124
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Assets/scripts/Controllers/LineController.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7132,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1377.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Assets/scripts/Controllers/AudioController.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2173,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 479.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Assets/resources/shaders/$dd_Invert.shader",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 859,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Assets/scripts/System/AppResources.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 809,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -391,123 +567,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Assets/scripts/Handler/BoostSpriteMask.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2394,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1724,
-								1724
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 409.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "Assets/scripts/BaseController.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5676,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4941,
-								4941
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1161.0,
-						"zoom_level": 1.0
-					},
 					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Assets/scripts/Handler/ScoreHandler.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1679,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1365,
-								1365
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 246.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "Assets/scripts/PlayerController.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7063,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								225,
-								225
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -562,12 +622,80 @@
 		"selected_items":
 		[
 			[
-				"boos",
-				"Handler/BoostSpriteMask.cs"
+				"app",
+				"System/AppResources.cs"
+			],
+			[
+				"eventana",
+				"Event/EventManager.cs"
+			],
+			[
+				"eventmana",
+				"Event/EventManager.cs"
+			],
+			[
+				"even",
+				"Event/EventManager.cs"
+			],
+			[
+				"line",
+				"Controllers/LineController.cs"
+			],
+			[
+				"mex",
+				"Audio/Mixer.cs"
+			],
+			[
+				"aui",
+				"Controllers/AudioController.cs"
+			],
+			[
+				"liine",
+				"Handler/LineCollider.cs"
+			],
+			[
+				"camer",
+				"Controllers/CameraController.cs"
+			],
+			[
+				"player",
+				"Controllers/PlayerController.cs"
 			],
 			[
 				"base",
 				"BaseController.cs"
+			],
+			[
+				"net",
+				"Handler/NegativeImage.cs"
+			],
+			[
+				"menu",
+				"UI/Menu.cs"
+			],
+			[
+				"spi",
+				"Handler/BoostSpriteMask.cs"
+			],
+			[
+				"game",
+				"GameplayController.cs"
+			],
+			[
+				"vi",
+				"Vibration.cs"
+			],
+			[
+				"bas",
+				"BaseController.cs"
+			],
+			[
+				"camera",
+				"CameraController.cs"
+			],
+			[
+				"boos",
+				"Handler/BoostSpriteMask.cs"
 			],
 			[
 				"boo",
@@ -580,14 +708,6 @@
 			[
 				"soc",
 				"Handler/ScoreHandler.cs"
-			],
-			[
-				"player",
-				"PlayerController.cs"
-			],
-			[
-				"line",
-				"LineController.cs"
 			],
 			[
 				"score",
@@ -618,16 +738,8 @@
 				"BaseController.cs"
 			],
 			[
-				"camera",
-				"CameraController.cs"
-			],
-			[
 				"caeram",
 				"CameraController.cs.meta"
-			],
-			[
-				"game",
-				"GameplayController.cs"
 			],
 			[
 				"boose",
@@ -640,10 +752,6 @@
 			[
 				"coin",
 				"CoinController.cs"
-			],
-			[
-				"menu",
-				"UI/Menu.cs"
 			],
 			[
 				"gampe",
@@ -723,12 +831,12 @@
 	},
 	"select_symbol":
 	{
-		"height": 0.0,
+		"height": 392.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 392.0
 	},
 	"selected_group": 0,
 	"settings":

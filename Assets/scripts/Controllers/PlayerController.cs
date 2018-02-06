@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
 	public Transform spikes;
 
-	public ParticleSystem fan, blackBase;
+	public ParticleSystem fan, blackBase, boostPrism;
 
 	private float base_hit_glow = .13f;
 
@@ -215,6 +215,14 @@ public class PlayerController : MonoBehaviour
 		spikes.GetComponent<Particle>().Play();
 
 
+		boostPrism.gameObject.SetActive(true);
+
+		boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
+
+		boostPrism.Play();
+
+
+
 
 		transform.position = objectSpawner.nextBase.transform.position;
 
@@ -241,6 +249,9 @@ public class PlayerController : MonoBehaviour
 
 			spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
 
+			boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, .1f)) + new Vector3(0,0,1f);
+
+
 			float shake = Random.Range(3.5f, 4.0f);
 
 			float shrinkFactor = Random.Range(6.0f, 7.5f);
@@ -264,6 +275,12 @@ public class PlayerController : MonoBehaviour
 		spikes.GetComponent<Particle>().Stop();
 
 		spikes.gameObject.SetActive(false);
+
+
+
+		boostPrism.gameObject.SetActive(false);
+
+		boostPrism.Stop();
 
 
 
