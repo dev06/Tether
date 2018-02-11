@@ -168,10 +168,6 @@ public class BaseController : MonoBehaviour {
 
 	public void SpawnRing(Color c)
 	{
-
-		StopCoroutine("ISpawnRing");
-
-		StartCoroutine("ISpawnRing", c);
 	}
 
 	private IEnumerator ISpawnRing(Color c)

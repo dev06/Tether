@@ -7,15 +7,17 @@ public class AudioController : MonoBehaviour {
 
 	public static AudioController Instance;
 
+	public float slowmot_pitch = .85f; 
+
 	private Mixer mixer;
 
 	private PlayerController player;
 
 	private AudioSource source;
 
-	private float slowmo_freq = 300f;
+	private float slowmo_freq = 150f;
 
-	private float default_freq = 1200f;
+	private float default_freq = 1500f;
 
 
 	void Awake()
@@ -46,12 +48,7 @@ public class AudioController : MonoBehaviour {
 		EventManager.OnHoldStatus -= OnHoldStatus;
 	}
 
-	void Start ()
-	{
-		Init();
-	}
-
-	void Init()
+	public void Init()
 	{
 		player = PlayerController.Instance;
 
@@ -61,7 +58,7 @@ public class AudioController : MonoBehaviour {
 
 		mixer.SetFloat("Lowpass", slowmo_freq);
 
-		StartCoroutine("SetPitch", .85f);
+		StartCoroutine("SetPitch", slowmot_pitch);
 	}
 
 	void OnGameStart()
@@ -76,7 +73,7 @@ public class AudioController : MonoBehaviour {
 	{
 		StopAllCoroutines();
 		StartCoroutine("SetMixer", slowmo_freq);
-		StartCoroutine("SetPitch", .85f);
+		StartCoroutine("SetPitch", slowmot_pitch);
 		//mixer.SetFloat("Lowpass", slowmo_freq);
 	}
 

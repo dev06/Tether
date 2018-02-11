@@ -10,8 +10,13 @@ public class CameraController : MonoBehaviour {
 
 	public Color defaultBackgroundColor;
 
+	public ParticleSystem menuParticleSystem; 
+
+	private ParticleSystem.ShapeModule shapeModule; 
+
 	public Transform backgroundSmoke;
 
+	public bool isMoving; 
 
 	private float jitterAmount;
 
@@ -45,8 +50,6 @@ public class CameraController : MonoBehaviour {
 
 	private Camera camera;
 
-	public Transform ps;
-
 	private float yOffset;
 
 	private float yOffsetVel;
@@ -54,6 +57,9 @@ public class CameraController : MonoBehaviour {
 	private Vector3 hitOffset;
 
 	private Twirl[] twirl;
+
+	private float prevY; 
+
 
 
 	void OnEnable()
@@ -96,8 +102,6 @@ public class CameraController : MonoBehaviour {
 
 		def_glowintensity = mkglow.GlowIntensityInner;
 
-		defaultBackgroundColor = camera.backgroundColor;
-
 		vortex = GetComponent<Vortex>();
 
 		twirl = GetComponents<Twirl>();
@@ -106,16 +110,37 @@ public class CameraController : MonoBehaviour {
 
 		ToggleTwirl(false);
 
+		shapeModule = menuParticleSystem.shape; 
+
+		menuParticleSystem.transform.position = camera.ViewportToWorldPoint(new Vector2(.5f, .5f)) + Vector3.forward; 
+
 	}
 
 	void FixedUpdate ()
 	{
+		if(Mathf.Abs((int)transform.position.y - (int)prevY) > 0)
+		{
+			isMoving = true; 
+
+			prevY = transform.position.y; 
+		}
+		else
+		{
+			isMoving = false; 
+		}
+
+		shapeModule.radius = camera.orthographicSize / 2.0f; 
 
 
 
-		mkglow.GlowIntensityInner = Mathf.SmoothDamp(mkglow.GlowIntensityInner, def_glowintensity, ref glowVel, Time.deltaTime * 25f);
-
-		mkglow.enabled = (mkglow.GlowIntensityInner >= 0.01f);
+		if(!player.activeBoost)
+		{
+			boostShakeTimer = 0; 
+		}
+		else
+		{
+			boostShakeTimer+=Time.unscaledDeltaTime; 
+		}
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{
@@ -143,9 +168,6 @@ public class CameraController : MonoBehaviour {
 		transform.position = Vector3.Lerp(transform.position, GetAveragePosition() +  new Vector3(0, 0, -10f) + new Vector3(jitter.x, 0, -10f) + hitOffset, Time.deltaTime * 4.0f);
 
 		backgroundSmoke.position = transform.position + new Vector3(0, 0, 10);
-
-		//ps.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
-
 	}
 
 	Vector3 GetAveragePosition()
@@ -176,7 +198,9 @@ public class CameraController : MonoBehaviour {
 
 	void OnGameStart()
 	{
-		SetGlow(.118f);
+		//SetGlow(.118f);
+
+		menuParticleSystem.Stop(); 
 	}
 
 	void OnGameOver()
@@ -187,8 +211,8 @@ public class CameraController : MonoBehaviour {
 	void OnBaseHit()
 	{
 
-		SetGlow(.158f);
-		Vibration.Vibrate(GameplayController.VIBRATION_DURATION + 1);
+		//SetGlow(.158f);
+		//Vibration.Vibrate(GameplayController.VIBRATION_DURATION + 1);
 
 
 	}
@@ -200,6 +224,13 @@ public class CameraController : MonoBehaviour {
 		float averageSize = (player.currentBase.size + spawner.nextBase.size) / 10f;
 
 		return 	Vector2.Distance(player.currentBase.transform.position, positions[1]) + averageSize;
+	}
+	float boostShakeTimer;
+
+	float BoostShake()
+	{
+		float offset = 5f; 
+		return Mathf.PingPong(boostShakeTimer * 100f, offset) - (offset * .5f); 
 	}
 
 	Vector2 JitterCamera()
@@ -213,15 +244,6 @@ public class CameraController : MonoBehaviour {
 
 		return offset;
 	}
-
-	Vector3 BoostShake()
-	{
-		float min = 0;
-
-		min = Mathf.Clamp(min, .01f, min);
-		return new Vector3(Mathf.PingPong(Time.time * 80f, 4f) - 2f, 0, 0);
-	}
-
 
 	public void Twirl()
 	{
@@ -269,6 +291,7 @@ public class CameraController : MonoBehaviour {
 
 	IEnumerator ICameraLerpColor()
 	{
+		defaultBackgroundColor = camera.backgroundColor; 
 		camera.backgroundColor = Color.white;
 
 		while (camera.backgroundColor != defaultBackgroundColor)

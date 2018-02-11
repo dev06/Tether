@@ -23,4 +23,7 @@ public class EventManager : MonoBehaviour {
 
 	public delegate void GameState(State s);
 	public static GameState OnStateChange; 
+
+	public delegate void LevelChange(Level changeLevel);
+	public static LevelChange OnLevelChange;  
 }

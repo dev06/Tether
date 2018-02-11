@@ -10,6 +10,8 @@ public class GameplayController : MonoBehaviour
 
 	public static int SCORE = 0;
 
+	public static Level Level; 
+
 	public static State GAME_STATE = State.MENU;
 
 	public bool DEBUG;
@@ -54,7 +56,7 @@ public class GameplayController : MonoBehaviour
 			DestroyImmediate(gameObject);
 		}
 
-		InitGame();
+		InitGameSettings();
 
 
 	}
@@ -62,9 +64,12 @@ public class GameplayController : MonoBehaviour
 	void Start ()
 	{
 		Application.targetFrameRate = 60;
+
+		ObjectSpawner.Instance.Init(); 
+
 	}
 
-	public void InitGame()
+	public void InitGameSettings()
 	{
 
 		Time.timeScale = 1f;
@@ -73,6 +78,8 @@ public class GameplayController : MonoBehaviour
 		SCORE = 0;
 		SetState(State.MENU);
 	}
+
+
 
 	void Update ()
 	{

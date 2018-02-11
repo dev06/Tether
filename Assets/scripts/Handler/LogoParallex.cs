@@ -1,49 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class LogoParallex : MonoBehaviour {
 
-	PlayerController playerController;
-	Vector3 startPos;
-	float offset;
-
-	void OnEnable()
-	{
-		EventManager.OnBaseHit += OnBaseHit;
-	}
-
-	void OnDisable()
-	{
-		EventManager.OnBaseHit -= OnBaseHit;
-	}
-
-	void OnBaseHit()
-	{
-		offset -= playerController.activeBoost ? 20f : 15f;
-
-	}
-
+	CameraController camera; 
 	void Start ()
 	{
-		playerController = PlayerController.Instance;
-		startPos = transform.localPosition + Vector3.up * 10f;
+		camera = Camera.main.GetComponent<CameraController>(); 
 	}
 
-	// Update is called once per frame
 	void Update ()
-	{
-		transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0, offset, 0),
-		                                       Time.deltaTime);
-		transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
+	{	
+		if(outSide())
+		{
+			gameObject.SetActive(false); 
+		}
+
+
+		if(camera.isMoving)
+		{
+			float speed = camera.isMoving ? .5f : 0f; 
+			transform.Translate(-Vector3.up * speed * Time.unscaledDeltaTime); 
+		}
 	}
 
-	bool Outside()
+	bool outSide()
 	{
-		Vector3 position = Camera.main.WorldToViewportPoint(transform.position);
-		Debug.Log(position);
-
-		return position.y < .3;
+		Vector3 position = Camera.main.WorldToViewportPoint(transform.position); 
+		return position.y < -1; 
 	}
 
 }

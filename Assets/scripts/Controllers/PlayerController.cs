@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 	public BaseController currentBase;
 
 	public ParticleSystem[] particleSystems;
+
+	public Particle slowmotionParticle; 
 
 	public Transform spikes;
 
@@ -60,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
 	public Transform hit_base;
 
+	private bool isInit; 
+
 	public bool isHolding;
 
 	public bool holdStatus;
@@ -87,6 +91,8 @@ public class PlayerController : MonoBehaviour
 		EventManager.OnBoostStart += OnBoostStart;
 
 		EventManager.OnGameStart += OnGameStart;
+
+		EventManager.OnHoldStatus+=OnHoldStatus; 
 	}
 
 	void OnDisable()
@@ -97,11 +103,8 @@ public class PlayerController : MonoBehaviour
 
 		EventManager.OnGameStart -= OnGameStart;
 
-	}
+		EventManager.OnHoldStatus-=OnHoldStatus; 
 
-	void Start ()
-	{
-		Init();
 	}
 
 	bool gameStart;
@@ -135,8 +138,12 @@ public class PlayerController : MonoBehaviour
 
 		trialRenderer = GetComponent<TrailRenderer>();
 
+
+		//trialRenderer.SetColor(Color.white, Color.white); 
+
 		SetCurrentBase();
 
+		isInit = true; 
 
 	}
 
@@ -159,11 +166,6 @@ public class PlayerController : MonoBehaviour
 			fan.transform.position = currentBase.transform.position;
 
 			fan.Play();
-
-			// if(EventManager.OnBoostStart != null)
-			// {
-			// 	EventManager.OnBoostStart();
-			// }
 		}
 
 		if (Input.GetKeyDown(KeyCode.J))
@@ -175,12 +177,6 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if (activeBoost)
-		{
-			delay -= Time.deltaTime;
-
-			delay = Mathf.Clamp(delay, .01f, delay);
-		}
 
 	}
 
@@ -191,13 +187,12 @@ public class PlayerController : MonoBehaviour
 
 		StartCoroutine("IStartBoost");
 
-		trialRenderer.enabled = true;
-
-		//cameraController.Twirl();
 	}
 
 	private IEnumerator IStartBoost()
 	{
+
+		trialRenderer.enabled = true;
 
 
 		activeBoost = true;
@@ -226,7 +221,7 @@ public class PlayerController : MonoBehaviour
 
 		transform.position = objectSpawner.nextBase.transform.position;
 
-		Time.timeScale = .8f;
+		Time.timeScale = 2f;
 
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 
@@ -238,14 +233,10 @@ public class PlayerController : MonoBehaviour
 
 			line.Shoot();
 
-			//SetTargetBase(objectSpawner.nextBase);
 
-			//gameplayController.IncrementScore();
+			//Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 2f, ref timeVel, Time.unscaledDeltaTime * 75f);
 
-
-			Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 2f, ref timeVel, Time.unscaledDeltaTime * 75f);
-
-			Time.fixedDeltaTime = Time.timeScale * .02f;
+			//Time.fixedDeltaTime = Time.timeScale * .02f;
 
 			spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
 
@@ -262,8 +253,6 @@ public class PlayerController : MonoBehaviour
 
 		}
 
-		delay = .1f;
-
 		currentBase.shouldRotate = true;
 
 		Round();
@@ -276,15 +265,11 @@ public class PlayerController : MonoBehaviour
 
 		spikes.gameObject.SetActive(false);
 
-
-
 		boostPrism.gameObject.SetActive(false);
 
 		boostPrism.Stop();
 
-
-
-		cameraController.SetGlow(.318f);
+		//cameraController.SetGlow(.318f);
 
 		Time.timeScale = 1f;
 
@@ -293,9 +278,9 @@ public class PlayerController : MonoBehaviour
 		FindObjectOfType<CameraController>().Twirl();
 
 
-		objectSpawner.nextBase.SetColor(Color.black);
+		//objectSpawner.nextBase.SetColor(Color.black);
 
-		SetColor(Color.black);
+		//SetColor(Color.black);
 
 		trialRenderer.enabled = false;
 
@@ -383,53 +368,55 @@ public class PlayerController : MonoBehaviour
 
 				cameraController.SetYOffset(thrustDirection);
 
-				Vibration.Vibrate(GameplayController.VIBRATION_DURATION);
+				//Vibration.Vibrate(GameplayController.VIBRATION_DURATION);
 
 
-				InvertColors();
-
-				Time.timeScale = 1f;
-				Time.fixedDeltaTime = Time.timeScale * .02f;
+			//s	InvertColors();
 			}
 
-			cameraController.SetGlow(base_hit_glow);
+			SpawnEffect(); 
+
+//			cameraController.SetGlow(base_hit_glow);
 		}
 	}
 
 
-	void InvertColors()
+	// void InvertColors()
+	// {
+
+
+	// 	Color current = hit_base.GetComponent<SpriteRenderer>().color;
+
+	// 	Color invert = current.r == 0 ? Color.white : Color.black;
+
+	// 	SetColor(invert);
+
+	// 	SpawnEffect();
+	// }
+
+	public void SetColor(Color c)
 	{
-
-
-		Color current = hit_base.GetComponent<SpriteRenderer>().color;
-
-		Color invert = current.r == 0 ? Color.white : Color.black;
-
-		SetColor(invert);
-
-		SpawnEffect();
-	}
-
-	void SetColor(Color c)
-	{
+		if(!isInit)
+		{
+			Init(); 
+		}
 		for (int i = 0; i < particleSystems.Length; i++)
 		{
 			particleSystems[i].startColor = c;
 		}
 
-		currentBase.SetColor(c);
+		//currentBase.SetColor(c);
 
 		line.line.SetColors(c, c);
 
 		renderer.color = c;
-
-		SpawnEffect();
 	}
 
 
 	void SpawnEffect()
 	{
 
+		if(GameplayController.GAME_STATE != State.GAME) return; 
 
 
 		if (renderer.color.r == 0)
@@ -461,6 +448,33 @@ public class PlayerController : MonoBehaviour
 
 		this.targetLocalPosition = position;
 
+	}
+
+	void OnHoldStatus(int i)
+	{
+		if(i == 1)
+		{
+			slowmotionParticle.gameObject.SetActive(true); 
+
+			slowmotionParticle.Play(); 
+
+			slowmotionParticle.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0f)) + new Vector3(0, 0, 10); 
+		}
+		else
+		{
+			slowmotionParticle.Stop(); 
+
+			slowmotionParticle.gameObject.SetActive(false); 
+
+			if(!activeBoost)
+			{
+				
+				Time.timeScale = 1f;
+
+				Time.fixedDeltaTime = Time.timeScale * .02f;
+
+			}
+		}
 	}
 }
 

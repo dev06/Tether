@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class ScoreHandler : MonoBehaviour {
 
 
-	private Text scoreText;
+	[HideInInspector]
+	public Text scoreText;
 	private Color defaultColor;
 	private Vector3 defaultScale;
 	private float scaleMultipler = 1;
@@ -63,7 +64,7 @@ public class ScoreHandler : MonoBehaviour {
 
 	private void OnBoostStart()
 	{
-		SetColor(boostColor);
+		SetColor(defaultColor);
 		inBoost = true;
 	}
 

@@ -29,24 +29,27 @@ public class ObjectSpawner : MonoBehaviour {
 
 	private Transform obj_coingroup;
 
+	private LevelController levelController; 
+
+	private LineController lineController; 
+
+	private AudioController audioController; 
+
+	private bool isInit; 
+
 	public BaseController nextBase;
 
 	PlayerController player;
 
 	void OnEnable()
 	{
-		EventManager.OnGameStart += OnGameStart;
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnGameStart -= OnGameStart;
 	}
 
-	void OnGameStart()
-	{
-		//PositionBases();
-	}
+
 
 	void Awake()
 	{
@@ -61,25 +64,50 @@ public class ObjectSpawner : MonoBehaviour {
 
 	}
 
-	void Start ()
+
+	public void Init()
 	{
 
 		player = PlayerController.Instance;
 
+		lineController = LineController.Instance; 
+
+		levelController = LevelController.Instance; 
+
+		audioController = AudioController.Instance; 
+
 		obj_bases = GameObject.FindWithTag("Objects/bases").transform;
+
 		obj_coingroup = GameObject.FindWithTag("Objects/coingroup").transform;
 
-		InstantiateBaseObject(5, Vector2.up * 10);
+		InstantiateBaseObject(3, Vector2.up * 10);
 
+		PositionBases();	
 
-		PositionBases();
+		player.Init(); 
+
+		lineController.Init(); 
+
+		if(audioController != null)
+		{
+
+			audioController.Init(); 
+			
+		}
+
+		levelController.SetLevel(levelController.level); 
+
+		isInit = true; 
 	}
 
 	void Update()
 	{
-		FetchNextBase();
+		if(!isInit) return ; 
 
+		FetchNextBase();
 	}
+
+	
 
 
 	private void InstantiateBaseObject(int n, Vector2 initialPostion)
@@ -92,10 +120,7 @@ public class ObjectSpawner : MonoBehaviour {
 			clone.SetActive(false);
 			BaseController controller = clone.GetComponent<BaseController>();
 			BaseQueue.Add(controller);
-			if (i % 2 != 0)
-			{
-				clone.GetComponent<SpriteRenderer>().color = Color.white;
-			}
+			//clone.GetComponent<SpriteRenderer>().color = levelController.GetLevelConstants().BaseColor;
 			controller.Initialize();
 		}
 	}
@@ -168,6 +193,7 @@ public class ObjectSpawner : MonoBehaviour {
 
 	public  BaseController FetchNextBase()
 	{
+
 		BaseController nextBase = null;
 		BaseController currentBase = null;
 		for (int i = 0; i < BaseQueue.Count; i++)

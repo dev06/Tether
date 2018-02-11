@@ -29,7 +29,9 @@ public class BoostSpriteMask : MonoBehaviour {
 		if (player.activeBoost)
 		{
 			maskOffsetTimer += Time.unscaledDeltaTime;
-			transform.position = new Vector3(camera.transform.position.x + Mathf.PingPong(maskOffsetTimer * 100f, .15f) - .075f, camera.transform.position.y, 0);
+			float offset = .2f; 
+			float horizontalOffset = Mathf.PingPong(maskOffsetTimer * 100f, offset) - (offset * .5f); 
+			transform.position = new Vector3(camera.transform.position.x + horizontalOffset, camera.transform.position.y, 0);
 		}
 		transform.localScale = new Vector3(transform.localScale.x, camera.orthographicSize * 2f, 1f);
 	}
@@ -52,7 +54,7 @@ public class BoostSpriteMask : MonoBehaviour {
 	{
 		float hue = Mathf.PingPong(Time.time / 10f, 1.0f);
 		float sat = 1f;
-		float bright = .5f;
+		float bright = 1f;
 		return Color.HSVToRGB(hue, sat, bright);
 	}
 	float timer = 1f;
@@ -61,20 +63,19 @@ public class BoostSpriteMask : MonoBehaviour {
 
 		while (player.activeBoost)
 		{
-			timer += Time.unscaledDeltaTime * .3f ;
+			//timer += Time.unscaledDeltaTime * .3f ;
 			timer = Mathf.Clamp(timer, 1f, timer);
 			renderer.color = Color.white;
-			Camera.main.backgroundColor = GetColor();
+			//Camera.main.backgroundColor = GetColor();
 			circle.transform.localPosition = Vector3.zero;
 			circle.localScale = new Vector3(transform.localScale.y, transform.localScale.x, 1);
-			transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(.2f, camera.orthographicSize * 2f), Time.unscaledDeltaTime * timer);
+			transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(.3f, camera.orthographicSize * 2f), Time.unscaledDeltaTime * 2f);
 			float sy = camera.orthographicSize * 2f;
 			transform.localScale = new Vector3(transform.localScale.x, sy, 1);
 			yield return null;
 		}
 		maskOffsetTimer = 0;
 		timer = 1f;
-		//Camera.main.backgroundColor = Camera.main.GetComponent<CameraController>().defaultBackgroundColor;
 		transform.gameObject.SetActive(false);
 	}
 

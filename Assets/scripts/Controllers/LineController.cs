@@ -11,7 +11,7 @@ public class LineController : MonoBehaviour {
 
 	private Vector3 startLinePosition;
 
-
+	private bool isInit; 
 
 	private float defaultLineWidth = .08f;
 
@@ -45,7 +45,7 @@ public class LineController : MonoBehaviour {
 
 	private float length = 2.0f;
 
-	private float controlTimer = 0;
+	private float controlTimer = 0; // controls when game controls are activated upon game start 
 
 	private float holdStartDelayTimer;
 
@@ -64,7 +64,8 @@ public class LineController : MonoBehaviour {
 			DestroyImmediate(gameObject);
 		}
 	}
-	void Start ()
+
+	public void Init()
 	{
 		line = GetComponent<LineRenderer>();
 
@@ -82,7 +83,12 @@ public class LineController : MonoBehaviour {
 
 		gameplayController = GameplayController.Instance;
 
-		line.startWidth = line.endWidth = 0;
+		line.startWidth = line.endWidth = 0;	
+
+		isInit = true; 
+	}
+	void Start ()
+	{
 	}
 
 	float timeVel;
@@ -146,10 +152,11 @@ public class LineController : MonoBehaviour {
 		{
 
 			player.isHolding = false ;
+			
 			holdStartDelayTimer = 0;
-			Time.timeScale = 1f;
-			Time.fixedDeltaTime = Time.timeScale * .02f;
+			
 			Shoot();
+
 			if (inSlowmo)
 			{
 				if (EventManager.OnHoldStatus != null)
@@ -157,6 +164,7 @@ public class LineController : MonoBehaviour {
 					EventManager.OnHoldStatus(0);
 				}
 			}
+
 			inSlowmo = false;
 		}
 	}
@@ -168,26 +176,6 @@ public class LineController : MonoBehaviour {
 	}
 
 	public LayerMask layer, allHit;
-
-	private IEnumerator IStartPowerUp()
-	{
-
-		yield return null;
-
-		player.activeBoost = true;
-
-		player.bsm.Activate();
-
-		Time.timeScale = .7f;
-
-		Time.fixedDeltaTime = Time.timeScale * .02f;
-
-		if (EventManager.OnBoostStart != null)
-		{
-			EventManager.OnBoostStart();
-		}
-
-	}
 
 
 
@@ -210,9 +198,11 @@ public class LineController : MonoBehaviour {
 
 					all.transform.gameObject.SetActive(false);
 
-					StopCoroutine("IStartPowerUp");
 
-					StartCoroutine("IStartPowerUp");
+					if (EventManager.OnBoostStart != null)
+					{
+						EventManager.OnBoostStart();
+					}
 
 				}
 			}
@@ -246,14 +236,8 @@ public class LineController : MonoBehaviour {
 			line.endWidth = .25f;
 
 			player.hit_base = hit.transform;
-			//Camera.main.GetComponent<CameraController>().SetYOffset(transform.right * 20f);
 
 			player.thrustDirection = transform.right * Random.Range(5f, 11f);
-
-			Camera.main.GetComponent<CameraController>().SetYOffset(-player.thrustDirection * .5f);
-
-
-
 
 			object[] objs = new object[2] {hit.transform.GetComponent<BaseController>(), hit.point};
 
@@ -274,8 +258,6 @@ public class LineController : MonoBehaviour {
 
 		if (!hitSomething)
 		{
-			Time.timeScale = 1f;
-			Time.fixedDeltaTime = Time.timeScale * .02f;
 
 			StopCoroutine("Retract");
 
@@ -344,7 +326,7 @@ public class LineController : MonoBehaviour {
 		while (Mathf.Abs(Vector2.Distance(hitPosition, startLinePosition)) > .01f)
 		{
 
-			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.deltaTime * 20f);
+			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.unscaledDeltaTime * 20f);
 
 			player.SetLocation(startLinePosition);
 

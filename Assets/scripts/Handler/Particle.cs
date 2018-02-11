@@ -58,4 +58,9 @@ public class Particle : MonoBehaviour {
 	{
 		transform.position = position;
 	}
+
+	public void SetStartColor(Color c)
+	{
+		particle.startColor = c; 
+	}
 }
