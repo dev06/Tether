@@ -29,13 +29,13 @@ public class ObjectSpawner : MonoBehaviour {
 
 	private Transform obj_coingroup;
 
-	private LevelController levelController; 
+	private LevelController levelController;
 
-	private LineController lineController; 
+	private LineController lineController;
 
-	private AudioController audioController; 
+	private AudioController audioController;
 
-	private bool isInit; 
+	private bool isInit;
 
 	public BaseController nextBase;
 
@@ -70,11 +70,11 @@ public class ObjectSpawner : MonoBehaviour {
 
 		player = PlayerController.Instance;
 
-		lineController = LineController.Instance; 
+		lineController = LineController.Instance;
 
-		levelController = LevelController.Instance; 
+		levelController = LevelController.Instance;
 
-		audioController = AudioController.Instance; 
+		audioController = AudioController.Instance;
 
 		obj_bases = GameObject.FindWithTag("Objects/bases").transform;
 
@@ -82,32 +82,32 @@ public class ObjectSpawner : MonoBehaviour {
 
 		InstantiateBaseObject(3, Vector2.up * 10);
 
-		PositionBases();	
+		PositionBases();
 
-		player.Init(); 
+		player.Init();
 
-		lineController.Init(); 
+		lineController.Init();
 
-		if(audioController != null)
+		if (audioController != null)
 		{
 
-			audioController.Init(); 
-			
+			audioController.Init();
+
 		}
 
-		levelController.SetLevel(levelController.level); 
+		levelController.SetLevel(levelController.level);
 
-		isInit = true; 
+		isInit = true;
 	}
 
 	void Update()
 	{
-		if(!isInit) return ; 
+		if (!isInit) { return ; }
 
 		FetchNextBase();
 	}
 
-	
+
 
 
 	private void InstantiateBaseObject(int n, Vector2 initialPostion)
