@@ -33,20 +33,20 @@ public class Menu : ParentUI {
 	{
 		if (GameplayController.GAME_STATE != State.MENU) { return; }
 
-		if (Input.GetMouseButtonUp(0))
-		{
-			Hide();
+		// if (Input.GetMouseButtonUp(0))
+		// {
+		// 	Hide();
 
 
 
-			GameplayController.SetState(State.GAME);
+		// 	GameplayController.SetState(State.GAME);
 
 
-			if (EventManager.OnGameStart != null)
-			{
-				EventManager.OnGameStart();
-			}
-		}
+		// 	if (EventManager.OnGameStart != null)
+		// 	{
+		// 		EventManager.OnGameStart();
+		// 	}
+		// }
 	}
 
 	public virtual void Show()

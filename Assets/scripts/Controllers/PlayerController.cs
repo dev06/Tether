@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
 	public ParticleSystem[] particleSystems;
 
-	public Particle slowmotionParticle; 
+	public Particle slowmotionParticle;
 
 	public Transform spikes;
 
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
 	public Transform hit_base;
 
-	private bool isInit; 
+	private bool isInit;
 
 	public bool isHolding;
 
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
 		EventManager.OnGameStart += OnGameStart;
 
-		EventManager.OnHoldStatus+=OnHoldStatus; 
+		EventManager.OnHoldStatus += OnHoldStatus;
 	}
 
 	void OnDisable()
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
 		EventManager.OnGameStart -= OnGameStart;
 
-		EventManager.OnHoldStatus-=OnHoldStatus; 
+		EventManager.OnHoldStatus -= OnHoldStatus;
 
 	}
 
@@ -139,11 +139,11 @@ public class PlayerController : MonoBehaviour
 		trialRenderer = GetComponent<TrailRenderer>();
 
 
-		//trialRenderer.SetColor(Color.white, Color.white); 
+		//trialRenderer.SetColor(Color.white, Color.white);
 
 		SetCurrentBase();
 
-		isInit = true; 
+		isInit = true;
 
 	}
 
@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
 
 			spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
 
-			boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, .1f)) + new Vector3(0,0,1f);
+			boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, .1f)) + new Vector3(0, 0, 1f);
 
 
 			float shake = Random.Range(3.5f, 4.0f);
@@ -371,12 +371,12 @@ public class PlayerController : MonoBehaviour
 				//Vibration.Vibrate(GameplayController.VIBRATION_DURATION);
 
 
-			//s	InvertColors();
+				//s	InvertColors();
 			}
 
-			SpawnEffect(); 
+			SpawnEffect();
 
-//			cameraController.SetGlow(base_hit_glow);
+			//			cameraController.SetGlow(base_hit_glow);
 		}
 	}
 
@@ -396,9 +396,9 @@ public class PlayerController : MonoBehaviour
 
 	public void SetColor(Color c)
 	{
-		if(!isInit)
+		if (!isInit)
 		{
-			Init(); 
+			Init();
 		}
 		for (int i = 0; i < particleSystems.Length; i++)
 		{
@@ -416,12 +416,12 @@ public class PlayerController : MonoBehaviour
 	void SpawnEffect()
 	{
 
-		if(GameplayController.GAME_STATE != State.GAME) return; 
+		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
 
 		if (renderer.color.r == 0)
 		{
-			objectSpawner.SpawnParticle(ParticleType.SMOKE, currentBase.transform.position);
+			//objectSpawner.SpawnParticle(ParticleType.SMOKE, currentBase.transform.position);
 
 			blackBase.transform.position = currentBase.transform.position;
 
@@ -452,23 +452,23 @@ public class PlayerController : MonoBehaviour
 
 	void OnHoldStatus(int i)
 	{
-		if(i == 1)
+		if (i == 1)
 		{
-			slowmotionParticle.gameObject.SetActive(true); 
+			slowmotionParticle.gameObject.SetActive(true);
 
-			slowmotionParticle.Play(); 
+			slowmotionParticle.Play();
 
-			slowmotionParticle.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0f)) + new Vector3(0, 0, 10); 
+			slowmotionParticle.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0f)) + new Vector3(0, 0, 10);
 		}
 		else
 		{
-			slowmotionParticle.Stop(); 
+			slowmotionParticle.Stop();
 
-			slowmotionParticle.gameObject.SetActive(false); 
+			slowmotionParticle.gameObject.SetActive(false);
 
-			if(!activeBoost)
+			if (!activeBoost)
 			{
-				
+
 				Time.timeScale = 1f;
 
 				Time.fixedDeltaTime = Time.timeScale * .02f;

@@ -10,13 +10,13 @@ public class CameraController : MonoBehaviour {
 
 	public Color defaultBackgroundColor;
 
-	public ParticleSystem menuParticleSystem; 
+	public ParticleSystem menuParticleSystem;
 
-	private ParticleSystem.ShapeModule shapeModule; 
+	private ParticleSystem.ShapeModule shapeModule;
 
 	public Transform backgroundSmoke;
 
-	public bool isMoving; 
+	public bool isMoving;
 
 	private float jitterAmount;
 
@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour {
 
 	private Twirl[] twirl;
 
-	private float prevY; 
+	private float prevY;
 
 
 
@@ -86,6 +86,7 @@ public class CameraController : MonoBehaviour {
 	void Start ()
 	{
 
+
 		camera = Camera.main;
 
 		player = PlayerController.Instance;
@@ -110,36 +111,36 @@ public class CameraController : MonoBehaviour {
 
 		ToggleTwirl(false);
 
-		shapeModule = menuParticleSystem.shape; 
+		shapeModule = menuParticleSystem.shape;
 
-		menuParticleSystem.transform.position = camera.ViewportToWorldPoint(new Vector2(.5f, .5f)) + Vector3.forward; 
+		menuParticleSystem.transform.position = camera.ViewportToWorldPoint(new Vector2(.5f, 0f)) + Vector3.forward;
 
 	}
 
 	void FixedUpdate ()
 	{
-		if(Mathf.Abs((int)transform.position.y - (int)prevY) > 0)
+		if (Mathf.Abs((int)transform.position.y - (int)prevY) > 0)
 		{
-			isMoving = true; 
+			isMoving = true;
 
-			prevY = transform.position.y; 
+			prevY = transform.position.y;
 		}
 		else
 		{
-			isMoving = false; 
+			isMoving = false;
 		}
 
-		shapeModule.radius = camera.orthographicSize / 2.0f; 
+		shapeModule.radius = camera.orthographicSize / 2.0f;
 
 
 
-		if(!player.activeBoost)
+		if (!player.activeBoost)
 		{
-			boostShakeTimer = 0; 
+			boostShakeTimer = 0;
 		}
 		else
 		{
-			boostShakeTimer+=Time.unscaledDeltaTime; 
+			boostShakeTimer += Time.unscaledDeltaTime;
 		}
 
 		if (Input.GetKeyDown(KeyCode.R))
@@ -200,7 +201,7 @@ public class CameraController : MonoBehaviour {
 	{
 		//SetGlow(.118f);
 
-		menuParticleSystem.Stop(); 
+		menuParticleSystem.Stop();
 	}
 
 	void OnGameOver()
@@ -229,8 +230,8 @@ public class CameraController : MonoBehaviour {
 
 	float BoostShake()
 	{
-		float offset = 5f; 
-		return Mathf.PingPong(boostShakeTimer * 100f, offset) - (offset * .5f); 
+		float offset = 5f;
+		return Mathf.PingPong(boostShakeTimer * 100f, offset) - (offset * .5f);
 	}
 
 	Vector2 JitterCamera()
@@ -291,7 +292,7 @@ public class CameraController : MonoBehaviour {
 
 	IEnumerator ICameraLerpColor()
 	{
-		defaultBackgroundColor = camera.backgroundColor; 
+		defaultBackgroundColor = camera.backgroundColor;
 		camera.backgroundColor = Color.white;
 
 		while (camera.backgroundColor != defaultBackgroundColor)
