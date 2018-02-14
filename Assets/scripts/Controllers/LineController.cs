@@ -11,7 +11,7 @@ public class LineController : MonoBehaviour {
 
 	private Vector3 startLinePosition;
 
-	private bool isInit; 
+	private bool isInit;
 
 	private float defaultLineWidth = .08f;
 
@@ -45,7 +45,7 @@ public class LineController : MonoBehaviour {
 
 	private float length = 2.0f;
 
-	private float controlTimer = 0; // controls when game controls are activated upon game start 
+	private float controlTimer = 0; // controls when game controls are activated upon game start
 
 	private float holdStartDelayTimer;
 
@@ -83,9 +83,9 @@ public class LineController : MonoBehaviour {
 
 		gameplayController = GameplayController.Instance;
 
-		line.startWidth = line.endWidth = 0;	
+		line.startWidth = line.endWidth = 0;
 
-		isInit = true; 
+		isInit = true;
 	}
 	void Start ()
 	{
@@ -152,9 +152,9 @@ public class LineController : MonoBehaviour {
 		{
 
 			player.isHolding = false ;
-			
+
 			holdStartDelayTimer = 0;
-			
+
 			Shoot();
 
 			if (inSlowmo)

@@ -90,12 +90,8 @@ public class ObjectSpawner : MonoBehaviour {
 
 		if (audioController != null)
 		{
-
 			audioController.Init();
-
 		}
-
-		levelController.SetLevel(levelController.level);
 
 		isInit = true;
 	}
@@ -157,7 +153,7 @@ public class ObjectSpawner : MonoBehaviour {
 			if (previousBase != null)
 			{
 				float xRange = Random.Range(-1.15f, 2.15f);
-				float yRange = Random.Range(4f, 6f);
+				float yRange = Random.Range(5f, 7f);
 				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
 			}
 

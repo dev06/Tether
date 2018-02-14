@@ -36,9 +36,11 @@ public class Menu : ParentUI {
 	}
 
 
-	public void StartGame()
+	public void StartGame(Level level)
 	{
 		Hide();
+
+		LevelController.Instance.SetLevel(level);
 
 		GameplayController.SetState(State.GAME);
 

@@ -4,64 +4,100 @@ using UnityEngine;
 using UnityEngine.UI;
 public class LevelSelectUI : MonoBehaviour {
 
+
 	public CanvasScaler scaler;
+
+	public Transform LevelSelectHUD;
+
 	private Vector3 lastMousePosition;
+
 	private Vector3 mousePositionDown;
+
 	private Vector3 mousePositionUp;
+
+	private float targetPosition;
+
+	private float nextSwipeThreshold = .2f;
+
+	private float tapThreshold = 10f;
+
+	private float swipeSmoothTime = 1.5f;
+
 	private float distanceVel;
+
+	private float delta;
+
+	private int holdIndex;
+
+	private bool isHolding;
+
 	private int index;
+
 	private float range;
-	private float size;
+
+	private float hudDefaultScale = .15f;
+
+	private float hudSelectedScale = .25f;
+
 	private Menu menu;
-	// Use this for initialization
+
 	void Start ()
 	{
 		menu = FindObjectOfType<Menu>();
 	}
 
-	private float mouseDown;
-	float vv;
-	float delta;
-	int holdIndex;
-	bool isHolding;
+
+
 	void Update ()
 	{
 
+		if (GameplayController.GAME_STATE != State.MENU) { return; }
 
 		if (Input.GetMouseButtonDown(0))
 		{
+
 			isHolding = true;
+
 			holdIndex = index;
+
 			mousePositionDown = Input.mousePosition;
+
 			lastMousePosition = Input.mousePosition;
 
 		}
 
 		if (Input.GetMouseButtonUp(0))
 		{
+
 			mousePositionUp = Input.mousePosition;
+
 			delta = mousePositionUp.x - mousePositionDown.x;
+
 			isHolding = false;
 
-			float mag = Mathf.Abs(delta);
-			if (mag < 10)
+			float magnitude = Mathf.Abs(delta);
+
+			if (magnitude < tapThreshold)
 			{
 
+
 				transform.gameObject.SetActive(false);
-				menu.StartGame();
+
+				Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
+
+				GameplayController.LevelIndex = index;
+
+				menu.StartGame(level);
 			}
-			if (mag < .20f * Screen.width) {
+
+			if (magnitude < nextSwipeThreshold * Screen.width) {
+
 				range = -holdIndex * Screen.width;
+
 				return;
 			}
-			if (delta < 0)
-			{
-				index++;
-			}
-			if (delta > 0)
-			{
-				index--;
-			}
+
+			index = delta < 0 ? index + 1 : delta > 0 ? index - 1 : index;
 
 			index = Mathf.Clamp(index, 0, transform.childCount);
 
@@ -72,74 +108,42 @@ public class LevelSelectUI : MonoBehaviour {
 
 		if (isHolding)
 		{
-			float mx = Input.mousePosition.x;
-			range += ((mx - lastMousePosition.x));
+			range += (( Input.mousePosition.x - lastMousePosition.x));
 		}
 
 
-		vv = Mathf.SmoothDamp(vv, range, ref distanceVel, Time.unscaledDeltaTime * 2f);
+		targetPosition = Mathf.SmoothDamp(targetPosition, range, ref distanceVel, Time.unscaledDeltaTime * swipeSmoothTime);
 
-		transform.localPosition = new Vector2((vv * 800f) / Screen.width, 0);
+		transform.localPosition = new Vector2((targetPosition * scaler.referenceResolution.x) / Screen.width, 0);
 
-		float x = Mathf.Clamp(transform.localPosition.x, -transform.childCount * 800f, 0);
-		transform.localPosition = new Vector2(x, 0);
+		float xClamp = Mathf.Clamp(transform.localPosition.x, -transform.childCount * scaler.referenceResolution.x, 0);
+
+		transform.localPosition = new Vector2(xClamp, 0);
+
 		if (isHolding)
 		{
 			lastMousePosition = Input.mousePosition;
 		}
+
+
+	}
+
+
+	private void UpdateLevelHUDScale()
+	{
+		if (LevelSelectHUD == null)
+		{
+			Debug.LogError("Level Select HUD is null.");
+			return;
+		}
+	}
+
+	public int LevelIndex
+	{
+		get
+		{
+			return index;
+		}
 	}
 
 }
-
-
-
-
-
-// if (Input.GetMouseButtonDown(0))
-// {
-// 	isHolding = true;
-// 	mouseDown = Input.mousePosition.x;
-// 	holdIndex = index;
-// }
-
-// if (Input.GetMouseButtonUp(0))
-// {
-// 	isHolding = false;
-// 	delta = Input.mousePosition.x - mouseDown;
-
-// 	float mag = Mathf.Abs(delta);
-// 	if (mag < .20f * Screen.width) {
-// 		range = -holdIndex * Screen.width;
-// 		return;
-// 	}
-// 	if (delta < 0)
-// 	{
-// 		index++;
-// 	}
-// 	if (delta > 0)
-// 	{
-// 		index--;
-// 	}
-
-// 	index = Mathf.Clamp(index, 0, transform.childCount);
-
-// 	range = -index * Screen.width;
-// }
-
-// if (isHolding)
-// {
-// 	// float diff = Mathf.Abs(mx - lastMousePosition.x);
-// 	float mx = Input.mousePosition.x;
-// 	range += ((mx - lastMousePosition.x));
-
-// }
-
-// //	Debug.LogError(range);
-
-// vv = Mathf.SmoothDamp(vv, range, ref distanceVel, Time.unscaledDeltaTime * 3f);
-
-// transform.localPosition = new Vector2((vv * 800f) / Screen.width, 0);
-
-// float x = Mathf.Clamp(transform.localPosition.x, -transform.childCount * 800f, 0);
-// transform.localPosition = new Vector2(x, 0);
-// lastMousePosition = Input.mousePosition;

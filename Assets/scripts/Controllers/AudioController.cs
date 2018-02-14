@@ -7,7 +7,7 @@ public class AudioController : MonoBehaviour {
 
 	public static AudioController Instance;
 
-	public float slowmot_pitch = .85f; 
+	public float slowmot_pitch = .85f;
 
 	private Mixer mixer;
 
@@ -15,9 +15,9 @@ public class AudioController : MonoBehaviour {
 
 	private AudioSource source;
 
-	private float slowmo_freq = 150f;
+	private float slowmo_freq = 300f;
 
-	private float default_freq = 1500f;
+	private float default_freq = 950;
 
 
 	void Awake()

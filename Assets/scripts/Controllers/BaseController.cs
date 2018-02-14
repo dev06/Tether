@@ -15,9 +15,9 @@ public class BaseController : MonoBehaviour {
 
 	public static float VELOCITY_SCALE = 1f;
 
-	public static float DEFAULT_MIN_SCALE = .8F;
+	public static float DEFAULT_MIN_SCALE = 1.1F;
 
-	public static float DEFAULT_MAX_SCALE = 2f;
+	public static float DEFAULT_MAX_SCALE = 3f;
 
 
 
@@ -212,15 +212,17 @@ public class BaseController : MonoBehaviour {
 
 		xRange = Mathf.Clamp(xRange, -3.5f, 3.5f);
 
-		float yRange = Random.Range(4f, 6f) * GameplayController.DIFFICULTY * .2F;
+		Vector2 yRangeValues = new Vector2(7f, 9f);
 
-		yRange = Mathf.Clamp(yRange, 4f, 6f);
+		float yRange = Random.Range(yRangeValues.x, yRangeValues.y) * GameplayController.DIFFICULTY * .2F;
+
+		yRange = Mathf.Clamp(yRange, yRangeValues.x, yRangeValues.y);
 
 		transform.position = lastBase.transform.position + new Vector3(xRange, yRange, 0);
 
 		transform.SetSiblingIndex(transform.parent.childCount - 1);
 
-		float scale = DEFAULT_MAX_SCALE - (GameplayController.DIFFICULTY * .08F) + Random.Range(-.5f, 1f);
+		float scale = DEFAULT_MAX_SCALE - (GameplayController.DIFFICULTY * .2F);
 
 		scale = Mathf.Clamp(scale, DEFAULT_MIN_SCALE, DEFAULT_MAX_SCALE);
 

@@ -10,7 +10,9 @@ public class GameplayController : MonoBehaviour
 
 	public static int SCORE = 0;
 
-	public static Level Level; 
+	public static Level Level;
+
+	public static int LevelIndex;
 
 	public static State GAME_STATE = State.MENU;
 
@@ -65,7 +67,7 @@ public class GameplayController : MonoBehaviour
 	{
 		Application.targetFrameRate = 60;
 
-		ObjectSpawner.Instance.Init(); 
+		ObjectSpawner.Instance.Init();
 
 	}
 
@@ -107,6 +109,7 @@ public class GameplayController : MonoBehaviour
 		DIFFICULTY = Mathf.Log(SCORE);
 		DIFFICULTY = Mathf.Clamp(DIFFICULTY, 0, 10F);
 	}
+
 }
 
 
