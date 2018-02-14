@@ -28,7 +28,6 @@ public class LevelSelectUI : MonoBehaviour {
 	{
 
 
-
 		if (Input.GetMouseButtonDown(0))
 		{
 			isHolding = true;
