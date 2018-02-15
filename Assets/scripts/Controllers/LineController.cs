@@ -13,7 +13,7 @@ public class LineController : MonoBehaviour {
 
 	private bool isInit;
 
-	private float defaultLineWidth = .08f;
+	private float defaultLineWidth = .13f;
 
 	private float lineWidthVel;
 
@@ -233,7 +233,7 @@ public class LineController : MonoBehaviour {
 
 			endLinePosition = hit.point;
 
-			line.endWidth = .25f;
+			line.endWidth = .5f;
 
 			player.hit_base = hit.transform;
 
