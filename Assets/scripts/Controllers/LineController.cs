@@ -53,6 +53,18 @@ public class LineController : MonoBehaviour {
 
 	private bool pressed;
 
+	void OnEnable()
+	{
+		EventManager.OnUnpause +=OnUnpause; 
+	}
+
+	void OnDisable()
+	{
+		EventManager.OnUnpause -=OnUnpause; 
+	}
+
+
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -95,6 +107,8 @@ public class LineController : MonoBehaviour {
 
 	void Update ()
 	{
+		if(GameplayController.GAME_STATE == State.PAUSE) return; 
+
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
 		if (controlTimer < 1)
@@ -178,26 +192,24 @@ public class LineController : MonoBehaviour {
 	public LayerMask layer, allHit;
 
 
-
 	public void Shoot()
 	{
 		if (attached) { return; }
 
-		float tether_legth = 15f;
+		float tether_legth = 30f;
 
 		RaycastHit2D hit = Physics2D.Raycast(transform.position,  transform.right, tether_legth, layer);
 
 		if (!player.activeBoost)
 		{
-			RaycastHit2D all = Physics2D.Raycast(transform.position,  transform.right, tether_legth, allHit);
+			RaycastHit2D all = Physics2D.Raycast(transform.position,  transform.right, tether_legth / 2f, layer);
 
 			if (all.collider != null)
 			{
-				if (all.transform.gameObject.tag == "Objects/powerup" && !player.activeBoost)
+				if (all.transform.gameObject.tag == "Objects/powerup")
 				{
 
 					all.transform.gameObject.SetActive(false);
-
 
 					if (EventManager.OnBoostStart != null)
 					{
@@ -222,7 +234,7 @@ public class LineController : MonoBehaviour {
 
 		line.startWidth = line.endWidth = defaultLineWidth;
 
-		if (hit.collider != null)
+		if (hitSomething)
 		{
 
 			float a = CalculateAngle(hit.point, hit.transform.position);
@@ -237,7 +249,7 @@ public class LineController : MonoBehaviour {
 
 			player.hit_base = hit.transform;
 
-			player.thrustDirection = transform.right * Random.Range(5f, 11f);
+			player.thrustDirection = transform.right * 15f;
 
 			object[] objs = new object[2] {hit.transform.GetComponent<BaseController>(), hit.point};
 
@@ -247,6 +259,9 @@ public class LineController : MonoBehaviour {
 
 			StartCoroutine("Attach", objs);
 
+			Color color = GameplayController.LevelIndex == 0 ? Color.white : Color.black; 
+
+			objectSpawner.SpawnParticle(ParticleType.ONLINEHITBASE, hit.point, color); 
 		}
 		else
 		{
@@ -386,8 +401,16 @@ public class LineController : MonoBehaviour {
 
 			yield return null;
 		}
+	}
 
+	private void LockControl()
+	{
+		controlTimer = 0; 
+	}
 
+	private void OnUnpause()
+	{
+		LockControl(); 
 	}
 
 }

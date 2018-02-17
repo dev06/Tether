@@ -9,16 +9,24 @@ public class Flash : MonoBehaviour {
 	void OnEnable()
 	{
 		EventManager.OnGameStart += OnGameStart;
+		EventManager.OnStateChange+=OnStateChange; 
 	}
 	void OnDisable()
 	{
 		EventManager.OnGameStart -= OnGameStart;
+		EventManager.OnStateChange-=OnStateChange; 
 	}
 
 	void OnGameStart()
 	{
+	}
+
+	void OnStateChange(State s)
+	{
+		if(s == State.SETTING) return; 
+
 		StopCoroutine("Fade");
-		StartCoroutine("Fade");
+		StartCoroutine("Fade");	
 	}
 	void Start ()
 	{

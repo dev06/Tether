@@ -41,8 +41,9 @@ public class LevelController : MonoBehaviour {
 
 	private ScoreHandler scoreHandler;
 
-
 	private PlayerController playerController;
+
+	private Image pauseButton; 
 
 
 	void Awake()
@@ -57,6 +58,7 @@ public class LevelController : MonoBehaviour {
 		}
 	}
 
+
 	public void Init()
 	{
 		camera = Camera.main;
@@ -66,6 +68,7 @@ public class LevelController : MonoBehaviour {
 		scoreHandler = FindObjectOfType<ScoreHandler>();
 		particles = GameObject.FindGameObjectsWithTag("Particles/slowmo_1");
 		playerController = PlayerController.Instance;
+		pauseButton = GameObject.FindWithTag("Button/Pause").GetComponent<Image>(); 
 		isInit = true;
 	}
 
@@ -121,6 +124,8 @@ public class LevelController : MonoBehaviour {
 
 		scoreHandler.scoreText.color = palette[p_acc];
 
+		pauseButton.color = palette[p_acc]; 
+
 
 		for (int i = 0; i < bases.childCount; i++)
 		{
@@ -149,6 +154,28 @@ public class LevelController : MonoBehaviour {
 
 			p.SetStartColor(palette[p_acc]);
 		}
+	}
+
+	public Color GetColor(string key)
+	{
+		switch(key)
+		{
+			case "accent": 
+			{
+				if(level == Level.LEVEL1)
+				{
+					return Constants.Level1_Accent; 
+				}
+				else if(level == Level.LEVEL2)
+				{
+					return Constants.Level2_Accent; 
+				}
+				break; 
+
+			}
+		}
+
+		return Color.blue; 
 	}
 
 	// void OnValidate()

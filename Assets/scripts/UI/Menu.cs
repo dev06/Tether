@@ -31,6 +31,10 @@ public class Menu : ParentUI {
 
 	void Update ()
 	{
+		if(Input.GetKeyDown(KeyCode.U))
+		{
+			GameplayController.SetState(State.CREDIT); 
+		}
 		if (GameplayController.GAME_STATE != State.MENU) { return; }
 
 	}

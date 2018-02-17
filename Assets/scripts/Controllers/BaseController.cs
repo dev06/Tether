@@ -78,6 +78,8 @@ public class BaseController : MonoBehaviour {
 	}
 	void Update()
 	{
+		if(GameplayController.GAME_STATE == State.PAUSE) return; 
+
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
 		renderer.material.SetColor("Glow Color", renderer.color);

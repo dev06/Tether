@@ -19,9 +19,13 @@ public class ObjectSpawner : MonoBehaviour {
 
 	public int powerup_index = 0;
 
+	public int  onLineHitBase_index = 0; 
+
 	public Transform Particle_Boom;
 
 	public Transform Particle_Smoke;
+
+	public Transform Partilce_OnLineHitBase; 
 
 	public Transform obj_powerup;
 
@@ -234,6 +238,18 @@ public class ObjectSpawner : MonoBehaviour {
 				}
 				break;
 			}
+
+			case ParticleType.ONLINEHITBASE:
+			{
+				Partilce_OnLineHitBase.transform.GetChild(onLineHitBase_index).GetComponent<Particle>().Play(position, c); 
+				
+				onLineHitBase_index++; 
+				if(onLineHitBase_index > Partilce_OnLineHitBase.childCount -1)
+				{
+					onLineHitBase_index = 0; 
+				}
+				break; 
+			}
 		}
 	}
 
@@ -285,5 +301,6 @@ public enum ParticleType
 	BOOM,
 	EFFECT,
 	SMOKE,
+	ONLINEHITBASE,
 
 }

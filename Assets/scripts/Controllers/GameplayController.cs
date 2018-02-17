@@ -22,6 +22,8 @@ public class GameplayController : MonoBehaviour
 
 	public static long VIBRATION_DURATION = 5;
 
+	private bool isPaused; 
+
 	public static void SetState(State s)
 	{
 		GAME_STATE = s;
@@ -110,6 +112,42 @@ public class GameplayController : MonoBehaviour
 		DIFFICULTY = Mathf.Clamp(DIFFICULTY, 0, 10F);
 	}
 
+	public void TogglePause(bool b)
+	{
+		this.isPaused = b;  
+
+
+
+		if(isPaused)
+		{
+			if(EventManager.OnPause != null)
+			{
+				EventManager.OnPause();
+			}
+
+			GAME_STATE = State.PAUSE; 
+		}
+		else if(!isPaused)
+		{
+			if(EventManager.OnUnpause != null)
+			{
+				EventManager.OnUnpause(); 
+			}
+
+			GAME_STATE = State.GAME; 
+		}
+
+
+	}	
+
+	public bool Paused
+	{
+		get
+		{
+			return isPaused; 
+		}
+	}
+
 }
 
 
@@ -117,5 +155,8 @@ public enum State
 {
 	MENU,
 	GAME,
+	PAUSE,
+	CREDIT,
+	SETTING,
 }
 

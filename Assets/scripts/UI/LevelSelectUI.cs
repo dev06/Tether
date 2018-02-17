@@ -41,18 +41,65 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private Menu menu;
 
+	private LevelController levelController; 
+
+	private float controlTimer = 0; 
+
+	private SettingPanel settingPanel; 
+
+	private bool canStartGame; 
+
+	private float magnitude; 
+
 	void Start ()
 	{
 		menu = FindObjectOfType<Menu>();
+
+		settingPanel = FindObjectOfType<SettingPanel>(); 
+
+		levelController =LevelController.Instance; 
 	}
 
+	void OnEnable()
+	{
+		EventManager.OnStateChange+=OnStateChange; 
+
+	}
+
+	void OnDisable()
+	{
+		EventManager.OnStateChange-=OnStateChange; 
+	}
+
+	void OnStateChange(State s)
+	{
+		StopCoroutine("IStartControlTimer"); 
+		StartCoroutine("IStartControlTimer"); 
+	}
+
+	private IEnumerator IStartControlTimer()
+	{
+		controlTimer = 0; 
+
+		while(controlTimer < 1)
+		{
+			controlTimer+=Time.unscaledDeltaTime; 
+			yield return null; 
+		}
+	}
 
 
 	void Update ()
 	{
 
+
 		if (GameplayController.GAME_STATE != State.MENU) { return; }
 
+		if(controlTimer < .8f) 
+		{
+			isHolding= false;
+			return;
+		} 
 		if (Input.GetMouseButtonDown(0))
 		{
 
@@ -66,6 +113,9 @@ public class LevelSelectUI : MonoBehaviour {
 
 		}
 
+
+
+		//if(10 > 3) return; 
 		if (Input.GetMouseButtonUp(0))
 		{
 
@@ -75,19 +125,24 @@ public class LevelSelectUI : MonoBehaviour {
 
 			isHolding = false;
 
-			float magnitude = Mathf.Abs(delta);
+			magnitude = Mathf.Abs(delta);
+
+
+			canStartGame = magnitude < tapThreshold; 
 
 			if (magnitude < tapThreshold)
 			{
 
+				Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
+
+				levelController.SetLevel(level); 
 
 				transform.gameObject.SetActive(false);
 
-				Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
-
 				GameplayController.LevelIndex = index;
 
-				menu.StartGame(level);
+			//	menu.StartGame(level);
+
 			}
 
 			if (magnitude < nextSwipeThreshold * Screen.width) {
@@ -126,6 +181,48 @@ public class LevelSelectUI : MonoBehaviour {
 		}
 
 
+	}
+
+	public void StartGame()
+	{
+		mousePositionUp = Input.mousePosition;
+
+		delta = mousePositionUp.x - mousePositionDown.x;
+
+		isHolding = false;
+
+		magnitude = Mathf.Abs(delta);
+
+
+		canStartGame = magnitude < tapThreshold; 
+
+		if (magnitude < tapThreshold)
+		{
+
+			Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
+
+			levelController.SetLevel(level); 
+
+			transform.gameObject.SetActive(false);
+
+			GameplayController.LevelIndex = index;
+
+		//	menu.StartGame(level);
+
+		}
+
+		if (magnitude < nextSwipeThreshold * Screen.width) {
+
+			range = -holdIndex * Screen.width;
+
+			return;
+		}
+
+		index = delta < 0 ? index + 1 : delta > 0 ? index - 1 : index;
+
+		index = Mathf.Clamp(index, 0, transform.childCount);
+
+		range = -index * Screen.width;
 	}
 
 

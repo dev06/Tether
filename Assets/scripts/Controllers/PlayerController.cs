@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
 	public ParticleSystem[] particleSystems;
 
-	public Particle slowmotionParticle;
+	public Particle slowmotionParticle, onLineHitBase;
 
 	public Transform spikes;
 
@@ -150,7 +150,15 @@ public class PlayerController : MonoBehaviour
 
 	void Update ()
 	{
+
+		if(GameplayController.GAME_STATE == State.PAUSE) 
+		{
+
+			return; 
+		} 
+
 		if (currentBase == null) { return; }
+
 
 		transform.right = transform.position - currentBase.transform.position;
 
@@ -367,13 +375,8 @@ public class PlayerController : MonoBehaviour
 				cameraController.Jitter(shake, shrinkFactor);
 
 				cameraController.SetYOffset(thrustDirection);
-
-				//Vibration.Vibrate(GameplayController.VIBRATION_DURATION);
-
-
-				//s	InvertColors();
 			}
-
+			
 			SpawnEffect();
 
 			//			cameraController.SetGlow(base_hit_glow);

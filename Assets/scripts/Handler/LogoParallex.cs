@@ -15,7 +15,6 @@ public class LogoParallex : MonoBehaviour {
 
 	void Update ()
 	{
-		if (!shouldMove) { return; }
 		if (outSide())
 		{
 			gameObject.SetActive(false);

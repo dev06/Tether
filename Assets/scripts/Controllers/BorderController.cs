@@ -6,7 +6,7 @@ public class BorderController : MonoBehaviour {
 
 	Camera camera;
 	Vector3 position;
-	float borderThickness = .2f;
+	float borderThickness = .4f;
 
 	GameplayController gameplayController;
 
@@ -42,7 +42,7 @@ public class BorderController : MonoBehaviour {
 			{
 				position = Camera.main.ViewportToWorldPoint(new Vector3(0, .5f, 0));
 				position.z = 0;
-				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2, 0);
+				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2.7f, 0);
 				transform.position = position + new Vector3(transform.localScale.x * .32f, 0, 0);
 				break;
 			}
@@ -50,25 +50,8 @@ public class BorderController : MonoBehaviour {
 			{
 				position = Camera.main.ViewportToWorldPoint(new Vector3(1, .5f, 0));
 				position.z = 0;
-				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2, 0);
+				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2.7f, 0);
 				transform.position = position -  new Vector3(transform.localScale.x * .32f, 0, 0);;
-				break;
-			}
-
-			case BorderType.TOP:
-			{
-				position = Camera.main.ViewportToWorldPoint(new Vector3(.5f, 1, 0));
-				position.z = 0;
-				transform.localScale = new Vector3(camera.orthographicSize, borderThickness, 0);
-				transform.position = position;
-				break;
-			}
-			case BorderType.BOTTOM:
-			{
-				position = Camera.main.ViewportToWorldPoint(new Vector3(.5f, 0, 0));
-				position.z = 0;
-				transform.localScale = new Vector3(camera.orthographicSize, borderThickness, 0);
-				transform.position = position;
 				break;
 			}
 		}

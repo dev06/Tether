@@ -16,6 +16,8 @@ public class EventManager : MonoBehaviour {
 	public delegate void Gameplay();
 	public static Gameplay OnGameOver;
 	public static Gameplay OnGameStart;
+	public static Gameplay OnPause;
+	public static Gameplay OnUnpause; 
 
 	public delegate void HoldStatus(int i); 
 	public static HoldStatus OnHoldStatus; 
@@ -26,4 +28,8 @@ public class EventManager : MonoBehaviour {
 
 	public delegate void LevelChange(Level changeLevel);
 	public static LevelChange OnLevelChange;  
+
+
+	public delegate void ButtonPress(ButtonID id); 
+	public static ButtonPress OnButtonPress; 
 }
