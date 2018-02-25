@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Credit : ParentUI 
+public class Credit : ParentUI
 {
 
-	private Animation animation; 
+	private LevelSelectUI tints;
+	private Animation animation;
 
 	void Start ()
 	{
 		Init();
-		Hide(); 
-
-		animation = GetComponent<Animation>(); 
+		Hide();
+		tints = FindObjectOfType<LevelSelectUI>();
+		animation = GetComponent<Animation>();
 	}
 
 	void OnEnable()
@@ -28,11 +29,24 @@ public class Credit : ParentUI
 
 	void OnStateChange(State s)
 	{
-		if(s != State.CREDIT) {
-			Hide(); 
+		if (tints == null)
+		{
+			tints = FindObjectOfType<LevelSelectUI>();
+		}
+
+		//tints.transform.gameObject.SetActive(false);
+
+		if (s == State.MENU)
+		{
+			//tints.transform.gameObject.SetActive(true);
+		}
+
+		if (s != State.CREDIT) {
+			Hide();
 			return;
-		} 
-		animation.Play(); 
-		Show(); 
+		}
+
+		animation.Play();
+		Show();
 	}
 }

@@ -6,37 +6,52 @@ public class Menu : ParentUI {
 
 	public CanvasGroup titleOverlay;
 
+	public Text currentTrackText;
+
+	private LevelSelectUI tints;
 	void Start ()
 	{
 		Init();
-		Show();
+		currentTrackText.text = AudioController.Instance.CurrentTrack();
+		tints = FindObjectOfType<LevelSelectUI>();
 	}
 
 	void OnEnable()
 	{
 		EventManager.OnStateChange += OnStateChange;
+		EventManager.OnLevelChange += OnLevelChange;
 
 	}
 
 	void OnDisable()
 	{
 		EventManager.OnStateChange -= OnStateChange;
+		EventManager.OnLevelChange -= OnLevelChange;
 	}
 
 
 	void OnStateChange(State s)
 	{
+
+	}
+
+	void OnLevelChange(Level l)
+	{
+		currentTrackText.text = AudioController.Instance.CurrentTrack();
 	}
 
 
 	void Update ()
 	{
-		if(Input.GetKeyDown(KeyCode.U))
-		{
-			GameplayController.SetState(State.CREDIT); 
+		if (GameplayController.GAME_STATE != State.MENU) {
+			tints.transform.gameObject.SetActive(false);
+			return;
 		}
-		if (GameplayController.GAME_STATE != State.MENU) { return; }
 
+		if (tints.transform.gameObject.activeSelf == false)
+		{
+			tints.transform.gameObject.SetActive(true);
+		}
 	}
 
 
@@ -58,17 +73,10 @@ public class Menu : ParentUI {
 	public virtual void Show()
 	{
 		base.Show();
-
-		titleOverlay.alpha = 1;
-
-		titleOverlay.blocksRaycasts = true;
 	}
 
 	public virtual void Hide()
 	{
 		base.Hide();
-		titleOverlay.alpha = 0;
-
-		titleOverlay.blocksRaycasts = false;
 	}
 }

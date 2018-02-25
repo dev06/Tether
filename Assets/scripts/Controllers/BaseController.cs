@@ -78,7 +78,7 @@ public class BaseController : MonoBehaviour {
 	}
 	void Update()
 	{
-		if(GameplayController.GAME_STATE == State.PAUSE) return; 
+		if (GameplayController.GAME_STATE == State.PAUSE) { return; }
 
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
@@ -161,7 +161,12 @@ public class BaseController : MonoBehaviour {
 		}
 		else
 		{
-			UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+			if (EventManager.OnGameOver != null)
+			{
+				EventManager.OnGameOver();
+			}
+
+			//UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 		}
 
 		size = transform.localScale.sqrMagnitude;

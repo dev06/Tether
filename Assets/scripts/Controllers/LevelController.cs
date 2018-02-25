@@ -35,7 +35,7 @@ public class LevelController : MonoBehaviour {
 
 	private GameObject[] border;
 
-	private Transform powerup;
+	private GameObject[] powerup;
 
 	private GameObject[] particles;
 
@@ -43,7 +43,7 @@ public class LevelController : MonoBehaviour {
 
 	private PlayerController playerController;
 
-	private Image pauseButton; 
+	private Image pauseButton;
 
 
 	void Awake()
@@ -64,11 +64,11 @@ public class LevelController : MonoBehaviour {
 		camera = Camera.main;
 		bases = GameObject.FindWithTag("Objects/bases").transform;
 		border = GameObject.FindGameObjectsWithTag("Objects/border");
-		powerup = GameObject.FindWithTag("Objects/powerup").transform;
+		powerup = GameObject.FindGameObjectsWithTag("Objects/powerup");
 		scoreHandler = FindObjectOfType<ScoreHandler>();
 		particles = GameObject.FindGameObjectsWithTag("Particles/slowmo_1");
 		playerController = PlayerController.Instance;
-		pauseButton = GameObject.FindWithTag("Button/Pause").GetComponent<Image>(); 
+		pauseButton = GameObject.FindWithTag("Button/Pause").GetComponent<Image>();
 		isInit = true;
 	}
 
@@ -101,13 +101,12 @@ public class LevelController : MonoBehaviour {
 			}
 		}
 
+		// if (EventManager.OnLevelChange != null)
+		// {
+		// 	EventManager.OnLevelChange(this.level);
+		// }
 
-		if (EventManager.OnLevelChange != null)
-		{
-			EventManager.OnLevelChange(this.level);
-		}
-
-		GameplayController.Level = this.level;
+		// GameplayController.Level = this.level;
 	}
 
 	private void SwitchColorPallette(Color[] palette)
@@ -124,7 +123,7 @@ public class LevelController : MonoBehaviour {
 
 		scoreHandler.scoreText.color = palette[p_acc];
 
-		pauseButton.color = palette[p_acc]; 
+		pauseButton.color = palette[p_acc];
 
 
 		for (int i = 0; i < bases.childCount; i++)
@@ -141,9 +140,10 @@ public class LevelController : MonoBehaviour {
 			sr.color = palette[p_acc];
 		}
 
-		for (int i = 0; i < powerup.childCount; i++)
+		//Debug.Log(powerup.childCount);
+		for (int i = 0; i < powerup.Length; i++)
 		{
-			SpriteRenderer sr = powerup.GetChild(i).GetComponent<SpriteRenderer>();
+			SpriteRenderer sr = powerup[i].GetComponent<SpriteRenderer>();
 
 			sr.color = palette[p_acc];
 		}
@@ -158,24 +158,37 @@ public class LevelController : MonoBehaviour {
 
 	public Color GetColor(string key)
 	{
-		switch(key)
+		switch (key)
 		{
-			case "accent": 
+			case "accent":
 			{
-				if(level == Level.LEVEL1)
+				if (level == Level.LEVEL1)
 				{
-					return Constants.Level1_Accent; 
+					return Constants.Level1_Accent;
 				}
-				else if(level == Level.LEVEL2)
+				else if (level == Level.LEVEL2)
 				{
-					return Constants.Level2_Accent; 
+					return Constants.Level2_Accent;
 				}
-				break; 
+				break;
 
 			}
 		}
 
-		return Color.blue; 
+		return Color.blue;
+	}
+
+	public Level ParseLevel(int i)
+	{
+		switch (i)
+		{
+			case 0:
+				return Level.LEVEL1;
+			case 1:
+				return Level.LEVEL2;
+			default:
+				return Level.LEVEL1;
+		}
 	}
 
 	// void OnValidate()

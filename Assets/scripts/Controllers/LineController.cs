@@ -55,12 +55,12 @@ public class LineController : MonoBehaviour {
 
 	void OnEnable()
 	{
-		EventManager.OnUnpause +=OnUnpause; 
+		EventManager.OnUnpause += OnUnpause;
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnUnpause -=OnUnpause; 
+		EventManager.OnUnpause -= OnUnpause;
 	}
 
 
@@ -107,7 +107,7 @@ public class LineController : MonoBehaviour {
 
 	void Update ()
 	{
-		if(GameplayController.GAME_STATE == State.PAUSE) return; 
+		if (GameplayController.GAME_STATE == State.PAUSE) { return; }
 
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
@@ -156,7 +156,7 @@ public class LineController : MonoBehaviour {
 				inSlowmo = true;
 
 				player.isHolding = true;
-				Time.timeScale = .3f;
+				Time.timeScale = .2f;
 				Time.fixedDeltaTime = Time.timeScale * .02f;
 			}
 
@@ -259,9 +259,9 @@ public class LineController : MonoBehaviour {
 
 			StartCoroutine("Attach", objs);
 
-			Color color = GameplayController.LevelIndex == 0 ? Color.white : Color.black; 
+			Color color = GameplayController.LevelIndex == 0 ? Color.white : Color.black;
 
-			objectSpawner.SpawnParticle(ParticleType.ONLINEHITBASE, hit.point, color); 
+			objectSpawner.SpawnParticle(ParticleType.ONLINEHITBASE, hit.point, color);
 		}
 		else
 		{
@@ -334,7 +334,7 @@ public class LineController : MonoBehaviour {
 
 		endLineToPlayer = false;
 
-		yield return new WaitForSeconds(.15f);
+		yield return new WaitForSeconds(.1f);
 
 		hitSomething = false;
 
@@ -405,12 +405,12 @@ public class LineController : MonoBehaviour {
 
 	private void LockControl()
 	{
-		controlTimer = 0; 
+		controlTimer = 0;
 	}
 
 	private void OnUnpause()
 	{
-		LockControl(); 
+		LockControl();
 	}
 
 }

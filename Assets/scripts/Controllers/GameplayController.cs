@@ -8,6 +8,8 @@ public class GameplayController : MonoBehaviour
 
 	public static GameplayController Instance;
 
+	private static bool Loaded;
+
 	public static int SCORE = 0;
 
 	public static Level Level;
@@ -22,7 +24,7 @@ public class GameplayController : MonoBehaviour
 
 	public static long VIBRATION_DURATION = 5;
 
-	private bool isPaused; 
+	private bool isPaused;
 
 	public static void SetState(State s)
 	{
@@ -80,7 +82,8 @@ public class GameplayController : MonoBehaviour
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 		DIFFICULTY = 0F;
 		SCORE = 0;
-		SetState(State.MENU);
+		SetState(!Loaded ? State.INTRO : State.MENU);
+		Loaded = true;
 	}
 
 
@@ -114,37 +117,37 @@ public class GameplayController : MonoBehaviour
 
 	public void TogglePause(bool b)
 	{
-		this.isPaused = b;  
+		this.isPaused = b;
 
 
 
-		if(isPaused)
+		if (isPaused)
 		{
-			if(EventManager.OnPause != null)
+			if (EventManager.OnPause != null)
 			{
 				EventManager.OnPause();
 			}
 
-			GAME_STATE = State.PAUSE; 
+			GAME_STATE = State.PAUSE;
 		}
-		else if(!isPaused)
+		else if (!isPaused)
 		{
-			if(EventManager.OnUnpause != null)
+			if (EventManager.OnUnpause != null)
 			{
-				EventManager.OnUnpause(); 
+				EventManager.OnUnpause();
 			}
 
-			GAME_STATE = State.GAME; 
+			GAME_STATE = State.GAME;
 		}
 
 
-	}	
+	}
 
 	public bool Paused
 	{
 		get
 		{
-			return isPaused; 
+			return isPaused;
 		}
 	}
 
@@ -158,5 +161,6 @@ public enum State
 	PAUSE,
 	CREDIT,
 	SETTING,
+	INTRO,
 }
 

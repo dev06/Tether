@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
 	public bool activeBoost;
 
+	public AudioSource sfx;
 
 	public BoostSpriteMask bsm;
 
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
 	private GameplayController gameplayController;
 
-	private TrailRenderer trialRenderer;
+	private TrailRenderer trailRenderer;
 
 	private float delay = .1f;
 
@@ -136,10 +137,10 @@ public class PlayerController : MonoBehaviour
 
 		gameplayController = GameplayController.Instance;
 
-		trialRenderer = GetComponent<TrailRenderer>();
+		trailRenderer = GetComponent<TrailRenderer>();
 
 
-		//trialRenderer.SetColor(Color.white, Color.white);
+		//trailRenderer.SetColor(Color.white, Color.white);
 
 		SetCurrentBase();
 
@@ -151,11 +152,11 @@ public class PlayerController : MonoBehaviour
 	void Update ()
 	{
 
-		if(GameplayController.GAME_STATE == State.PAUSE) 
+		if (GameplayController.GAME_STATE == State.PAUSE)
 		{
 
-			return; 
-		} 
+			return;
+		}
 
 		if (currentBase == null) { return; }
 
@@ -200,7 +201,7 @@ public class PlayerController : MonoBehaviour
 	private IEnumerator IStartBoost()
 	{
 
-		trialRenderer.enabled = true;
+		trailRenderer.enabled = true;
 
 
 		activeBoost = true;
@@ -290,7 +291,7 @@ public class PlayerController : MonoBehaviour
 
 		//SetColor(Color.black);
 
-		trialRenderer.enabled = false;
+		trailRenderer.enabled = false;
 
 		if (EventManager.OnBoostEnd != null)
 		{
@@ -376,7 +377,8 @@ public class PlayerController : MonoBehaviour
 
 				cameraController.SetYOffset(thrustDirection);
 			}
-			
+
+			sfx.Play();
 			SpawnEffect();
 
 			//			cameraController.SetGlow(base_hit_glow);
@@ -413,6 +415,8 @@ public class PlayerController : MonoBehaviour
 		line.line.SetColors(c, c);
 
 		renderer.color = c;
+
+		trailRenderer.startColor = trailRenderer.endColor = c;
 	}
 
 

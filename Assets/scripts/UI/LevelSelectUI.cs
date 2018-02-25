@@ -19,7 +19,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private float nextSwipeThreshold = .2f;
 
-	private float tapThreshold = 10f;
+	private float tapThreshold = 20f;
 
 	private float swipeSmoothTime = 1.5f;
 
@@ -41,50 +41,80 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private Menu menu;
 
-	private LevelController levelController; 
+	private LevelController levelController;
 
-	private float controlTimer = 0; 
+	private float controlTimer = 0;
 
-	private SettingPanel settingPanel; 
+	private float controlTimerThreshold = .4f;
 
-	private bool canStartGame; 
+	private SettingPanel settingPanel;
 
-	private float magnitude; 
+	private bool canStartGame;
+
+	private float magnitude;
+
 
 	void Start ()
 	{
 		menu = FindObjectOfType<Menu>();
 
-		settingPanel = FindObjectOfType<SettingPanel>(); 
+		settingPanel = FindObjectOfType<SettingPanel>();
 
-		levelController =LevelController.Instance; 
+		levelController = LevelController.Instance;
 	}
 
 	void OnEnable()
 	{
-		EventManager.OnStateChange+=OnStateChange; 
+
+		EventManager.OnStateChange += OnStateChange;
+		EventManager.OnGameStart += OnGameStart;
+		EventManager.OnGameOver += OnGameOver;
+
 
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnStateChange-=OnStateChange; 
+
+		EventManager.OnStateChange -= OnStateChange;
+		EventManager.OnGameStart -= OnGameStart;
+		EventManager.OnGameOver -= OnGameOver;
+
+
 	}
 
 	void OnStateChange(State s)
 	{
-		StopCoroutine("IStartControlTimer"); 
-		StartCoroutine("IStartControlTimer"); 
+		if (s == State.MENU)
+		{
+			StopCoroutine("IStartControlTimer");
+			StartCoroutine("IStartControlTimer");
+
+		}
 	}
+
+	void OnGameOver()
+	{
+	}
+	void OnGameStart()
+	{
+
+	}
+
+
+
+
+
+
 
 	private IEnumerator IStartControlTimer()
 	{
-		controlTimer = 0; 
+		controlTimer = 0;
 
-		while(controlTimer < 1)
+		while (controlTimer < 1)
 		{
-			controlTimer+=Time.unscaledDeltaTime; 
-			yield return null; 
+			controlTimer += Time.unscaledDeltaTime;
+			yield return null;
 		}
 	}
 
@@ -92,14 +122,14 @@ public class LevelSelectUI : MonoBehaviour {
 	void Update ()
 	{
 
-
 		if (GameplayController.GAME_STATE != State.MENU) { return; }
 
-		if(controlTimer < .8f) 
-		{
-			isHolding= false;
-			return;
-		} 
+		// if (controlTimer < controlTimerThreshold)
+		// {
+		// 	isHolding = false;
+		// 	return;
+		// }
+
 		if (Input.GetMouseButtonDown(0))
 		{
 
@@ -113,9 +143,6 @@ public class LevelSelectUI : MonoBehaviour {
 
 		}
 
-
-
-		//if(10 > 3) return; 
 		if (Input.GetMouseButtonUp(0))
 		{
 
@@ -123,31 +150,26 @@ public class LevelSelectUI : MonoBehaviour {
 
 			delta = mousePositionUp.x - mousePositionDown.x;
 
+
 			isHolding = false;
 
 			magnitude = Mathf.Abs(delta);
 
 
-			canStartGame = magnitude < tapThreshold; 
+			canStartGame = magnitude < tapThreshold;
 
 			if (magnitude < tapThreshold)
 			{
 
-				Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
-
-				levelController.SetLevel(level); 
-
-				transform.gameObject.SetActive(false);
-
-				GameplayController.LevelIndex = index;
-
-			//	menu.StartGame(level);
+				//StartGame();
 
 			}
 
 			if (magnitude < nextSwipeThreshold * Screen.width) {
 
 				range = -holdIndex * Screen.width;
+
+
 
 				return;
 			}
@@ -157,6 +179,20 @@ public class LevelSelectUI : MonoBehaviour {
 			index = Mathf.Clamp(index, 0, transform.childCount);
 
 			range = -index * Screen.width;
+
+			Level l = levelController.ParseLevel(index);
+
+
+			if (EventManager.OnLevelChange != null)
+			{
+
+				EventManager.OnLevelChange(l);
+			}
+
+			GameplayController.Level = l;
+			//			SwitchPanel(ref index);
+
+
 
 
 		}
@@ -183,46 +219,29 @@ public class LevelSelectUI : MonoBehaviour {
 
 	}
 
-	public void StartGame()
+	private void SwitchPanel()
 	{
-		mousePositionUp = Input.mousePosition;
-
-		delta = mousePositionUp.x - mousePositionDown.x;
-
-		isHolding = false;
-
-		magnitude = Mathf.Abs(delta);
-
-
-		canStartGame = magnitude < tapThreshold; 
-
-		if (magnitude < tapThreshold)
-		{
-
-			Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
-
-			levelController.SetLevel(level); 
-
-			transform.gameObject.SetActive(false);
-
-			GameplayController.LevelIndex = index;
-
-		//	menu.StartGame(level);
-
-		}
-
-		if (magnitude < nextSwipeThreshold * Screen.width) {
-
-			range = -holdIndex * Screen.width;
-
-			return;
-		}
-
 		index = delta < 0 ? index + 1 : delta > 0 ? index - 1 : index;
 
 		index = Mathf.Clamp(index, 0, transform.childCount);
 
 		range = -index * Screen.width;
+	}
+
+	public void StartGame()
+	{
+
+		Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
+
+		levelController.SetLevel( Level.LEVEL1);
+
+		transform.gameObject.SetActive(false);
+
+		GameplayController.LevelIndex = index;
+
+		menu.StartGame(level);
+
+
 	}
 
 

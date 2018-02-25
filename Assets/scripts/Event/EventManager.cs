@@ -17,19 +17,23 @@ public class EventManager : MonoBehaviour {
 	public static Gameplay OnGameOver;
 	public static Gameplay OnGameStart;
 	public static Gameplay OnPause;
-	public static Gameplay OnUnpause; 
+	public static Gameplay OnUnpause;
 
-	public delegate void HoldStatus(int i); 
-	public static HoldStatus OnHoldStatus; 
+	public delegate void HoldStatus(int i);
+	public static HoldStatus OnHoldStatus;
 
 
 	public delegate void GameState(State s);
-	public static GameState OnStateChange; 
+	public static GameState OnStateChange;
 
 	public delegate void LevelChange(Level changeLevel);
-	public static LevelChange OnLevelChange;  
+	public static LevelChange OnLevelChange;
 
 
-	public delegate void ButtonPress(ButtonID id); 
-	public static ButtonPress OnButtonPress; 
+	public delegate void ButtonPress(ButtonID id);
+	public static ButtonPress OnButtonPress;
+
+
+	public delegate void Mute(bool mute);
+	public static Mute OnMute;
 }

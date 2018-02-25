@@ -1,53 +1,83 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems; 
-using UnityEngine.UI; 
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 public class SimpleButtonHandler : ButtonEventHandler {
 
 
+	private Vector2 mouseDown;
+	private Vector2 mouseUp;
+
 	protected override void Init()
 	{
-		base.Init(); 
+		base.Init();
 	}
 
-	public override void OnPointerUp(PointerEventData data)
+	public override void OnPointerDown(PointerEventData data)
 	{
-		base.OnPointerUp(data); 
+		base.OnPointerDown(data);
 
+		mouseDown = data.position;
 		try
 		{
-			switch(buttonID)
+			switch (buttonID)
 			{
-				case ButtonID.PAUSE: 
+				case ButtonID.PAUSE:
 				{
 
-					gamePlayController.TogglePause(!gamePlayController.Paused); 
-					break; 
+					gamePlayController.TogglePause(!gamePlayController.Paused);
+					break;
 				}
 
-				case ButtonID.BACK: 
+				case ButtonID.BACK:
 				{
-					GameplayController.SetState(State.MENU); 
-					break; 
+					GameplayController.SetState(State.MENU);
+					break;
 				}
 
-				case ButtonID.CREDIT: 
+				case ButtonID.CREDIT:
 				{
-					GameplayController.SetState(State.CREDIT); 
-					break; 
+					GameplayController.SetState(State.CREDIT);
+					break;
 				}
 
-				case ButtonID.STARTAREA: 
+				case ButtonID.MUSIC:
 				{
-					FindObjectOfType<LevelSelectUI>().StartGame();  
-					break; 
+					AudioController.Mute = !AudioController.Mute;
+
+					if (EventManager.OnMute != null)
+					{
+						EventManager.OnMute(AudioController.Mute);
+					}
+					break;
+				}
+
+				case ButtonID.SETTINGS:
+				{
+					// /GameplayController.SetState(State.SETTING);
+					break;
 				}
 			}
 		}
-		catch(System.Exception e)
+		catch (System.Exception e)
 		{
-			Debug.LogError(e); 
+			Debug.LogError(e);
+		}
+	}
+
+	public override void OnPointerClick(PointerEventData data)
+	{
+		//base.OnPointerClick(data);
+		if (buttonID == ButtonID.STARTAREA)
+		{
+			mouseUp = data.position;
+			float mag = Mathf.Abs(mouseUp.x - mouseDown.x);
+
+			if (mag < 20)
+			{
+				FindObjectOfType<LevelSelectUI>().StartGame();
+			}
 		}
 	}
 }

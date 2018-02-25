@@ -6,15 +6,18 @@ public class Flash : MonoBehaviour {
 
 	CanvasGroup group;
 
+	public Color startColor = Color.white;
+
+	private Image image;
 	void OnEnable()
 	{
 		EventManager.OnGameStart += OnGameStart;
-		EventManager.OnStateChange+=OnStateChange; 
+		EventManager.OnStateChange += OnStateChange;
 	}
 	void OnDisable()
 	{
 		EventManager.OnGameStart -= OnGameStart;
-		EventManager.OnStateChange-=OnStateChange; 
+		EventManager.OnStateChange -= OnStateChange;
 	}
 
 	void OnGameStart()
@@ -23,10 +26,10 @@ public class Flash : MonoBehaviour {
 
 	void OnStateChange(State s)
 	{
-		if(s == State.SETTING) return; 
+		if (s == State.SETTING) { return; }
 
 		StopCoroutine("Fade");
-		StartCoroutine("Fade");	
+		StartCoroutine("Fade");
 	}
 	void Start ()
 	{
@@ -36,7 +39,15 @@ public class Flash : MonoBehaviour {
 
 	IEnumerator Fade()
 	{
+		if (image == null)
+		{
+			image = GetComponent<Image>();
+		}
+
+		image.color = startColor;
+
 		float alpha = 1;
+
 		while (alpha > 0)
 		{
 			alpha -= Time.unscaledDeltaTime;
