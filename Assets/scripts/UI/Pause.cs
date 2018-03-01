@@ -18,21 +18,47 @@ public class Pause : ParentUI {
 
 	}
 
-
-
 	void Start ()
 	{
 		Init();
+		IHide(); 
 	}
 
 	void OnPause()
 	{
-		Show(); 
+		IShow(); 
 	}
 
 	void OnUnpause()
 	{
-		Hide(); 
+		IHide(); 
 	}
 
+
+	protected  void IShow()
+	{
+		StopCoroutine("DampAlpha"); 
+		StartCoroutine("DampAlpha", 1f);
+	}
+
+	protected void IHide()
+	{
+		StopCoroutine("DampAlpha"); 
+		StartCoroutine("DampAlpha", 0f);
+	}
+
+	private IEnumerator DampAlpha(float target)
+	{
+		float vel = 0; 
+		if(canvasGroup == null)
+		{
+			canvasGroup = GetComponent<CanvasGroup>(); 
+		}
+		canvasGroup.blocksRaycasts = (target == 1); 
+		while(canvasGroup.alpha != target)
+		{
+			canvasGroup.alpha = Mathf.SmoothDamp(canvasGroup.alpha, target, ref vel, Time.unscaledDeltaTime * 2f); 
+			yield return new WaitForSeconds(Time.unscaledDeltaTime);
+		}
+	}
 }

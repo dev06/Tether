@@ -18,9 +18,9 @@ public class SwitchTrackHandler: MonoBehaviour {
 	private Track t;
 
 	private float trackChangeRate = 2f;
-	public void SwitchTrack(Track t, AudioSource source)
+	public void SwitchTrack(Track t, AudioSource source, float volume)
 	{
-		float targetVolume = AudioController.Mute ? 0f : 1f;
+		float targetVolume = AudioController.Mute ? 0f : volume;
 
 		this.source = source;
 		this.t = t;

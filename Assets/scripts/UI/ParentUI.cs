@@ -34,14 +34,14 @@ public class ParentUI : MonoBehaviour {
 		}
 	}
 
-	protected void Show()
+	protected virtual void Show()
 	{
 		if (canvasGroup == null) { return; }
 		canvasGroup.blocksRaycasts = true;
 		canvasGroup.alpha = 1f;
 	}
 
-	protected void Hide()
+	protected virtual void Hide()
 	{
 		if (canvasGroup == null) { return; }
 		canvasGroup.blocksRaycasts = false;

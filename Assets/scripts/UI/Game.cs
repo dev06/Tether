@@ -5,13 +5,11 @@ using UnityEngine;
 public class Game : ParentUI {
 
 
+	public Transform[] grads; 
 
 	void OnEnable()
 	{
 		EventManager.OnGameStart+=OnGameStart; 
-		//EventManger.OnGameOver-=OnGameS; 
-
-
 	}
 
 	void OnDisable()
@@ -22,8 +20,23 @@ public class Game : ParentUI {
 
 	void OnGameStart()
 	{
-		Show(); 
+		ActivateGameGradients(); 
+		Show();
 	}
+
+	private void ActivateGameGradients()
+	{
+
+		foreach(Transform t in grads)
+		{
+			t.gameObject.SetActive(false); 
+		}
+
+		grads[GameplayController.LevelIndex].gameObject.SetActive(true); 
+
+	}
+
+
 	void Start()
 	{
 		Init();

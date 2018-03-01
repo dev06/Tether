@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
 	private CameraController cameraController;
 
-	private int boostScoreAddition = 20;
+	private int boostScoreAddition = 25;
 
 	private Color scheme = Color.black;
 
@@ -65,9 +65,12 @@ public class PlayerController : MonoBehaviour
 
 	private bool isInit;
 
+
 	public bool isHolding;
 
 	public bool holdStatus;
+
+
 
 	void Awake()
 	{
@@ -203,6 +206,7 @@ public class PlayerController : MonoBehaviour
 
 		trailRenderer.enabled = true;
 
+		gameplayController.hasUsedBoost = true; 
 
 		activeBoost = true;
 

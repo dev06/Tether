@@ -8,7 +8,11 @@ public class GameplayController : MonoBehaviour
 
 	public static GameplayController Instance;
 
-	private static bool Loaded;
+	private static bool Loaded = true;
+
+	public int LastScore = 0; 
+
+	public int BestScore = 0; 
 
 	public static int SCORE = 0;
 
@@ -25,6 +29,14 @@ public class GameplayController : MonoBehaviour
 	public static long VIBRATION_DURATION = 5;
 
 	private bool isPaused;
+
+	public List<LockTask> lockTasks = new List<LockTask>(); 
+
+	public bool hasUsedBoost; 
+
+	public bool AllTaskComplete;
+
+	private LockTaskPanel locktaskpanel; 
 
 	public static void SetState(State s)
 	{
@@ -62,7 +74,13 @@ public class GameplayController : MonoBehaviour
 			DestroyImmediate(gameObject);
 		}
 
+
+
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
 		InitGameSettings();
+
+
 
 
 	}
@@ -73,14 +91,22 @@ public class GameplayController : MonoBehaviour
 
 		ObjectSpawner.Instance.Init();
 
+		locktaskpanel = FindObjectOfType<LockTaskPanel>(); 
+
+	}
+
+	void OnApplicationQuit()
+	{
+		DeleteAll(); 
 	}
 
 	public void InitGameSettings()
 	{
-
 		Time.timeScale = 1f;
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 		DIFFICULTY = 0F;
+		LastScore = PlayerPrefs.GetInt("last"); 
+		BestScore = PlayerPrefs.GetInt("best"); 
 		SCORE = 0;
 		SetState(!Loaded ? State.INTRO : State.MENU);
 		Loaded = true;
@@ -98,6 +124,9 @@ public class GameplayController : MonoBehaviour
 
 	void OnGameOver()
 	{
+		PlayerPrefs.SetInt("last", SCORE); 
+	//	PlayerPrefs.SetString("ReverbToggle", AudioController.)
+		SaveBestScore(); 
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
@@ -107,12 +136,34 @@ public class GameplayController : MonoBehaviour
 
 	}
 
+	public void DeleteAll()
+	{
+		PlayerPrefs.DeleteAll(); 
+	}
+
 
 	public void IncrementScore()
 	{
 		SCORE++;
 		DIFFICULTY = Mathf.Log(SCORE);
 		DIFFICULTY = Mathf.Clamp(DIFFICULTY, 0, 10F);
+
+
+		if(SCORE >= LockTaskValue.Task1Value)
+		{
+			if(locktaskpanel != null)
+			{
+				locktaskpanel.InvokeLockTask(LockTaskID.ID_1); 
+			}
+		}
+
+		if(SCORE >= LockTaskValue.Task3Value && !hasUsedBoost)
+		{
+			if(locktaskpanel != null)
+			{
+				locktaskpanel.InvokeLockTask(LockTaskID.ID_3); 
+			}
+		}
 	}
 
 	public void TogglePause(bool b)
@@ -139,8 +190,25 @@ public class GameplayController : MonoBehaviour
 
 			GAME_STATE = State.GAME;
 		}
+	}
 
 
+
+	public void SaveBestScore()
+	{
+		if(PlayerPrefs.HasKey("best"))
+		{
+			int best = PlayerPrefs.GetInt("best"); 
+
+			if(SCORE > best)
+			{
+				PlayerPrefs.SetInt("best", SCORE); 
+			}
+		}
+		else
+		{
+			PlayerPrefs.SetInt("best", SCORE); 
+		}
 	}
 
 	public bool Paused
@@ -149,6 +217,19 @@ public class GameplayController : MonoBehaviour
 		{
 			return isPaused;
 		}
+	}
+
+	public LockTask GetLockTask(LockTaskID id)
+	{
+		foreach(LockTask l in lockTasks)
+		{
+			if(l.taskID == id)
+			{
+				return l; 
+			}
+		}
+
+		return null; 
 	}
 
 }

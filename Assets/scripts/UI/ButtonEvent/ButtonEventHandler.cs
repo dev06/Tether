@@ -61,6 +61,8 @@ public enum ButtonID
 	FACEBOOK,
 	YOUTUBE,
 	TWITTER,
+	PAUSEMENU,
+	REVERB,
 }
 
 

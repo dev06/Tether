@@ -7,11 +7,21 @@ public class AudioController : MonoBehaviour {
 
 	public static AudioController Instance;
 
+	public bool playOnAwake; 
+
 	public static bool Mute;
+
+	public static bool ReverbOn; 
 
 	private float menu_pitch = .85f;
 
 	private float slomo_pitch = .6f;
+
+	private float pause_pitch = .3f; 
+
+	private float pause_vol = .1f; 
+
+	private float default_vol = 1f; 
 
 	private float default_pitch = 1f;
 
@@ -26,6 +36,12 @@ public class AudioController : MonoBehaviour {
 	private float slowmo_freq = 500f;
 
 	private float default_freq = 1500;
+
+	private float pause_freq = 100;
+
+	private AudioReverbZone reverbZone; 
+
+
 
 	private SwitchTrackHandler trackHandler;
 
@@ -52,6 +68,8 @@ public class AudioController : MonoBehaviour {
 		EventManager.OnHoldStatus += OnHoldStatus;
 		EventManager.OnLevelChange += OnLevelChange;
 		EventManager.OnMute += OnMute;
+		EventManager.OnPause+=OnPause; 
+		EventManager.OnUnpause+=OnUnpause; 
 
 	}
 
@@ -62,6 +80,8 @@ public class AudioController : MonoBehaviour {
 		EventManager.OnHoldStatus -= OnHoldStatus;
 		EventManager.OnLevelChange -= OnLevelChange;
 		EventManager.OnMute -= OnMute;
+		EventManager.OnPause-=OnPause; 
+		EventManager.OnUnpause-=OnUnpause; 
 	}
 
 	public void Init()
@@ -70,12 +90,20 @@ public class AudioController : MonoBehaviour {
 
 		trackHandler = GetComponent<SwitchTrackHandler>();
 
+		reverbZone = GetComponent<AudioReverbZone>(); 
+
 		source = GetComponent<AudioSource>();
 
 		targetTransform = Camera.main.transform;
 
 		mixer = GetComponent<Mixer>();
 
+		// if(PlayerPrefs.HasKey("ReverbToggle"))
+		// {
+		// }
+
+		ToggleReverb(AudioController.ReverbOn);
+		
 		StartCoroutine("SetMixer", slowmo_freq);
 		StartCoroutine("SetPitch", menu_pitch);
 	}
@@ -97,6 +125,22 @@ public class AudioController : MonoBehaviour {
 		SwitchTrack(Level.LEVEL1);
 	}
 
+	void OnPause()
+	{
+		StopAllCoroutines();
+		StartCoroutine("SetMixer", pause_freq);
+		StartCoroutine("SetPitch", pause_pitch);
+		StartCoroutine("SetVolume", pause_vol);
+	}
+
+	void OnUnpause()
+	{
+		StopAllCoroutines();
+		StartCoroutine("SetPitch", default_pitch);
+		StartCoroutine("SetMixer", default_freq);
+		StartCoroutine("SetVolume", default_vol); 
+	}
+
 	void Update ()
 	{
 		//	Debug.Log(Mute);
@@ -115,28 +159,34 @@ public class AudioController : MonoBehaviour {
 	private void SwitchTrack(Level l)
 	{
 		Track t = Track.NONE;
+		float volume = 0; 
+		if(!playOnAwake) return; 
+
 		switch (l)
 		{
 			case Level.LEVEL1:
 			{
 				t = Track.KILL;
+				volume = 1; 
 				break;
 			}
 			case Level.LEVEL2:
 			{
 				t = Track.BELLS;
+				LockTaskPanel p = FindObjectOfType<LockTaskPanel>(); 
+				volume = !p.Active ? 1f : 0f;
 				break;
 			}
 		}
 
-		trackHandler.SwitchTrack(t, source);
+		trackHandler.SwitchTrack(t, source, volume);
 		SetCurrentTrack(t);
 	}
 
 	void OnMute(bool b)
 	{
 		StopCoroutine("SetVolume");
-		StartCoroutine("SetVolume", b ? 0f : 1f);
+		StartCoroutine("SetVolume", b ? 0f : default_vol);
 	}
 
 	IEnumerator SetMixer(float v)
@@ -202,18 +252,37 @@ public class AudioController : MonoBehaviour {
 		this.currentTrack = t;
 	}
 
+	public void ToggleReverb(bool b)
+	{
+		if(reverbZone == null)
+		{
+			reverbZone = GetComponent<AudioReverbZone>(); 
+		}
+
+		reverbZone.enabled = b; 
+		ReverbOn = b; 
+	}
+
 
 	public string CurrentTrack()
 	{
+		string name = "Kill (Reborn) - Sauniks"; 
 		switch (currentTrack)
 		{
 			case Track.KILL:
-				return "Kill (Reborn) - Sauniks";
+			{
+				name =  "Kill (Reborn) - Sauniks";
+				break; 				
+			}
 			case Track.BELLS:
-				return "Carols Of The Bells - Sauniks";
+			{
+				LockTaskPanel p = FindObjectOfType<LockTaskPanel>(); 
+				name = !p.Active ?  "Carols Of The Bells - Sauniks": "Locked";
+				break; 				
+			}
 		}
 
-		return "Kill (Reborn) - Sauniks";
+		return name;
 	}
 
 	public void Play()

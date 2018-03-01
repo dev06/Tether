@@ -22,6 +22,7 @@ public class CaptionHandler : MonoBehaviour {
 	{
 		if (s == State.MENU)
 		{
+			StopCoroutine("IType"); 
 			StartCoroutine("IType");
 		}
 	}

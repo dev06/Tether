@@ -14,6 +14,15 @@ public class SimpleButtonHandler : ButtonEventHandler {
 		base.Init();
 	}
 
+	public override void OnPointerUp(PointerEventData data)
+	{
+		if(buttonID == ButtonID.BACK)
+		{
+			GameplayController.SetState(State.MENU);
+
+		}
+	}
+
 	public override void OnPointerDown(PointerEventData data)
 	{
 		base.OnPointerDown(data);
@@ -30,11 +39,16 @@ public class SimpleButtonHandler : ButtonEventHandler {
 					break;
 				}
 
-				case ButtonID.BACK:
+				case ButtonID.PAUSEMENU:
 				{
-					GameplayController.SetState(State.MENU);
-					break;
+					if(EventManager.OnGameOver != null)
+					{
+						EventManager.OnGameOver(); 
+					}
+					break; 
 				}
+
+
 
 				case ButtonID.CREDIT:
 				{
@@ -53,6 +67,12 @@ public class SimpleButtonHandler : ButtonEventHandler {
 					break;
 				}
 
+
+				case ButtonID.REVERB: 
+				{
+					AudioController.Instance.ToggleReverb(!AudioController.ReverbOn); 
+					break; 
+				}
 				case ButtonID.SETTINGS:
 				{
 					// /GameplayController.SetState(State.SETTING);

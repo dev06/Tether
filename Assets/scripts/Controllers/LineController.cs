@@ -53,6 +53,10 @@ public class LineController : MonoBehaviour {
 
 	private bool pressed;
 
+	public int baseHitCounter; 
+
+	private LockTaskPanel locktaskpanel; 
+
 	void OnEnable()
 	{
 		EventManager.OnUnpause += OnUnpause;
@@ -96,6 +100,8 @@ public class LineController : MonoBehaviour {
 		gameplayController = GameplayController.Instance;
 
 		line.startWidth = line.endWidth = 0;
+
+		locktaskpanel = FindObjectOfType<LockTaskPanel>(); 
 
 		isInit = true;
 	}
@@ -262,6 +268,17 @@ public class LineController : MonoBehaviour {
 			Color color = GameplayController.LevelIndex == 0 ? Color.white : Color.black;
 
 			objectSpawner.SpawnParticle(ParticleType.ONLINEHITBASE, hit.point, color);
+
+			baseHitCounter++; 
+
+			if(baseHitCounter >= LockTaskValue.Task2Value)
+			{
+				if(locktaskpanel != null)
+				{
+					
+					locktaskpanel.InvokeLockTask(LockTaskID.ID_2); 
+				}
+			}
 		}
 		else
 		{
@@ -273,6 +290,7 @@ public class LineController : MonoBehaviour {
 
 		if (!hitSomething)
 		{
+			baseHitCounter = 0; 
 
 			StopCoroutine("Retract");
 

@@ -36,4 +36,7 @@ public class EventManager : MonoBehaviour {
 
 	public delegate void Mute(bool mute);
 	public static Mute OnMute;
+
+	public delegate void LockTaskComplete(LockTaskID id); 
+	public static LockTaskComplete OnLockTaskComplete; 
 }
