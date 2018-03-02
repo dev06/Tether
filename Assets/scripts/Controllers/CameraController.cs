@@ -160,6 +160,8 @@ public class CameraController : MonoBehaviour {
 
 		Vector2 jitter = JitterCamera();
 
+		float shake = player.activeBoost ? BoostShake() : 0;
+
 		hitOffset = Vector3.Lerp(hitOffset, Vector2.zero, Time.deltaTime * 10f);
 
 		yOffset = Mathf.SmoothDamp(yOffset, 0, ref yOffsetVel, Time.deltaTime * 5f);
@@ -169,6 +171,11 @@ public class CameraController : MonoBehaviour {
 		transform.position = Vector3.Lerp(transform.position, GetAveragePosition() +  new Vector3(0, 0, -10f) + new Vector3(jitter.x, 0, -10f) + hitOffset, Time.deltaTime * 4.0f);
 
 		backgroundSmoke.position = transform.position + new Vector3(0, 0, 10);
+	}
+
+	public void StopJitter()
+	{
+		jitterAmount = 0;
 	}
 
 	Vector3 GetAveragePosition()
@@ -231,7 +238,7 @@ public class CameraController : MonoBehaviour {
 	float BoostShake()
 	{
 		float offset = 5f;
-		return Mathf.PingPong(boostShakeTimer * 100f, offset) - (offset * .5f);
+		return Mathf.PingPong(boostShakeTimer * 50f, offset) - (offset * .5f);
 	}
 
 	Vector2 JitterCamera()
@@ -287,6 +294,26 @@ public class CameraController : MonoBehaviour {
 		StopCoroutine("ICameraLerpColor");
 
 		StartCoroutine("ICameraLerpColor");
+	}
+
+	public void ShakeCamera()
+	{
+		StopCoroutine("IShakeCamera");
+		StartCoroutine("IShakeCamera");
+	}
+
+	private IEnumerator IShakeCamera()
+	{
+		float x = 0;
+		float timer = 0;
+		Vector3 position = transform.position;
+		while (true)
+		{
+			timer += Time.deltaTime;
+			transform.position = new Vector3( Mathf.PingPong(timer, 2f) - 1f, position.y, -10);
+			yield return null;
+		}
+
 	}
 
 

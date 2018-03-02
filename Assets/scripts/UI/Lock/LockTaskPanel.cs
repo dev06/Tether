@@ -1,42 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 public class LockTaskPanel : MonoBehaviour {
 
-	private static bool DEBUG; 
+	private static bool DEBUG ;
 
-	GameplayController gameplayController; 
+	GameplayController gameplayController;
 
-	private bool AllTaskComplete = false; 
+	private bool AllTaskComplete = false;
 
-	private bool active; 
+	private bool active;
 
-	private CanvasGroup group; 
+	private CanvasGroup group;
 
-	List<LockTask> lockTasks = new List<LockTask>(); 
+	List<LockTask> lockTasks = new List<LockTask>();
 
-	void Start () 
+	void Start ()
 	{
-		gameplayController = GameplayController.Instance; 
+		gameplayController = GameplayController.Instance;
 
-		group = GetComponent<CanvasGroup>(); 
+		group = GetComponent<CanvasGroup>();
 
-		GameObject[] tasks = GameObject.FindGameObjectsWithTag("Task"); 
+		GameObject[] tasks = GameObject.FindGameObjectsWithTag("Task");
 
-		foreach(GameObject t in tasks)
+		foreach (GameObject t in tasks)
 		{
-			lockTasks.Add(t.GetComponent<LockTask>()); 
+			lockTasks.Add(t.GetComponent<LockTask>());
 		}
 
-		if(PlayerPrefs.HasKey("AllTaskCompleted"))
+		if (PlayerPrefs.HasKey("AllTaskCompleted"))
 		{
-			AllTaskComplete = bool.Parse(PlayerPrefs.GetString("AllTaskCompleted")); 
+			AllTaskComplete = bool.Parse(PlayerPrefs.GetString("AllTaskCompleted"));
 		}
 
-		CanDeactivePanel(); 
+		CanDeactivePanel();
 
-		SetTaskText(); 
+		SetTaskText();
 
 	}
 
@@ -47,27 +47,27 @@ public class LockTaskPanel : MonoBehaviour {
 
 	private void SetTaskText()
 	{
-		if(AllTaskComplete) return; 
-		foreach(LockTask t in lockTasks)
+		if (AllTaskComplete) { return; }
+		foreach (LockTask t in lockTasks)
 		{
-			switch(t.taskID)
+			switch (t.taskID)
 			{
 				case LockTaskID.ID_1:
 				{
-					t.SetText("Get a score of " + LockTaskValue.Task1Value); 
-					break; 
+					t.SetText("Get a score of " + LockTaskValue.Task1Value);
+					break;
 				}
 
 				case LockTaskID.ID_2:
 				{
-					t.SetText("Tether to " + LockTaskValue.Task2Value + " bases consecutively"); 
-					break; 
+					t.SetText("Tether to " + LockTaskValue.Task2Value + " bases consecutively");
+					break;
 				}
 
 				case LockTaskID.ID_3:
 				{
-					t.SetText("Get a score of " + LockTaskValue.Task3Value + " without using a boost"); 
-					break; 
+					t.SetText("Get a score of " + LockTaskValue.Task3Value + " without using a boost");
+					break;
 				}
 			}
 		}
@@ -76,61 +76,61 @@ public class LockTaskPanel : MonoBehaviour {
 
 	private void CanDeactivePanel()
 	{
-		if(AllTaskComplete || DEBUG)
+		if (AllTaskComplete || DEBUG)
 		{
-			group.alpha = 0; 
-			group.blocksRaycasts = false; 
+			group.alpha = 0;
+			group.blocksRaycasts = false;
 
 		}
-		active = group.alpha == 1; 
+		active = group.alpha == 1;
 	}
 
 	public void InvokeLockTask(LockTaskID id)
-	{	
-		if(GetLockTask(id).IsCompleted()) return; 
+	{
+		if (GetLockTask(id).IsCompleted()) { return; }
 
-		if(AllTaskComplete) return;
+		if (AllTaskComplete) { return; }
 
-		if(EventManager.OnLockTaskComplete != null)
+		if (EventManager.OnLockTaskComplete != null)
 		{
-			EventManager.OnLockTaskComplete(id); 
+			EventManager.OnLockTaskComplete(id);
 		}
 
 
-		AllTaskComplete = AreAllTaskCompleted(); 
+		AllTaskComplete = AreAllTaskCompleted();
 
-		PlayerPrefs.SetString("AllTaskCompleted", AllTaskComplete.ToString()); 
+		PlayerPrefs.SetString("AllTaskCompleted", AllTaskComplete.ToString());
 	}
 
 	private bool AreAllTaskCompleted()
 	{
-		foreach(LockTask t in lockTasks)
+		foreach (LockTask t in lockTasks)
 		{
-			if(!t.IsCompleted()) return false; 
+			if (!t.IsCompleted()) { return false; }
 		}
-		return true; 
+		return true;
 	}
 
 	private LockTask GetLockTask(LockTaskID id)
 	{
-		foreach(LockTask l in lockTasks)
+		foreach (LockTask l in lockTasks)
 		{
-			if(l.taskID == id) return l; 
+			if (l.taskID == id) { return l; }
 		}
 
-		return null; 
+		return null;
 	}
 
-	public bool Active{
-		get{
-			return active; 
+	public bool Active {
+		get {
+			return active;
 		}
 	}
 
 	public bool GetAllTaskComplete
 	{
-		get{
-			return AllTaskComplete; 
+		get {
+			return AllTaskComplete;
 		}
 	}
 }

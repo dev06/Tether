@@ -45,6 +45,8 @@ public class LevelController : MonoBehaviour {
 
 	private Image pauseButton;
 
+	private Image tutorialHand;
+
 
 	void Awake()
 	{
@@ -69,6 +71,7 @@ public class LevelController : MonoBehaviour {
 		particles = GameObject.FindGameObjectsWithTag("Particles/slowmo_1");
 		playerController = PlayerController.Instance;
 		pauseButton = GameObject.FindWithTag("Button/Pause").GetComponent<Image>();
+		tutorialHand = GameObject.FindWithTag("UI/TutorialHand").GetComponent<Image>();
 		isInit = true;
 	}
 
@@ -124,6 +127,8 @@ public class LevelController : MonoBehaviour {
 		scoreHandler.scoreText.color = palette[p_acc];
 
 		pauseButton.color = palette[p_acc];
+
+		tutorialHand.color = palette[p_acc];
 
 
 		for (int i = 0; i < bases.childCount; i++)

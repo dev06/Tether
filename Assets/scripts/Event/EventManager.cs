@@ -18,6 +18,7 @@ public class EventManager : MonoBehaviour {
 	public static Gameplay OnGameStart;
 	public static Gameplay OnPause;
 	public static Gameplay OnUnpause;
+	public static Gameplay OnTutorialEnd;
 
 	public delegate void HoldStatus(int i);
 	public static HoldStatus OnHoldStatus;
@@ -37,6 +38,9 @@ public class EventManager : MonoBehaviour {
 	public delegate void Mute(bool mute);
 	public static Mute OnMute;
 
-	public delegate void LockTaskComplete(LockTaskID id); 
-	public static LockTaskComplete OnLockTaskComplete; 
+	public delegate void Reverb(bool active);
+	public static Reverb OnReverb;
+
+	public delegate void LockTaskComplete(LockTaskID id);
+	public static LockTaskComplete OnLockTaskComplete;
 }

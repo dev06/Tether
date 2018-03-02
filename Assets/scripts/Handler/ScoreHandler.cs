@@ -45,7 +45,7 @@ public class ScoreHandler : MonoBehaviour {
 
 	void Update ()
 	{
-		speed = player.activeBoost ? 4f : 10f;
+		speed = player.activeBoost ? 6f : 10f;
 		transform.localScale = Vector3.Lerp(transform.localScale, defaultScale, Time.unscaledDeltaTime * speed);
 	}
 
@@ -56,7 +56,7 @@ public class ScoreHandler : MonoBehaviour {
 
 	private void OnBaseHit()
 	{
-		scoreText.text = (GameplayController.SCORE).ToString();
+		scoreText.text = ((int)(GameplayController.SCORE)).ToString();
 		scaleMultipler = inBoost ? 3.0f : 2.0f;
 		Vector3 addition = defaultScale * scaleMultipler;
 		transform.localScale = addition;
@@ -64,6 +64,8 @@ public class ScoreHandler : MonoBehaviour {
 
 	private void OnBoostStart()
 	{
+		GameplayController.SCORE = player.IdealScore;
+		scoreText.text = ((int)GameplayController.SCORE).ToString();
 		SetColor(defaultColor);
 		inBoost = true;
 	}
@@ -72,6 +74,8 @@ public class ScoreHandler : MonoBehaviour {
 	private void OnBoostEnd()
 	{
 		SetColor(defaultColor);
+		GameplayController.SCORE = player.IdealScore;
+		scoreText.text = ((int)GameplayController.SCORE).ToString();
 		inBoost = false;
 	}
 

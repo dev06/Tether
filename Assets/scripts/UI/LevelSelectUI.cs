@@ -53,7 +53,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private float magnitude;
 
-	private bool controlOnStateChange; 
+	private bool controlOnStateChange;
 
 
 	void Start ()
@@ -91,7 +91,7 @@ public class LevelSelectUI : MonoBehaviour {
 		{
 			StopCoroutine("IStartControlTimer");
 			StartCoroutine("IStartControlTimer");
-			controlOnStateChange = true; 
+			controlOnStateChange = true;
 		}
 	}
 
@@ -182,7 +182,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 			range = -index * Screen.width;
 
-			
+
 			Level l = levelController.ParseLevel(index);
 
 
@@ -193,6 +193,7 @@ public class LevelSelectUI : MonoBehaviour {
 			}
 
 			GameplayController.Level = l;
+			GameplayController.LevelIndex = index;
 			//			SwitchPanel(ref index);
 
 		}
@@ -233,17 +234,17 @@ public class LevelSelectUI : MonoBehaviour {
 
 		Level level = index == 0 ? Level.LEVEL1 : Level.LEVEL2;
 
-		bool canStart = true; 
+		bool canStart = true;
 
-		if(level == Level.LEVEL2)
+		if (level == Level.LEVEL2)
 		{
-			LockTaskPanel panel = FindObjectOfType<LockTaskPanel>(); 
+			LockTaskPanel panel = FindObjectOfType<LockTaskPanel>();
 
-			canStart = !panel.Active; 
+			canStart = !panel.Active;
 		}
 
-		if(!canStart) return; 
-		
+		if (!canStart) { return; }
+
 		levelController.SetLevel( Level.LEVEL1);
 
 		transform.gameObject.SetActive(false);

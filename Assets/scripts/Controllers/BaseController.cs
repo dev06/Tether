@@ -82,7 +82,7 @@ public class BaseController : MonoBehaviour {
 
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
-		renderer.material.SetColor("Glow Color", renderer.color);
+		//		renderer.material.SetColor("Glow Color", renderer.color);
 
 		if (player == null && visited)
 		{
@@ -93,12 +93,12 @@ public class BaseController : MonoBehaviour {
 
 		}
 
-		if (Input.GetKeyDown(KeyCode.Y))
-		{
-			zap.transform.position = transform.position;
-			zap.startColor = renderer.color;
-			zap.Play();
-		}
+		// if (Input.GetKeyDown(KeyCode.Y))
+		// {
+		// 	zap.transform.position = transform.position;
+		// 	zap.startColor = renderer.color;
+		// 	zap.Play();
+		// }
 
 
 		if (player == null)
@@ -136,6 +136,11 @@ public class BaseController : MonoBehaviour {
 	}
 	void UpdateTransform()
 	{
+		if (GameplayController.SCORE == 0)
+		{
+			transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+			shouldRotate = false;
+		}
 
 		if (shouldRotate)
 		{
@@ -146,7 +151,11 @@ public class BaseController : MonoBehaviour {
 
 			transform.Rotate(Vector3.forward, (Time.deltaTime * ((velocity * distance) * .6f + BASE_VELOCITY) * VELOCITY_SCALE)  * DIRECTION);
 
-			//Debug.Log(BASE_VELOCITY);
+		}
+
+		if (gameplayController.inTutorial == false)
+		{
+			default_depletion_rate += Time.unscaledDeltaTime * GameplayController.DIFFICULTY * .0017f;
 		}
 
 		if (transform.localScale.x > minScaleThreshold)
@@ -156,7 +165,11 @@ public class BaseController : MonoBehaviour {
 			if (!gameplayController.DEBUG)
 			{
 				float dv = depletionRate * Time.unscaledDeltaTime;
-				transform.localScale -= new Vector3(dv, dv, dv);
+
+				if (!gameplayController.inTutorial)
+				{
+					transform.localScale -= new Vector3(dv, dv, dv);
+				}
 			}
 		}
 		else
@@ -215,7 +228,8 @@ public class BaseController : MonoBehaviour {
 
 		BaseController lastBase = transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<BaseController>();
 
-		float xRange = Random.Range(-1.15f, 2.15f) * GameplayController.DIFFICULTY * .2f;
+
+		float xRange = Random.Range(-1.35f, 2.35f) * GameplayController.DIFFICULTY * .2f;
 
 		xRange = Mathf.Clamp(xRange, -3.5f, 3.5f);
 
@@ -253,7 +267,7 @@ public class BaseController : MonoBehaviour {
 
 
 
-		ResetOuterRing();
+		//	ResetOuterRing();
 
 
 	}

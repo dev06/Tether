@@ -7,21 +7,21 @@ public class AudioController : MonoBehaviour {
 
 	public static AudioController Instance;
 
-	public bool playOnAwake; 
+	public bool playOnAwake;
 
 	public static bool Mute;
 
-	public static bool ReverbOn; 
+	public static bool ReverbOn;
 
 	private float menu_pitch = .85f;
 
 	private float slomo_pitch = .6f;
 
-	private float pause_pitch = .3f; 
+	private float pause_pitch = .3f;
 
-	private float pause_vol = .1f; 
+	private float pause_vol = .1f;
 
-	private float default_vol = 1f; 
+	private float default_vol = 1f;
 
 	private float default_pitch = 1f;
 
@@ -39,7 +39,7 @@ public class AudioController : MonoBehaviour {
 
 	private float pause_freq = 100;
 
-	private AudioReverbZone reverbZone; 
+	private AudioReverbZone reverbZone;
 
 
 
@@ -68,8 +68,8 @@ public class AudioController : MonoBehaviour {
 		EventManager.OnHoldStatus += OnHoldStatus;
 		EventManager.OnLevelChange += OnLevelChange;
 		EventManager.OnMute += OnMute;
-		EventManager.OnPause+=OnPause; 
-		EventManager.OnUnpause+=OnUnpause; 
+		EventManager.OnPause += OnPause;
+		EventManager.OnUnpause += OnUnpause;
 
 	}
 
@@ -80,8 +80,8 @@ public class AudioController : MonoBehaviour {
 		EventManager.OnHoldStatus -= OnHoldStatus;
 		EventManager.OnLevelChange -= OnLevelChange;
 		EventManager.OnMute -= OnMute;
-		EventManager.OnPause-=OnPause; 
-		EventManager.OnUnpause-=OnUnpause; 
+		EventManager.OnPause -= OnPause;
+		EventManager.OnUnpause -= OnUnpause;
 	}
 
 	public void Init()
@@ -90,7 +90,7 @@ public class AudioController : MonoBehaviour {
 
 		trackHandler = GetComponent<SwitchTrackHandler>();
 
-		reverbZone = GetComponent<AudioReverbZone>(); 
+		reverbZone = GetComponent<AudioReverbZone>();
 
 		source = GetComponent<AudioSource>();
 
@@ -103,7 +103,7 @@ public class AudioController : MonoBehaviour {
 		// }
 
 		ToggleReverb(AudioController.ReverbOn);
-		
+
 		StartCoroutine("SetMixer", slowmo_freq);
 		StartCoroutine("SetPitch", menu_pitch);
 	}
@@ -138,7 +138,7 @@ public class AudioController : MonoBehaviour {
 		StopAllCoroutines();
 		StartCoroutine("SetPitch", default_pitch);
 		StartCoroutine("SetMixer", default_freq);
-		StartCoroutine("SetVolume", default_vol); 
+		StartCoroutine("SetVolume", default_vol);
 	}
 
 	void Update ()
@@ -158,22 +158,23 @@ public class AudioController : MonoBehaviour {
 
 	private void SwitchTrack(Level l)
 	{
+		StopAllCoroutines();
 		Track t = Track.NONE;
-		float volume = 0; 
-		if(!playOnAwake) return; 
+		float volume = 0;
+		if (!playOnAwake) { return; }
 
 		switch (l)
 		{
 			case Level.LEVEL1:
 			{
 				t = Track.KILL;
-				volume = 1; 
+				volume = 1;
 				break;
 			}
 			case Level.LEVEL2:
 			{
 				t = Track.BELLS;
-				LockTaskPanel p = FindObjectOfType<LockTaskPanel>(); 
+				LockTaskPanel p = FindObjectOfType<LockTaskPanel>();
 				volume = !p.Active ? 1f : 0f;
 				break;
 			}
@@ -185,6 +186,15 @@ public class AudioController : MonoBehaviour {
 
 	void OnMute(bool b)
 	{
+		if (GameplayController.LevelIndex == 1)
+		{
+			LockTaskPanel p = FindObjectOfType<LockTaskPanel>();
+
+			if (p.Active)
+			{
+				return;
+			}
+		}
 		StopCoroutine("SetVolume");
 		StartCoroutine("SetVolume", b ? 0f : default_vol);
 	}
@@ -254,31 +264,31 @@ public class AudioController : MonoBehaviour {
 
 	public void ToggleReverb(bool b)
 	{
-		if(reverbZone == null)
+		if (reverbZone == null)
 		{
-			reverbZone = GetComponent<AudioReverbZone>(); 
+			reverbZone = GetComponent<AudioReverbZone>();
 		}
 
-		reverbZone.enabled = b; 
-		ReverbOn = b; 
+		reverbZone.enabled = b;
+		ReverbOn = b;
 	}
 
 
 	public string CurrentTrack()
 	{
-		string name = "Kill (Reborn) - Sauniks"; 
+		string name = "Kill (Reborn) - Sauniks";
 		switch (currentTrack)
 		{
 			case Track.KILL:
 			{
 				name =  "Kill (Reborn) - Sauniks";
-				break; 				
+				break;
 			}
 			case Track.BELLS:
 			{
-				LockTaskPanel p = FindObjectOfType<LockTaskPanel>(); 
-				name = !p.Active ?  "Carols Of The Bells - Sauniks": "Locked";
-				break; 				
+				LockTaskPanel p = FindObjectOfType<LockTaskPanel>();
+				name = !p.Active ?  "Carols Of The Bells - Sauniks" : "Locked";
+				break;
 			}
 		}
 

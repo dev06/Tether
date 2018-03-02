@@ -19,13 +19,13 @@ public class ObjectSpawner : MonoBehaviour {
 
 	public int powerup_index = 0;
 
-	public int  onLineHitBase_index = 0; 
+	public int  onLineHitBase_index = 0;
 
 	public Transform Particle_Boom;
 
 	public Transform Particle_Smoke;
 
-	public Transform Partilce_OnLineHitBase; 
+	public Transform Partilce_OnLineHitBase;
 
 	public Transform obj_powerup;
 
@@ -156,8 +156,8 @@ public class ObjectSpawner : MonoBehaviour {
 
 			if (previousBase != null)
 			{
-				float xRange = Random.Range(-1.15f, 2.15f);
-				float yRange = Random.Range(5f, 7f);
+				float xRange = 0;
+				float yRange = Random.Range(6f, 8f);
 				BaseQueue[i].transform.position = previousBase.transform.position + new Vector3(xRange, yRange, 0);
 			}
 
@@ -241,14 +241,14 @@ public class ObjectSpawner : MonoBehaviour {
 
 			case ParticleType.ONLINEHITBASE:
 			{
-				Partilce_OnLineHitBase.transform.GetChild(onLineHitBase_index).GetComponent<Particle>().Play(position, c); 
-				
-				onLineHitBase_index++; 
-				if(onLineHitBase_index > Partilce_OnLineHitBase.childCount -1)
+				Partilce_OnLineHitBase.transform.GetChild(onLineHitBase_index).GetComponent<Particle>().Play(position, c);
+
+				onLineHitBase_index++;
+				if (onLineHitBase_index > Partilce_OnLineHitBase.childCount - 1)
 				{
-					onLineHitBase_index = 0; 
+					onLineHitBase_index = 0;
 				}
-				break; 
+				break;
 			}
 		}
 	}

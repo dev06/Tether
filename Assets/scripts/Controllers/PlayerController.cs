@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
 
 	private int boostScoreAddition = 25;
 
+	private int idealScore = 0;
+
 	private Color scheme = Color.black;
 
 	private GameplayController gameplayController;
@@ -204,15 +206,17 @@ public class PlayerController : MonoBehaviour
 	private IEnumerator IStartBoost()
 	{
 
+		idealScore += boostScoreAddition;
+
 		trailRenderer.enabled = true;
 
-		gameplayController.hasUsedBoost = true; 
+		gameplayController.hasUsedBoost = true;
 
-		activeBoost = true;
+		gameplayController.boostActive = activeBoost = true;
 
 		bsm.Activate();
 
-		int currentScore = GameplayController.SCORE;
+		float currentScore = GameplayController.SCORE;
 
 		BaseController.VELOCITY_SCALE = 0f;
 
@@ -230,41 +234,30 @@ public class PlayerController : MonoBehaviour
 		boostPrism.Play();
 
 
-
-
 		transform.position = objectSpawner.nextBase.transform.position;
 
-		Time.timeScale = 2f;
+		Time.timeScale = 1.7f;
 
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 
+		float dividor = boostScoreAddition / 4f;
 
-		while (GameplayController.SCORE != currentScore + boostScoreAddition)
+		while (bsm.isPlaying())
 		{
+			GameplayController.SCORE +=  Time.deltaTime * dividor;
 
 			transform.position = objectSpawner.nextBase.transform.position;
 
 			line.Shoot();
 
+			//	spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
 
-			//Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 2f, ref timeVel, Time.unscaledDeltaTime * 75f);
-
-			//Time.fixedDeltaTime = Time.timeScale * .02f;
-
-			spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
-
-			boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, .1f)) + new Vector3(0, 0, 1f);
-
-
-			float shake = Random.Range(3.5f, 4.0f);
-
-			float shrinkFactor = Random.Range(6.0f, 7.5f);
-
-			cameraController.Jitter(shake, shrinkFactor);
+			//boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, .1f)) + new Vector3(0, 0, 1f);
 
 			yield return null;
-
 		}
+
+		gameplayController.boostActive = activeBoost = false;
 
 		currentBase.shouldRotate = true;
 
@@ -272,7 +265,6 @@ public class PlayerController : MonoBehaviour
 
 		BaseController.VELOCITY_SCALE = 1f;
 
-		activeBoost = false;
 
 		spikes.GetComponent<Particle>().Stop();
 
@@ -370,38 +362,20 @@ public class PlayerController : MonoBehaviour
 		if (col.gameObject == currentBase.transform.gameObject)
 		{
 
-			if (!activeBoost)
-			{
+			float shake = Random.Range(3.5f, 3.8f);
 
-				float shake = Random.Range(2.1f, 2.8f);
+			float shrinkFactor = Random.Range(9.0f, 10.0f);
 
-				float shrinkFactor = Random.Range(6.0f, 6.5f);
+			cameraController.Jitter(shake, shrinkFactor);
 
-				cameraController.Jitter(shake, shrinkFactor);
-
-				cameraController.SetYOffset(thrustDirection);
-			}
+			cameraController.SetYOffset(thrustDirection);
 
 			sfx.Play();
-			SpawnEffect();
 
-			//			cameraController.SetGlow(base_hit_glow);
+			SpawnEffect();
 		}
 	}
 
-
-	// void InvertColors()
-	// {
-
-
-	// 	Color current = hit_base.GetComponent<SpriteRenderer>().color;
-
-	// 	Color invert = current.r == 0 ? Color.white : Color.black;
-
-	// 	SetColor(invert);
-
-	// 	SpawnEffect();
-	// }
 
 	public void SetColor(Color c)
 	{
@@ -485,6 +459,13 @@ public class PlayerController : MonoBehaviour
 				Time.fixedDeltaTime = Time.timeScale * .02f;
 
 			}
+		}
+	}
+
+	public int IdealScore
+	{
+		get {
+			return idealScore;
 		}
 	}
 }

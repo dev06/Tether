@@ -10,7 +10,7 @@ public class Menu : ParentUI {
 
 	private LevelSelectUI tints;
 
-	public Text scoreText; 
+	public Text scoreText;
 	void Start ()
 	{
 		Init();
@@ -34,9 +34,9 @@ public class Menu : ParentUI {
 
 	void OnStateChange(State s)
 	{
-		if(s == State.MENU)
+		if (s == State.MENU)
 		{
-			scoreText.text = GameplayController.Instance.BestScore + " | " + GameplayController.Instance.LastScore; 
+			scoreText.text = ((int)GameplayController.Instance.BestScore) + " | " + ((int)GameplayController.Instance.LastScore);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class Menu : ParentUI {
 
 	void Update ()
 	{
-		if (GameplayController.GAME_STATE != State.MENU) 
+		if (GameplayController.GAME_STATE != State.MENU)
 		{
 			tints.transform.gameObject.SetActive(false);
 			return;

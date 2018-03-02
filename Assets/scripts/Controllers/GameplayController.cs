@@ -10,11 +10,11 @@ public class GameplayController : MonoBehaviour
 
 	private static bool Loaded = true;
 
-	public int LastScore = 0; 
+	public float LastScore = 0;
 
-	public int BestScore = 0; 
+	public float BestScore = 0;
 
-	public static int SCORE = 0;
+	public static float SCORE = 0;
 
 	public static Level Level;
 
@@ -30,13 +30,19 @@ public class GameplayController : MonoBehaviour
 
 	private bool isPaused;
 
-	public List<LockTask> lockTasks = new List<LockTask>(); 
+	public List<LockTask> lockTasks = new List<LockTask>();
 
-	public bool hasUsedBoost; 
+	public bool hasUsedBoost;
 
 	public bool AllTaskComplete;
 
-	private LockTaskPanel locktaskpanel; 
+	private LockTaskPanel locktaskpanel;
+
+	private PlayerController player;
+
+	public bool inTutorial = true;
+
+	public bool boostActive;
 
 	public static void SetState(State s)
 	{
@@ -91,22 +97,24 @@ public class GameplayController : MonoBehaviour
 
 		ObjectSpawner.Instance.Init();
 
-		locktaskpanel = FindObjectOfType<LockTaskPanel>(); 
+		player = PlayerController.Instance;
+
+		locktaskpanel = FindObjectOfType<LockTaskPanel>();
 
 	}
 
-	void OnApplicationQuit()
-	{
-		DeleteAll(); 
-	}
+	// void OnApplicationQuit()
+	// {
+	// 	DeleteAll();
+	// }
 
 	public void InitGameSettings()
 	{
 		Time.timeScale = 1f;
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 		DIFFICULTY = 0F;
-		LastScore = PlayerPrefs.GetInt("last"); 
-		BestScore = PlayerPrefs.GetInt("best"); 
+		LastScore = PlayerPrefs.GetFloat("last");
+		BestScore = PlayerPrefs.GetFloat("best");
 		SCORE = 0;
 		SetState(!Loaded ? State.INTRO : State.MENU);
 		Loaded = true;
@@ -124,9 +132,8 @@ public class GameplayController : MonoBehaviour
 
 	void OnGameOver()
 	{
-		PlayerPrefs.SetInt("last", SCORE); 
-	//	PlayerPrefs.SetString("ReverbToggle", AudioController.)
-		SaveBestScore(); 
+		PlayerPrefs.SetFloat("last", SCORE);
+		SaveBestScore();
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
@@ -138,30 +145,46 @@ public class GameplayController : MonoBehaviour
 
 	public void DeleteAll()
 	{
-		PlayerPrefs.DeleteAll(); 
+		PlayerPrefs.DeleteAll();
 	}
 
 
 	public void IncrementScore()
 	{
-		SCORE++;
+		if (inTutorial)
+		{
+			if (SCORE >= 1)
+			{
+				if (EventManager.OnTutorialEnd != null)
+				{
+					EventManager.OnTutorialEnd();
+				}
+
+				inTutorial = false;
+			}
+		}
+
+		if (!player.activeBoost)
+		{
+			SCORE++;
+		}
 		DIFFICULTY = Mathf.Log(SCORE);
 		DIFFICULTY = Mathf.Clamp(DIFFICULTY, 0, 10F);
 
 
-		if(SCORE >= LockTaskValue.Task1Value)
+		if (SCORE >= LockTaskValue.Task1Value)
 		{
-			if(locktaskpanel != null)
+			if (locktaskpanel != null)
 			{
-				locktaskpanel.InvokeLockTask(LockTaskID.ID_1); 
+				locktaskpanel.InvokeLockTask(LockTaskID.ID_1);
 			}
 		}
 
-		if(SCORE >= LockTaskValue.Task3Value && !hasUsedBoost)
+		if (SCORE >= LockTaskValue.Task3Value && !hasUsedBoost)
 		{
-			if(locktaskpanel != null)
+			if (locktaskpanel != null)
 			{
-				locktaskpanel.InvokeLockTask(LockTaskID.ID_3); 
+				locktaskpanel.InvokeLockTask(LockTaskID.ID_3);
 			}
 		}
 	}
@@ -196,18 +219,18 @@ public class GameplayController : MonoBehaviour
 
 	public void SaveBestScore()
 	{
-		if(PlayerPrefs.HasKey("best"))
+		if (PlayerPrefs.HasKey("best"))
 		{
-			int best = PlayerPrefs.GetInt("best"); 
+			float best = PlayerPrefs.GetFloat("best");
 
-			if(SCORE > best)
+			if (SCORE > best)
 			{
-				PlayerPrefs.SetInt("best", SCORE); 
+				PlayerPrefs.SetFloat("best", SCORE);
 			}
 		}
 		else
 		{
-			PlayerPrefs.SetInt("best", SCORE); 
+			PlayerPrefs.SetFloat("best", SCORE);
 		}
 	}
 
@@ -221,15 +244,15 @@ public class GameplayController : MonoBehaviour
 
 	public LockTask GetLockTask(LockTaskID id)
 	{
-		foreach(LockTask l in lockTasks)
+		foreach (LockTask l in lockTasks)
 		{
-			if(l.taskID == id)
+			if (l.taskID == id)
 			{
-				return l; 
+				return l;
 			}
 		}
 
-		return null; 
+		return null;
 	}
 
 }

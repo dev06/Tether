@@ -53,9 +53,9 @@ public class LineController : MonoBehaviour {
 
 	private bool pressed;
 
-	public int baseHitCounter; 
+	public int baseHitCounter;
 
-	private LockTaskPanel locktaskpanel; 
+	private LockTaskPanel locktaskpanel;
 
 	void OnEnable()
 	{
@@ -101,7 +101,7 @@ public class LineController : MonoBehaviour {
 
 		line.startWidth = line.endWidth = 0;
 
-		locktaskpanel = FindObjectOfType<LockTaskPanel>(); 
+		locktaskpanel = FindObjectOfType<LockTaskPanel>();
 
 		isInit = true;
 	}
@@ -198,6 +198,10 @@ public class LineController : MonoBehaviour {
 	public LayerMask layer, allHit;
 
 
+
+
+
+
 	public void Shoot()
 	{
 		if (attached) { return; }
@@ -205,6 +209,8 @@ public class LineController : MonoBehaviour {
 		float tether_legth = 30f;
 
 		RaycastHit2D hit = Physics2D.Raycast(transform.position,  transform.right, tether_legth, layer);
+
+		//Debug.Log(hit);
 
 		if (!player.activeBoost)
 		{
@@ -257,7 +263,7 @@ public class LineController : MonoBehaviour {
 
 			player.thrustDirection = transform.right * 15f;
 
-			object[] objs = new object[2] {hit.transform.GetComponent<BaseController>(), hit.point};
+			object[] objs = new object[3] {hit.transform.GetComponent<BaseController>(), hit.point, hit.transform.gameObject};
 
 			StopCoroutine("Retract");
 
@@ -269,14 +275,14 @@ public class LineController : MonoBehaviour {
 
 			objectSpawner.SpawnParticle(ParticleType.ONLINEHITBASE, hit.point, color);
 
-			baseHitCounter++; 
+			baseHitCounter++;
 
-			if(baseHitCounter >= LockTaskValue.Task2Value)
+			if (baseHitCounter >= LockTaskValue.Task2Value)
 			{
-				if(locktaskpanel != null)
+				if (locktaskpanel != null)
 				{
-					
-					locktaskpanel.InvokeLockTask(LockTaskID.ID_2); 
+
+					locktaskpanel.InvokeLockTask(LockTaskID.ID_2);
 				}
 			}
 		}
@@ -290,7 +296,7 @@ public class LineController : MonoBehaviour {
 
 		if (!hitSomething)
 		{
-			baseHitCounter = 0; 
+			baseHitCounter = 0;
 
 			StopCoroutine("Retract");
 
@@ -304,6 +310,9 @@ public class LineController : MonoBehaviour {
 		BaseController hitBase = (BaseController)objs[0];
 
 		Vector2 hitPosition = (Vector2)objs[1];
+
+		GameObject g = (GameObject)objs[2];
+
 
 		attached = true;
 
@@ -328,22 +337,25 @@ public class LineController : MonoBehaviour {
 		}
 		else
 		{
-			if (!player.activeBoost)
+			if (g.tag == "Objects/border")
 			{
+				if (!player.activeBoost)
+				{
 
-				Camera.main.GetComponent<CameraController>().freezeCamera = true;
+					Camera.main.GetComponent<CameraController>().freezeCamera = true;
 
-				Time.timeScale = .1f;
+					Time.timeScale = .1f;
 
-				Time.fixedDeltaTime = Time.timeScale * .02f;
+					Time.fixedDeltaTime = Time.timeScale * .02f;
 
+					gameOver = true;
 
-				StopCoroutine("LerpTimeToNormal");
+					StopCoroutine("LerpTimeToNormal");
 
-				StartCoroutine("LerpTimeToNormal");
-
-				gameOver = true;
+					StartCoroutine("LerpTimeToNormal");
+				}
 			}
+
 		}
 
 
