@@ -30,6 +30,8 @@ public class LineController : MonoBehaviour {
 
 	private bool hitSomething = false;
 
+	private bool shotTether = false; 
+
 
 	public float speed = 3.0f;
 
@@ -56,6 +58,8 @@ public class LineController : MonoBehaviour {
 	public int baseHitCounter;
 
 	private LockTaskPanel locktaskpanel;
+
+//	public LineRenderer debugLine; 
 
 	void OnEnable()
 	{
@@ -116,6 +120,10 @@ public class LineController : MonoBehaviour {
 		if (GameplayController.GAME_STATE == State.PAUSE) { return; }
 
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
+
+		debugLine.SetPosition(0, player.transform.position); 
+
+		debugLine.SetPosition(1, player.transform.position +player.transform.right); 
 
 		if (controlTimer < 1)
 		{
@@ -197,8 +205,68 @@ public class LineController : MonoBehaviour {
 
 	public LayerMask layer, allHit;
 
+	Vector2 hitPosition; 
+
+	bool outside; 
+
+	public LineRenderer debugLine; 
+
+	IEnumerator OutsideBounds()
+	{
+		bool attachRunning = false; 
+		bool shouldCount = true; 
+		Vector2 outp = Vector2.zero; 
+		while(true)
+		{
+			
+			Vector2 viewport = Camera.main.WorldToViewportPoint(player.transform.position + player.transform.right * 30f); 
+
+			if(viewport.x < 0 || viewport.x > 1f)
+			{
+				
+				if(outp == Vector2.zero)
+				{
+					outp = viewport; 
+					Debug.Log(outp); 
+					
+				}
+				//Debug.Log((line.GetPosition(1).x - player.transform.position.x )+ " "  + (line.GetPosition(1).y - player.transform.position.y)); 
+				//viewport = new Vector2(Mathf.Clamp(viewport.x,0,1), viewport.y);  
+
+				player.currentBase.shouldRotate = false; 
+
+				hitPosition = Camera.main.ViewportToWorldPoint(viewport); 
 
 
+				//Debug.Log(hitPosition); 
+
+				endLinePosition = hitPosition; 
+
+				line.SetPosition(1, hitPosition); 
+
+				// object[] objs = new object[3] {null, hitPosition, null};
+
+				// if(attachRunning == false)
+				// {
+
+				// 	StopCoroutine("Retract");
+
+				// 	StopCoroutine("Attach");
+
+				// 	StartCoroutine("Attach", objs);
+
+				// 	attachRunning = true; 
+				// }
+
+
+				outside = true; 
+				
+			}
+
+			//Debug.Log(viewport); 
+			yield return null; 
+		}
+	}
 
 
 
@@ -206,30 +274,30 @@ public class LineController : MonoBehaviour {
 	{
 		if (attached) { return; }
 
-		float tether_legth = 30f;
+		float tether_legth = 100f;
 
-		RaycastHit2D hit = Physics2D.Raycast(transform.position,  transform.right, tether_legth, layer);
+		Vector3 start = player.transform.position; 
+		Vector3 dir = player.transform.right; 
+		RaycastHit2D hit = Physics2D.Raycast(start, dir, tether_legth, layer);
 
-		//Debug.Log(hit);
 
-		if (!player.activeBoost)
+		// StopCoroutine("OutsideBounds"); 
+		// StartCoroutine("OutsideBounds"); 
+
+
+		hitSomething = (hit.collider != null);
+
+		if (!player.activeBoost && hitSomething)
 		{
-			RaycastHit2D all = Physics2D.Raycast(transform.position,  transform.right, tether_legth / 2f, layer);
 
-			if (all.collider != null)
+			if(hit.transform.gameObject.tag == "Objects/powerup")
 			{
-				if (all.transform.gameObject.tag == "Objects/powerup")
+				if (EventManager.OnBoostStart != null)
 				{
-
-					all.transform.gameObject.SetActive(false);
-
-					if (EventManager.OnBoostStart != null)
-					{
-						EventManager.OnBoostStart();
-					}
-
+					EventManager.OnBoostStart();
 				}
 			}
+
 		}
 
 		player.currentBase.shouldRotate = false;
@@ -242,9 +310,9 @@ public class LineController : MonoBehaviour {
 
 		endLineToPlayer = false;
 
-		hitSomething = (hit.collider != null);
 
 		line.startWidth = line.endWidth = defaultLineWidth;
+
 
 		if (hitSomething)
 		{
@@ -291,21 +359,22 @@ public class LineController : MonoBehaviour {
 			endLinePosition = transform.position + (transform.right * tether_legth);
 
 			line.SetPosition(1, endLinePosition);
-		}
 
-
-		if (!hitSomething)
-		{
 			baseHitCounter = 0;
+
 
 			StopCoroutine("Retract");
 
 			StartCoroutine("Retract");
+
+
 		}
+
 	}
 
 	IEnumerator Attach(object[] objs)
 	{
+
 
 		BaseController hitBase = (BaseController)objs[0];
 
@@ -368,18 +437,19 @@ public class LineController : MonoBehaviour {
 
 		hitSomething = false;
 
-		while (Mathf.Abs(Vector2.Distance(hitPosition, startLinePosition)) > .01f)
+
+		while (Mathf.Abs(Vector2.Distance(hitPosition, startLinePosition)) > .02f)
 		{
 
-			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.unscaledDeltaTime * 20f);
+			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.unscaledDeltaTime * 25f);
 
 			player.SetLocation(startLinePosition);
 
 			yield return null;
 		}
 
-
 		attached = false;
+
 
 		player.currentBase.shouldRotate = true;
 
@@ -388,6 +458,8 @@ public class LineController : MonoBehaviour {
 		player.currentBase.transform.gameObject.layer = 9;
 
 		player.Round();
+
+		//StopCoroutine("OutsideBounds"); 
 
 		if (gameOver)
 		{
@@ -398,24 +470,42 @@ public class LineController : MonoBehaviour {
 		}
 	}
 
+	public void SetEndLinePosition(Vector3 position)
+	{
+		endLinePosition = position; 
+
+		line.SetPosition(1, position);
+
+		endLineToPlayer = false; 
+	}
+
+
 	IEnumerator Retract()
 	{
+//		yield return new WaitForSeconds(2); 
 
+		float difference = Mathf.Abs(Vector2.Distance(endLinePosition, player.transform.position)); 
 
-		while (Mathf.Abs(Vector2.Distance(endLinePosition, player.transform.position)) > .07f)
+		while (difference > .07f)
 		{
 
-			endLinePosition = Vector3.Lerp(endLinePosition, player.transform.position, Time.deltaTime * 10f);
+			endLinePosition = Vector3.Lerp(endLinePosition, player.transform.position, Time.deltaTime * 15f);
+
+			difference = Mathf.Abs((endLinePosition - player.transform.position).magnitude);
 
 			yield return null;
 		}
 
 		BaseController.VELOCITY_SCALE = 1F;
 
+		//StopCoroutine("OutsideBounds"); 
 
 		player.currentBase.shouldRotate = true;
 
 		endLineToPlayer = true;
+
+
+
 	}
 
 

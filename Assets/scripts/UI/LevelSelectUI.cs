@@ -49,11 +49,13 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private SettingPanel settingPanel;
 
-	private bool canStartGame;
+	private bool canStartGame = true;
 
 	private float magnitude;
 
 	private bool controlOnStateChange;
+
+	private Vector2 displacement; 
 
 
 	void Start ()
@@ -143,11 +145,28 @@ public class LevelSelectUI : MonoBehaviour {
 
 			lastMousePosition = Input.mousePosition;
 
+			displacement = Vector2.zero; 
+		}
+
+
+
+		if(isHolding)
+		{
+			displacement += (Vector2)lastMousePosition - (Vector2)Input.mousePosition; 
+
+			displacement.x = Mathf.Abs(displacement.x); 
+
+			if(Mathf.Abs(displacement.x) > Screen.width * .01f)
+			{
+				canStartGame = false; 
+			}
+			//Debug.Log(displacement ); 
 		}
 
 		if (Input.GetMouseButtonUp(0))
 		{
 
+			canStartGame = true; 
 			mousePositionUp = Input.mousePosition;
 
 			delta = mousePositionUp.x - mousePositionDown.x;
@@ -158,14 +177,8 @@ public class LevelSelectUI : MonoBehaviour {
 			magnitude = Mathf.Abs(delta);
 
 
-			canStartGame = magnitude < tapThreshold;
 
-			if (magnitude < tapThreshold)
-			{
 
-				//StartGame();
-
-			}
 
 			if (magnitude < nextSwipeThreshold * Screen.width) {
 
@@ -243,13 +256,15 @@ public class LevelSelectUI : MonoBehaviour {
 			canStart = !panel.Active;
 		}
 
-		if (!canStart) { return; }
+		if (!canStart || !canStartGame) { return; }
 
 		levelController.SetLevel( Level.LEVEL1);
 
 		transform.gameObject.SetActive(false);
 
 		GameplayController.LevelIndex = index;
+
+		
 
 		menu.StartGame(level);
 

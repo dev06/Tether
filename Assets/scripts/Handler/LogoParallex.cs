@@ -23,7 +23,7 @@ public class LogoParallex : MonoBehaviour {
 
 		if (camera.isMoving)
 		{
-			float speed = camera.isMoving ? .5f : 0f;
+			float speed = camera.isMoving ? 1.5f : 0f;
 			transform.Translate(-Vector3.up * speed * Time.unscaledDeltaTime);
 		}
 	}

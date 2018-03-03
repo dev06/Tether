@@ -5,15 +5,18 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour {
 
 	SpriteRenderer renderer; 
+	BoxCollider2D collider; 
 
 	void Start()
 	{
 		renderer = GetComponent<SpriteRenderer>(); 
+		collider = GetComponent<BoxCollider2D>(); 
 	}
 	
 	void Update () 
 	{
 		renderer.enabled = IsInView(); 
+		collider.enabled = renderer.enabled; 
 	}
 
 	bool IsInView()

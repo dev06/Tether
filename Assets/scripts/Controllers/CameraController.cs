@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using MK.Glow;
 using  UnityStandardAssets.ImageEffects;
+using UnityEngine.UI; 
 public class CameraController : MonoBehaviour {
-
 
 	public bool freezeCamera;
 
@@ -168,7 +168,7 @@ public class CameraController : MonoBehaviour {
 
 		Camera.main.orthographicSize = Mathf.SmoothDamp(Camera.main.orthographicSize, GetDistance(), ref vel, Time.deltaTime * 15f);
 
-		transform.position = Vector3.Lerp(transform.position, GetAveragePosition() +  new Vector3(0, 0, -10f) + new Vector3(jitter.x, 0, -10f) + hitOffset, Time.deltaTime * 4.0f);
+		transform.position = Vector3.Lerp(transform.position, GetAveragePosition() +  new Vector3(0, 0, -10f) + new Vector3(jitter.x, 0, -10f) + hitOffset, Time.deltaTime * 3.0f);
 
 		backgroundSmoke.position = transform.position + new Vector3(0, 0, 10);
 	}
@@ -225,13 +225,14 @@ public class CameraController : MonoBehaviour {
 
 	}
 
-
 	float GetDistance()
 	{
 
 		float averageSize = (player.currentBase.size + spawner.nextBase.size) / 10f;
 
-		return 	Vector2.Distance(player.currentBase.transform.position, positions[1]) + averageSize;
+		float slowmo = player.isHolding ? 1f : 0;
+
+		return 	Vector2.Distance(player.currentBase.transform.position, positions[1]) + averageSize - slowmo;
 	}
 	float boostShakeTimer;
 

@@ -97,6 +97,7 @@ public class SimpleButtonHandler : ButtonEventHandler {
 		if (buttonID == ButtonID.STARTAREA)
 		{
 			mouseUp = data.position;
+			
 			float mag = Mathf.Abs(mouseUp.x - mouseDown.x);
 
 			if (mag < 20)

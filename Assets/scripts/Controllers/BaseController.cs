@@ -78,6 +78,11 @@ public class BaseController : MonoBehaviour {
 	}
 	void Update()
 	{
+
+		if(Input.GetKeyDown(KeyCode.T))
+		{
+			shouldRotate = !shouldRotate; 
+		}
 		if (GameplayController.GAME_STATE == State.PAUSE) { return; }
 
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
@@ -229,7 +234,7 @@ public class BaseController : MonoBehaviour {
 		BaseController lastBase = transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<BaseController>();
 
 
-		float xRange = Random.Range(-1.35f, 2.35f) * GameplayController.DIFFICULTY * .2f;
+		float xRange = Random.Range(-1.45f, 2.45f) * GameplayController.DIFFICULTY * .2f;
 
 		xRange = Mathf.Clamp(xRange, -3.5f, 3.5f);
 
@@ -255,7 +260,9 @@ public class BaseController : MonoBehaviour {
 
 		SetFreeze(false);
 
-		if (GameplayController.SCORE % 6 == 0)
+		int count = Random.Range(6, 11); 
+
+		if (GameplayController.SCORE % count == 0)
 		{
 
 			Vector3 pos = (transform.parent.GetChild(transform.parent.childCount - 2).transform.position + transform.position) / 2f;

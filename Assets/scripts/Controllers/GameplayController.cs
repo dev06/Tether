@@ -80,9 +80,9 @@ public class GameplayController : MonoBehaviour
 			DestroyImmediate(gameObject);
 		}
 
-
-
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
+		
+
 
 		InitGameSettings();
 

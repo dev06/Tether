@@ -59,6 +59,8 @@ public class SwitchTrackHandler: MonoBehaviour {
 
 		source.time = Random.Range(10, clip.length - 60f);
 
+		yield return null; 
+
 		while (source.volume < targetVolume)
 		{
 			source.volume += Time.unscaledDeltaTime * trackChangeRate;

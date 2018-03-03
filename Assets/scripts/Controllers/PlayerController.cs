@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
 
 		transform.position = objectSpawner.nextBase.transform.position;
 
-		Time.timeScale = 1.7f;
+		Time.timeScale = 1.5f;
 
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 
@@ -249,10 +249,6 @@ public class PlayerController : MonoBehaviour
 			transform.position = objectSpawner.nextBase.transform.position;
 
 			line.Shoot();
-
-			//	spikes.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
-
-			//boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, .1f)) + new Vector3(0, 0, 1f);
 
 			yield return null;
 		}
@@ -374,7 +370,17 @@ public class PlayerController : MonoBehaviour
 
 			SpawnEffect();
 		}
+		else if(col.gameObject.tag == "Objects/border")
+		{
+			
+			// if (EventManager.OnGameOver != null)
+			// {
+			// 	EventManager.OnGameOver();
+			// }
+		}
 	}
+
+	
 
 
 	public void SetColor(Color c)

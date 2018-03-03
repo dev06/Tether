@@ -33,8 +33,8 @@ public class BoostSpriteMask : MonoBehaviour {
 		if (player.activeBoost)
 		{
 			boostShakeTimer += Time.unscaledDeltaTime;
-			float shake = BoostShake();
-			// maskOffsetTimer += Time.unscaledDeltaTime;
+			float shake = BoostShake() * boostShakeTimer * .8f; 
+			// maskOffsetTimer += Time.unscaledDeltaTime; 
 			// float offset = .2f;
 			// float horizontalOffset = Mathf.PingPong(maskOffsetTimer * 100f, offset) - (offset * .5f);
 			transform.localPosition = new Vector3(shake, 0, 0);
@@ -50,7 +50,7 @@ public class BoostSpriteMask : MonoBehaviour {
 
 	float BoostShake()
 	{
-		float offset = 20f;
+		float offset = 20;
 		return Mathf.PingPong(boostShakeTimer * 550f, offset) - (offset * .5f);
 	}
 
