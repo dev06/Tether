@@ -19,18 +19,23 @@ public class BaseController : MonoBehaviour {
 
 	public static float DEFAULT_MAX_SCALE = 3f;
 
-	public static float SpawnScore = 0;
+
 
 	public PlayerController player;
+
+	public float size;
 
 	public Vector3 targetScale;
 
 	public bool shouldRotate = true;
 
 	public bool visited;
-	public float size;
+
+	public Transform outerRing;
 
 	public Transform maskTransform;
+
+
 
 	private GameplayController gameplayController;
 
@@ -44,16 +49,15 @@ public class BaseController : MonoBehaviour {
 
 	private float alpha = 1f;
 
+	private Vector3 targetLocation;
+
 	private ObjectSpawner objectSpawner;
 
 	private bool freeze;
 
-	private Vector3 targetLocation;
-
 	private SpriteRenderer renderer;
 
 	private ParticleSystem zap;
-
 
 	public void Initialize()
 	{
@@ -75,28 +79,37 @@ public class BaseController : MonoBehaviour {
 	void Update()
 	{
 
+		if(Input.GetKeyDown(KeyCode.T))
+		{
+			shouldRotate = !shouldRotate; 
+		}
 		if (GameplayController.GAME_STATE == State.PAUSE) { return; }
 
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
+		//		renderer.material.SetColor("Glow Color", renderer.color);
 
-		if (player == null && visited )
+		if (player == null && visited)
 		{
-			if (!gameplayController.boostActive)
-			{
-				zap.transform.position = transform.position;
-				zap.startColor = renderer.color;
-				zap.Play();
-			}
-
+			zap.transform.position = transform.position;
+			zap.startColor = renderer.color;
+			zap.Play();
 			PoolBase();
 
 		}
+
+		// if (Input.GetKeyDown(KeyCode.Y))
+		// {
+		// 	zap.transform.position = transform.position;
+		// 	zap.startColor = renderer.color;
+		// 	zap.Play();
+		// }
 
 
 		if (player == null)
 		{
 			gameObject.layer = 8;
+			ResetOuterRing();
 			return;
 		}
 
@@ -134,8 +147,6 @@ public class BaseController : MonoBehaviour {
 			shouldRotate = false;
 		}
 
-		size = transform.localScale.x;
-
 		if (shouldRotate)
 		{
 
@@ -172,14 +183,56 @@ public class BaseController : MonoBehaviour {
 			{
 				EventManager.OnGameOver();
 			}
+
+			//UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 		}
+
+		size = transform.localScale.sqrMagnitude;
+
 	}
 
+	public void SpawnRing(Color c)
+	{
+	}
+
+	private IEnumerator ISpawnRing(Color c)
+	{
+		float offset = 1.3f;
+
+		SpriteRenderer outerRingColor = outerRing.GetComponent<SpriteRenderer>();
+
+		while (player != null)
+		{
+
+			outerRing.gameObject.SetActive(true);
+
+			alpha -= Time.unscaledDeltaTime ;
+
+			Color col = new Color(c.r, c.g, c.b, alpha);
+
+			outerRingColor.color = col;
+
+			Vector3 scale = new Vector3(transform.localScale.x + offset, transform.localScale.y + offset, transform.localScale.z + offset);
+
+			outerRing.transform.localScale = Vector3.Lerp(outerRing.transform.localScale, scale, Time.unscaledDeltaTime * 3f);
+
+			float speed = (1.7f - maskTransform.localScale.x) * Time.unscaledDeltaTime;
+
+			if (maskTransform.localScale.x < 1.9f)
+			{
+				maskTransform.transform.localScale += new Vector3(speed, speed, speed);
+			}
+			yield return null;
+		}
+
+
+	}
 
 	private void PoolBase()
 	{
 
 		BaseController lastBase = transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<BaseController>();
+
 
 		float xRange = Random.Range(-1.45f, 2.45f) * GameplayController.DIFFICULTY * .2f;
 
@@ -207,28 +260,36 @@ public class BaseController : MonoBehaviour {
 
 		SetFreeze(false);
 
+		int count = Random.Range(6, 11); 
 
-
-		int count = 10;
-
-		if (gameplayController.boostActive == false)
+		if (GameplayController.SCORE % count == 0)
 		{
-			if (GameplayController.SCORE > SpawnScore + (count - 2) )
-			{
-				Vector3 pos = (transform.parent.GetChild(transform.parent.childCount - 2).transform.position + transform.position) / 2f;
 
-				objectSpawner.SpawnPowerup(pos);
+			Vector3 pos = (transform.parent.GetChild(transform.parent.childCount - 2).transform.position + transform.position) / 2f;
 
-				SpawnScore = GameplayController.SCORE;
-			}
-		} else
-		{
-			SpawnScore = GameplayController.SCORE;
+			objectSpawner.SpawnPowerup(pos);
 		}
 
-
-
 		visited = false;
+
+
+
+		//	ResetOuterRing();
+
+
+	}
+
+	private void ResetOuterRing()
+	{
+
+		outerRing.transform.localScale = new Vector3(1, 1, 1);
+
+		maskTransform.localScale = new Vector3(1, 1, 1);
+
+		outerRing.gameObject.SetActive(false);
+
+		alpha = 1f;
+
 	}
 
 	public void SetFreeze(bool f)

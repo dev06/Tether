@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using System;
 public class AudioController : MonoBehaviour {
 
 
@@ -41,7 +42,7 @@ public class AudioController : MonoBehaviour {
 
 	private AudioReverbZone reverbZone;
 
-	private bool init;
+	private bool init; 
 
 
 
@@ -72,7 +73,7 @@ public class AudioController : MonoBehaviour {
 		EventManager.OnMute += OnMute;
 		EventManager.OnPause += OnPause;
 		EventManager.OnUnpause += OnUnpause;
-		EventManager.OnStateChange += OnStateChange;
+		EventManager.OnStateChange+=OnStateChange; 
 
 	}
 
@@ -85,7 +86,7 @@ public class AudioController : MonoBehaviour {
 		EventManager.OnMute -= OnMute;
 		EventManager.OnPause -= OnPause;
 		EventManager.OnUnpause -= OnUnpause;
-		EventManager.OnStateChange -= OnStateChange;
+		EventManager.OnStateChange-=OnStateChange; 
 	}
 
 	public void Init()
@@ -100,8 +101,6 @@ public class AudioController : MonoBehaviour {
 
 		source = GetComponent<AudioSource>();
 
-		trackHandler.SetAudioSource(source);
-
 		targetTransform = Camera.main.transform;
 
 		mixer = GetComponent<Mixer>();
@@ -110,25 +109,20 @@ public class AudioController : MonoBehaviour {
 		// {
 		// }
 
-		if (init == false)
-		{
-			source.time = Random.Range(0f, source.clip.length - 120f);
-		}
-
-		init = true;
+		init = true; 
 
 		ToggleReverb(AudioController.ReverbOn);
 
-		targetVol = default_vol;
-		targetPitch = menu_pitch;
-		targetMixer = slowmo_freq;
+		targetVol = default_vol; 
+		targetPitch = menu_pitch; 
+		targetMixer = slowmo_freq; 
 
-		// StopAllCoroutines();
-		// Debug.LogError("Init called");
-		// targetPitch = menu_pitch;
+		// StopAllCoroutines(); 
+		// Debug.LogError("Init called"); 
+		// targetPitch = menu_pitch; 
 		// StartCoroutine("SetMixer", slowmo_freq);
 		// //StartCoroutine("SetPitch", menu_pitch);
-		// StartCoroutine("SetVolume", default_vol);
+		// StartCoroutine("SetVolume", default_vol); 
 	}
 
 
@@ -141,32 +135,32 @@ public class AudioController : MonoBehaviour {
 
 			// if(s == State.MENU)
 			// {
-			// 	StopAllCoroutines();
+			// 	StopAllCoroutines(); 
 			// 	if(!init)
 			// 	{
-			// 		Init();
+			// 		Init(); 
 			// 	}
 			// 	StartCoroutine("SetMixer", slowmo_freq);
 			// 	StartCoroutine("SetPitch", menu_pitch);
-			// 	StartCoroutine("SetVolume", default_vol);
+			// 	StartCoroutine("SetVolume", default_vol); 
 			// }
 		}
-		catch (System.Exception e)
+		catch(System.Exception e)
 		{
-			Debug.Log("Wrong");
+			Debug.Log("Wrong"); 	
 		}
 
 	}
 
 	void OnGameStart()
-	{
+	{ 
 		// StopAllCoroutines();
 		// StartCoroutine("SetPitch", default_pitch);
 		// StartCoroutine("SetMixer", default_freq);
 		//mixer.SetFloat("Lowpass", 5000f);
 
-		targetPitch = default_pitch;
-		targetMixer = default_freq;
+		targetPitch = default_pitch; 
+		targetMixer = default_freq; 
 	}
 
 	void OnGameOver()
@@ -184,8 +178,8 @@ public class AudioController : MonoBehaviour {
 		// StartCoroutine("SetPitch", pause_pitch);
 		// StartCoroutine("SetVolume", pause_vol);
 
-		targetPitch = pause_pitch;
-		targetMixer = pause_freq;
+		targetPitch = pause_pitch; 
+		targetMixer = pause_freq; 
 	}
 
 	void OnUnpause()
@@ -195,21 +189,21 @@ public class AudioController : MonoBehaviour {
 		// StartCoroutine("SetMixer", default_freq);
 		// StartCoroutine("SetVolume", default_vol);
 
-		targetPitch = default_pitch;
-		targetMixer = default_freq;
+		targetPitch = default_pitch; 
+		targetMixer = default_freq; 
 	}
 
-	float targetPitch;
-	float targetVol;
-	float targetMixer;
-	float v1, v2, v3;
-	float mv;
+	float targetPitch; 
+	float targetVol; 
+	float targetMixer; 
+	float v1, v2, v3; 
+	float mv; 
 	void Update ()
 	{
-		source.pitch = Mathf.SmoothDamp(source.pitch, targetPitch, ref v1, Time.deltaTime * 10f);
-		//source.volume = Mathf.SmoothDamp(source.volume, targetVol, ref v2, Time.deltaTime * 10f);
-		mixer.GetFloat("Lowpass", out mv);
-		mixer.SetFloat("Lowpass", Mathf.SmoothDamp(mv, targetMixer, ref v3, Time.deltaTime * 10f));
+		source.pitch = Mathf.SmoothDamp(source.pitch, targetPitch, ref v1, Time.deltaTime * 10f); 
+		//source.volume = Mathf.SmoothDamp(source.volume, targetVol, ref v2, Time.deltaTime * 10f); 
+		mixer.GetFloat("Lowpass", out mv); 
+		mixer.SetFloat("Lowpass", Mathf.SmoothDamp(mv, targetMixer, ref v3, Time.deltaTime * 10f)); 
 
 	}
 
@@ -247,8 +241,6 @@ public class AudioController : MonoBehaviour {
 			}
 		}
 
-		volume = Mute ? 0f : volume;
-
 		trackHandler.SwitchTrack(t, source, volume);
 		SetCurrentTrack(t);
 	}
@@ -265,14 +257,14 @@ public class AudioController : MonoBehaviour {
 			}
 		}
 
-		targetVol = b ? 0f : default_vol;
+		targetVol = b ? 0f : default_vol; 
 		//StopCoroutine("SetVolume");
-		//	StartCoroutine("SetVolume", b ? 0f : default_vol);
+	//	StartCoroutine("SetVolume", b ? 0f : default_vol);
 	}
 
 	// IEnumerator SetMixer(float v)
 	// {
-	// 	//Debug.LogError("Mixer Start");
+	// 	//Debug.LogError("Mixer Start"); 
 	// 	float mixerVel = 0;
 	// 	float current ;
 	// 	float vv = 0 ;
@@ -295,7 +287,7 @@ public class AudioController : MonoBehaviour {
 	// 	{
 	// 		current = Mathf.SmoothDamp(source.pitch, p, ref pitchVel, Time.deltaTime * 10f);
 	// 		source.pitch = current;
-	// 		Debug.LogError(source.pitch);
+	// 		Debug.LogError(source.pitch); 
 	// 		yield return null;
 	// 	}
 	// }
@@ -322,7 +314,7 @@ public class AudioController : MonoBehaviour {
 			// StartCoroutine("SetPitch", slomo_pitch);
 			// StartCoroutine("SetMixer", slowmo_freq);
 
-			targetPitch = slomo_pitch;
+			targetPitch = slomo_pitch; 
 			targetMixer = slowmo_freq;
 		}
 		else
@@ -332,8 +324,8 @@ public class AudioController : MonoBehaviour {
 			// StartCoroutine("SetPitch", default_pitch);
 			// StartCoroutine("SetMixer", default_freq);
 
-			targetPitch = default_pitch;
-			targetMixer = default_freq;
+			targetPitch = default_pitch; 
+			targetMixer = default_freq; 
 		}
 	}
 

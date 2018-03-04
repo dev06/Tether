@@ -7,10 +7,10 @@ public class BorderController : MonoBehaviour {
 	Camera camera;
 	Vector3 position;
 	float borderThickness = 30f;
-	BoxCollider2D collider;
+	BoxCollider2D collider; 
 	GameplayController gameplayController;
-	PlayerController player;
-	float timer;
+	PlayerController player; 
+	float timer; 
 
 	public enum BorderType
 	{
@@ -26,18 +26,26 @@ public class BorderController : MonoBehaviour {
 	{
 		camera = Camera.main;
 		gameplayController = GameplayController.Instance;
-		collider = GetComponent<BoxCollider2D>();
-		collider.enabled = false;
-		player = PlayerController.Instance;
+		collider = GetComponent<BoxCollider2D>(); 
+		collider.enabled = false; 
+		player = PlayerController.Instance; 
 	}
 
 
 	void Update ()
 	{
-		if (GameplayController.GAME_STATE != State.GAME) return;
+		if(GameplayController.GAME_STATE != State.GAME) return; 
 
-		collider.enabled = !player.activeBoost;
+		timer+=Time.unscaledDeltaTime; 
+
+		if(timer < .5f)
+		{
+			return; 
+		}
+
+		collider.enabled = !player.activeBoost; 
 		SetPosition(type);
+
 		transform.gameObject.SetActive(!gameplayController.DEBUG);
 	}
 

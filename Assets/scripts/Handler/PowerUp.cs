@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour {
 
-	SpriteRenderer renderer;
-	BoxCollider2D collider;
+	SpriteRenderer renderer; 
+	BoxCollider2D collider; 
 
 	void Start()
 	{
-		renderer = GetComponent<SpriteRenderer>();
-		collider = GetComponent<BoxCollider2D>();
+		renderer = GetComponent<SpriteRenderer>(); 
+		collider = GetComponent<BoxCollider2D>(); 
 	}
-
-	void Update ()
+	
+	void Update () 
 	{
-		renderer.enabled = IsInView();
-		collider.enabled = renderer.enabled;
+		renderer.enabled = IsInView(); 
+		collider.enabled = renderer.enabled; 
 	}
 
 	bool IsInView()
 	{
-		Vector3 port = Camera.main.WorldToViewportPoint(transform.position);
-
-		if (port.y > 0 && port.y < 1)
+		Vector3 port = Camera.main.WorldToViewportPoint(transform.position); 
+		
+		if(port.y > 0 && port.y < 1)
 		{
-			return true;
+			return true; 
 		}
 
-		return false;
+		return false; 
 	}
 }

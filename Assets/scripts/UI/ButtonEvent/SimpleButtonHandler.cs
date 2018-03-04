@@ -48,12 +48,6 @@ public class SimpleButtonHandler : ButtonEventHandler {
 					break;
 				}
 
-				case ButtonID.VAYSTUDIOS:
-				{
-					Application.OpenURL("https://www.vaystudios.com");
-					break;
-				}
-
 
 
 				case ButtonID.CREDIT:
@@ -100,20 +94,16 @@ public class SimpleButtonHandler : ButtonEventHandler {
 	public override void OnPointerClick(PointerEventData data)
 	{
 		//base.OnPointerClick(data);
-		if (GameplayController.GAME_STATE == State.MENU)
+		if (buttonID == ButtonID.STARTAREA)
 		{
-			if (buttonID == ButtonID.STARTAREA)
+			mouseUp = data.position;
+			
+			float mag = Mathf.Abs(mouseUp.x - mouseDown.x);
+
+			if (mag < 20)
 			{
-				mouseUp = data.position;
-
-				float mag = Mathf.Abs(mouseUp.x - mouseDown.x);
-
-				if (mag < 20)
-				{
-					FindObjectOfType<LevelSelectUI>().StartGame();
-				}
+				FindObjectOfType<LevelSelectUI>().StartGame();
 			}
 		}
-
 	}
 }

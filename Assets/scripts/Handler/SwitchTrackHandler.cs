@@ -11,8 +11,6 @@ public enum Track
 
 public class SwitchTrackHandler: MonoBehaviour {
 
-	private float targetVolume;
-
 	private AudioSource source;
 
 	private AudioClip clip;
@@ -20,59 +18,11 @@ public class SwitchTrackHandler: MonoBehaviour {
 	private Track t;
 
 	private float trackChangeRate = 2f;
-	private float vel;
-	void OnEnable()
-	{
-		EventManager.OnMute += OnMute;
-	}
-	void OnDisable()
-	{
-		EventManager.OnMute -= OnMute;
-	}
-
-
-	float master = 0;
-
-	void OnMute(bool b)
-	{
-		if (GameplayController.LevelIndex == 1)
-		{
-			LockTaskPanel p = FindObjectOfType<LockTaskPanel>();
-
-			if (p.Active)
-			{
-				return;
-			}
-		}
-
-
-		// source.volume = b ? 0 : 1;
-
-		StopCoroutine("Lerp");
-		StartCoroutine("Lerp", b ? 0 : 1);
-	}
-
-	IEnumerator Lerp(float v)
-	{
-		while (source.volume != v)
-		{
-			source.volume = Mathf.SmoothDamp(source.volume, v, ref vel, Time.unscaledDeltaTime * 10f);
-			yield return null;
-		}
-	}
-
-	public void SetAudioSource(AudioSource s)
-	{
-		this.source = s;
-	}
-
-
-
 	public void SwitchTrack(Track t, AudioSource source, float volume)
 	{
+		float targetVolume = AudioController.Mute ? 0f : volume;
 
-		StopCoroutine("Lerp");
-		SetAudioSource(source);
+		this.source = source;
 		this.t = t;
 		switch (t)
 		{
@@ -85,16 +35,15 @@ public class SwitchTrackHandler: MonoBehaviour {
 			case Track.BELLS:
 			{
 				clip = AppResources.Bells;
-
 				break;
 			}
 		}
 
 		StopCoroutine("ISwitchTrack");
-		StartCoroutine("ISwitchTrack", volume);
+		StartCoroutine("ISwitchTrack", targetVolume);
 	}
 
-	private IEnumerator ISwitchTrack(float t)
+	private IEnumerator ISwitchTrack(float targetVolume)
 	{
 		while (source.volume > 0)
 		{
@@ -108,10 +57,11 @@ public class SwitchTrackHandler: MonoBehaviour {
 
 		source.Play();
 
-		source.time = Random.Range(10, clip.length - 120f);
+		source.time = Random.Range(10, clip.length - 60f);
 
+		yield return null; 
 
-		while (source.volume < t)
+		while (source.volume < targetVolume)
 		{
 			source.volume += Time.unscaledDeltaTime * trackChangeRate;
 			yield return null;

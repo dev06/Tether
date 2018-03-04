@@ -45,8 +45,7 @@ public class ScoreHandler : MonoBehaviour {
 
 	void Update ()
 	{
-		if (GameplayController.GAME_STATE != State.GAME) return;
-		speed = player.activeBoost ? 7f : 10f;
+		speed = player.activeBoost ? 6f : 10f;
 		transform.localScale = Vector3.Lerp(transform.localScale, defaultScale, Time.unscaledDeltaTime * speed);
 	}
 
@@ -58,7 +57,7 @@ public class ScoreHandler : MonoBehaviour {
 	private void OnBaseHit()
 	{
 		scoreText.text = ((int)(GameplayController.SCORE)).ToString();
-		scaleMultipler = inBoost ? 5.0f : 2.0f;
+		scaleMultipler = inBoost ? 3.0f : 2.0f;
 		Vector3 addition = defaultScale * scaleMultipler;
 		transform.localScale = addition;
 	}

@@ -93,7 +93,10 @@ public class PlayerController : MonoBehaviour
 	void OnEnable()
 	{
 
+
 		EventManager.OnBoostStart += OnBoostStart;
+
+		EventManager.OnGameStart += OnGameStart;
 
 		EventManager.OnHoldStatus += OnHoldStatus;
 	}
@@ -104,11 +107,17 @@ public class PlayerController : MonoBehaviour
 
 		EventManager.OnBoostStart -= OnBoostStart;
 
+		EventManager.OnGameStart -= OnGameStart;
 
 		EventManager.OnHoldStatus -= OnHoldStatus;
 
 	}
 
+	bool gameStart;
+	void OnGameStart()
+	{
+		gameStart = true;
+	}
 
 	public void Init()
 	{
@@ -135,6 +144,9 @@ public class PlayerController : MonoBehaviour
 
 		trailRenderer = GetComponent<TrailRenderer>();
 
+
+		//trailRenderer.SetColor(Color.white, Color.white);
+
 		SetCurrentBase();
 
 		isInit = true;
@@ -144,8 +156,10 @@ public class PlayerController : MonoBehaviour
 
 	void Update ()
 	{
-		if (GameplayController.GAME_STATE != State.GAME)
+
+		if (GameplayController.GAME_STATE == State.PAUSE)
 		{
+
 			return;
 		}
 
@@ -159,14 +173,14 @@ public class PlayerController : MonoBehaviour
 		transform.localScale = new Vector3(scale, scale, scale);
 
 
-		// if (Input.GetKeyDown(KeyCode.L))
-		// {
-		// 	objectSpawner.SpawnParticle(ParticleType.SMOKE, currentBase.transform.position);
+		if (Input.GetKeyDown(KeyCode.L))
+		{
+			objectSpawner.SpawnParticle(ParticleType.SMOKE, currentBase.transform.position);
 
-		// 	fan.transform.position = currentBase.transform.position;
+			fan.transform.position = currentBase.transform.position;
 
-		// 	fan.Play();
-		// }
+			fan.Play();
+		}
 
 		if (Input.GetKeyDown(KeyCode.J))
 		{
@@ -222,35 +236,22 @@ public class PlayerController : MonoBehaviour
 
 		transform.position = objectSpawner.nextBase.transform.position;
 
-		Time.timeScale = 1f;
+		Time.timeScale = 1.5f;
 
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 
 		float dividor = boostScoreAddition / 4f;
 
-		float d = 1f;
-		bool b = false;
-		float time = 0;
 		while (bsm.isPlaying())
 		{
 			GameplayController.SCORE +=  Time.deltaTime * dividor;
 
 			transform.position = objectSpawner.nextBase.transform.position;
 
-			time += Time.unscaledDeltaTime * d;
-			time = Mathf.Clamp(time, .5f, 1.34f);
-
-			Time.timeScale = time;
-
-			Time.fixedDeltaTime = Time.timeScale * .02f;
-
-
 			line.Shoot();
 
 			yield return null;
 		}
-
-
 
 		gameplayController.boostActive = activeBoost = false;
 
@@ -269,12 +270,18 @@ public class PlayerController : MonoBehaviour
 
 		boostPrism.Stop();
 
+		//cameraController.SetGlow(.318f);
+
 		Time.timeScale = 1f;
 
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 
 		FindObjectOfType<CameraController>().Twirl();
 
+
+		//objectSpawner.nextBase.SetColor(Color.black);
+
+		//SetColor(Color.black);
 
 		trailRenderer.enabled = false;
 
@@ -359,13 +366,21 @@ public class PlayerController : MonoBehaviour
 
 			cameraController.SetYOffset(thrustDirection);
 
+			sfx.Play();
 
 			SpawnEffect();
-
+		}
+		else if(col.gameObject.tag == "Objects/border")
+		{
+			
+			// if (EventManager.OnGameOver != null)
+			// {
+			// 	EventManager.OnGameOver();
+			// }
 		}
 	}
 
-
+	
 
 
 	public void SetColor(Color c)
@@ -378,6 +393,9 @@ public class PlayerController : MonoBehaviour
 		{
 			particleSystems[i].startColor = c;
 		}
+
+		//currentBase.SetColor(c);
+
 		line.line.SetColors(c, c);
 
 		renderer.color = c;
@@ -394,6 +412,8 @@ public class PlayerController : MonoBehaviour
 
 		if (renderer.color.r == 0)
 		{
+			//objectSpawner.SpawnParticle(ParticleType.SMOKE, currentBase.transform.position);
+
 			blackBase.transform.position = currentBase.transform.position;
 
 			blackBase.Play();
@@ -401,14 +421,16 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			if (activeBoost) return;
+			if (!activeBoost)
+			{
+				currentBase.SpawnRing(renderer.color);
 
-			fan.startColor = renderer.color;
+				fan.startColor = renderer.color;
 
-			fan.transform.position = currentBase.transform.position;
+				fan.transform.position = currentBase.transform.position;
 
-			fan.Play();
-
+				fan.Play();
+			}
 		}
 	}
 

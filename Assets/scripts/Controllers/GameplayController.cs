@@ -81,7 +81,7 @@ public class GameplayController : MonoBehaviour
 		}
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
+		
 
 
 		InitGameSettings();
@@ -116,7 +116,6 @@ public class GameplayController : MonoBehaviour
 		LastScore = PlayerPrefs.GetFloat("last");
 		BestScore = PlayerPrefs.GetFloat("best");
 		SCORE = 0;
-		BaseController.SpawnScore = 0;
 		SetState(!Loaded ? State.INTRO : State.MENU);
 		Loaded = true;
 	}

@@ -1,59 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; 
 public class SauniksLogoHandler : MonoBehaviour {
 
-	LevelController levelController;
+	LevelController levelController; 
 
-	public Transform[] logos;
+	public Transform[] logos; 
 
 	void OnEnable()
 	{
-		EventManager.OnGameStart += OnGameStart;
+		EventManager.OnLevelChange+=OnLevelChange; 
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnGameStart -= OnGameStart;
+		EventManager.OnLevelChange-=OnLevelChange; 
 	}
 
-	// void OnLevelChange(Level l)
-	// {
-	// 	ActivateLogo(l);
-	// }
-
-	void OnGameStart()
+	void OnLevelChange(Level l)
 	{
-		ActivateLogo(GameplayController.LevelIndex == 0 ? Level.LEVEL1 : Level.LEVEL2);
+		ActivateLogo(l); 
 	}
 
 
 	void Start ()
 	{
-		//levelController = LevelController.Instance;
+		//levelController = LevelController.Instance; 
 	}
 
 	void ActivateLogo(Level l)
 	{
-		for (int i = 0 ; i < logos.Length; i++)
+		for(int i =0 ;i < logos.Length; i++)
 		{
-			logos[i].gameObject.SetActive(false);
+			logos[i].gameObject.SetActive(false); 
 		}
 
-		switch (l)
+		switch(l)
 		{
-			case Level.LEVEL1:
+			case Level.LEVEL1: 
 			{
-				logos[0].gameObject.SetActive(true);
-				break;
+				logos[0].gameObject.SetActive(true); 
+				break; 
 			}
 
-			case Level.LEVEL2:
+			case Level.LEVEL2: 
 			{
-				logos[1].gameObject.SetActive(true);
-				break;
-			}
+				logos[1].gameObject.SetActive(true); 
+				break; 
+			}			
 		}
 	}
 }
