@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MK.Glow;
 using  UnityStandardAssets.ImageEffects;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 public class CameraController : MonoBehaviour {
 
 	public bool freezeCamera;
@@ -14,8 +14,6 @@ public class CameraController : MonoBehaviour {
 
 	private ParticleSystem.ShapeModule shapeModule;
 
-	public Transform backgroundSmoke;
-
 	public bool isMoving;
 
 	private float jitterAmount;
@@ -25,10 +23,6 @@ public class CameraController : MonoBehaviour {
 	private float decreaseFactor;
 
 	private float vel;
-
-	private float glowVel;
-
-	private float def_glowintensity;
 
 	private float vortexCenterPosition = 1f;
 
@@ -65,22 +59,19 @@ public class CameraController : MonoBehaviour {
 	void OnEnable()
 	{
 
-		EventManager.OnBaseHit += OnBaseHit;
-
 
 		EventManager.OnGameStart += OnGameStart;
 
-		EventManager.OnGameOver += OnGameOver;
+
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnBaseHit -= OnBaseHit;
 
 
 		EventManager.OnGameStart -= OnGameStart;
 
-		EventManager.OnGameOver -= OnGameOver;
+
 	}
 
 	void Start ()
@@ -99,15 +90,9 @@ public class CameraController : MonoBehaviour {
 
 		positions.Add(spawner.transform.position);
 
-		mkglow = transform.GetComponent<MKGlowFree>();
-
-		def_glowintensity = mkglow.GlowIntensityInner;
-
 		vortex = GetComponent<Vortex>();
 
 		twirl = GetComponents<Twirl>();
-
-		SetGlow(.118f);
 
 		ToggleTwirl(false);
 
@@ -119,6 +104,12 @@ public class CameraController : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
+
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			Time.timeScale = .1f;
+			Time.fixedDeltaTime = Time.timeScale * .01f;
+		}
 		if (Mathf.Abs((int)transform.position.y - (int)prevY) > 0)
 		{
 			isMoving = true;
@@ -132,22 +123,6 @@ public class CameraController : MonoBehaviour {
 
 		shapeModule.radius = camera.orthographicSize / 2.0f;
 
-
-
-		if (!player.activeBoost)
-		{
-			boostShakeTimer = 0;
-		}
-		else
-		{
-			boostShakeTimer += Time.unscaledDeltaTime;
-		}
-
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			Twirl();
-		}
-
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
 		if (freezeCamera) { return; }
@@ -160,17 +135,13 @@ public class CameraController : MonoBehaviour {
 
 		Vector2 jitter = JitterCamera();
 
-		float shake = player.activeBoost ? BoostShake() : 0;
-
 		hitOffset = Vector3.Lerp(hitOffset, Vector2.zero, Time.deltaTime * 10f);
 
 		yOffset = Mathf.SmoothDamp(yOffset, 0, ref yOffsetVel, Time.deltaTime * 5f);
 
 		Camera.main.orthographicSize = Mathf.SmoothDamp(Camera.main.orthographicSize, GetDistance(), ref vel, Time.deltaTime * 15f);
 
-		transform.position = Vector3.Lerp(transform.position, GetAveragePosition() +  new Vector3(0, 0, -10f) + new Vector3(jitter.x, 0, -10f) + hitOffset, Time.deltaTime * 3.0f);
-
-		backgroundSmoke.position = transform.position + new Vector3(0, 0, 10);
+		transform.position = Vector3.Lerp(transform.position, GetAveragePosition() +  new Vector3(0, 0, -10f) + new Vector3(jitter.x, jitter.y * .5f, -10f) + hitOffset, Time.unscaledDeltaTime * 3.5f);
 	}
 
 	public void StopJitter()
@@ -206,40 +177,17 @@ public class CameraController : MonoBehaviour {
 
 	void OnGameStart()
 	{
-		//SetGlow(.118f);
-
 		menuParticleSystem.Stop();
 	}
 
-	void OnGameOver()
-	{
-
-	}
-
-	void OnBaseHit()
-	{
-
-		//SetGlow(.158f);
-		//Vibration.Vibrate(GameplayController.VIBRATION_DURATION + 1);
-
-
-	}
 
 	float GetDistance()
 	{
-
 		float averageSize = (player.currentBase.size + spawner.nextBase.size) / 10f;
 
 		float slowmo = player.isHolding ? 1f : 0;
 
 		return 	Vector2.Distance(player.currentBase.transform.position, positions[1]) + averageSize - slowmo;
-	}
-	float boostShakeTimer;
-
-	float BoostShake()
-	{
-		float offset = 5f;
-		return Mathf.PingPong(boostShakeTimer * 50f, offset) - (offset * .5f);
 	}
 
 	Vector2 JitterCamera()
@@ -253,7 +201,7 @@ public class CameraController : MonoBehaviour {
 
 		return offset;
 	}
-
+	public Animation cirlceAnimation;
 	public void Twirl()
 	{
 		ToggleTwirl(true);
@@ -264,11 +212,18 @@ public class CameraController : MonoBehaviour {
 	private IEnumerator ITwirl()
 	{
 
+		if (EventManager.OnTwirlActive != null)
+		{
+			EventManager.OnTwirlActive();
+		}
+
+
 		float va = .25f;
 		float velocity = 1.9f;
 		float limit = .8f;
 		float aspect = (float)Screen.height / (float)(Screen.width);
 		CameraLerpColor();
+		cirlceAnimation.Play();
 		while (va < 1.0f)
 		{
 			va += velocity * Time.unscaledDeltaTime;
@@ -284,7 +239,7 @@ public class CameraController : MonoBehaviour {
 			twirl[1].angle =  360 - (va * 360f);
 			twirl[1].angle = Mathf.Clamp(twirl[1].angle, 0f, 360f);
 
-			yield return null;
+			yield return new WaitForSeconds(Time.unscaledDeltaTime);
 		}
 
 		ToggleTwirl(false);
@@ -296,27 +251,6 @@ public class CameraController : MonoBehaviour {
 
 		StartCoroutine("ICameraLerpColor");
 	}
-
-	public void ShakeCamera()
-	{
-		StopCoroutine("IShakeCamera");
-		StartCoroutine("IShakeCamera");
-	}
-
-	private IEnumerator IShakeCamera()
-	{
-		float x = 0;
-		float timer = 0;
-		Vector3 position = transform.position;
-		while (true)
-		{
-			timer += Time.deltaTime;
-			transform.position = new Vector3( Mathf.PingPong(timer, 2f) - 1f, position.y, -10);
-			yield return null;
-		}
-
-	}
-
 
 	IEnumerator ICameraLerpColor()
 	{
@@ -343,12 +277,6 @@ public class CameraController : MonoBehaviour {
 
 		this.decreaseFactor = decreaseFactor;
 	}
-
-	public void SetGlow(float g)
-	{
-		mkglow.GlowIntensityInner = g;
-	}
-
 
 	private void ToggleTwirl(bool b)
 	{

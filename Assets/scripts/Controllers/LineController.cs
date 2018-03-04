@@ -30,8 +30,12 @@ public class LineController : MonoBehaviour {
 
 	private bool hitSomething = false;
 
-	private bool shotTether = false; 
+	private bool shotTether = false;
 
+	private bool inSlowmo;
+
+
+	private Vector2 hitPosition;
 
 	public float speed = 3.0f;
 
@@ -59,7 +63,7 @@ public class LineController : MonoBehaviour {
 
 	private LockTaskPanel locktaskpanel;
 
-//	public LineRenderer debugLine; 
+	public LayerMask layer, allHit;
 
 	void OnEnable()
 	{
@@ -89,6 +93,8 @@ public class LineController : MonoBehaviour {
 	{
 		line = GetComponent<LineRenderer>();
 
+		line.enabled = false;
+
 		player = PlayerController.Instance;
 
 		endLinePosition = player.transform.position;
@@ -109,11 +115,6 @@ public class LineController : MonoBehaviour {
 
 		isInit = true;
 	}
-	void Start ()
-	{
-	}
-
-	float timeVel;
 
 	void Update ()
 	{
@@ -121,9 +122,6 @@ public class LineController : MonoBehaviour {
 
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 
-		debugLine.SetPosition(0, player.transform.position); 
-
-		debugLine.SetPosition(1, player.transform.position +player.transform.right); 
 
 		if (controlTimer < 1)
 		{
@@ -170,7 +168,9 @@ public class LineController : MonoBehaviour {
 				inSlowmo = true;
 
 				player.isHolding = true;
+
 				Time.timeScale = .2f;
+
 				Time.fixedDeltaTime = Time.timeScale * .02f;
 			}
 
@@ -197,101 +197,32 @@ public class LineController : MonoBehaviour {
 		}
 	}
 
-	bool inSlowmo;
+
 	public  float CalculateAngle(Vector3 from, Vector3 to)
 	{
 		return Quaternion.FromToRotation(Vector3.right, from - to).eulerAngles.z;
 	}
 
-	public LayerMask layer, allHit;
-
-	Vector2 hitPosition; 
-
-	bool outside; 
-
-	public LineRenderer debugLine; 
-
-	IEnumerator OutsideBounds()
-	{
-		bool attachRunning = false; 
-		bool shouldCount = true; 
-		Vector2 outp = Vector2.zero; 
-		while(true)
-		{
-			
-			Vector2 viewport = Camera.main.WorldToViewportPoint(player.transform.position + player.transform.right * 30f); 
-
-			if(viewport.x < 0 || viewport.x > 1f)
-			{
-				
-				if(outp == Vector2.zero)
-				{
-					outp = viewport; 
-					Debug.Log(outp); 
-					
-				}
-				//Debug.Log((line.GetPosition(1).x - player.transform.position.x )+ " "  + (line.GetPosition(1).y - player.transform.position.y)); 
-				//viewport = new Vector2(Mathf.Clamp(viewport.x,0,1), viewport.y);  
-
-				player.currentBase.shouldRotate = false; 
-
-				hitPosition = Camera.main.ViewportToWorldPoint(viewport); 
-
-
-				//Debug.Log(hitPosition); 
-
-				endLinePosition = hitPosition; 
-
-				line.SetPosition(1, hitPosition); 
-
-				// object[] objs = new object[3] {null, hitPosition, null};
-
-				// if(attachRunning == false)
-				// {
-
-				// 	StopCoroutine("Retract");
-
-				// 	StopCoroutine("Attach");
-
-				// 	StartCoroutine("Attach", objs);
-
-				// 	attachRunning = true; 
-				// }
-
-
-				outside = true; 
-				
-			}
-
-			//Debug.Log(viewport); 
-			yield return null; 
-		}
-	}
-
-
-
 	public void Shoot()
 	{
 		if (attached) { return; }
 
+		line.enabled = true;
+
 		float tether_legth = 100f;
 
-		Vector3 start = player.transform.position; 
-		Vector3 dir = player.transform.right; 
+		Vector3 start = player.transform.position;
+		Vector3 dir = player.transform.right;
 		RaycastHit2D hit = Physics2D.Raycast(start, dir, tether_legth, layer);
-
-
-		// StopCoroutine("OutsideBounds"); 
-		// StartCoroutine("OutsideBounds"); 
-
 
 		hitSomething = (hit.collider != null);
 
 		if (!player.activeBoost && hitSomething)
 		{
 
-			if(hit.transform.gameObject.tag == "Objects/powerup")
+			if (hit.transform.gameObject.tag == "Objects/powerup")
 			{
+
 				if (EventManager.OnBoostStart != null)
 				{
 					EventManager.OnBoostStart();
@@ -302,17 +233,11 @@ public class LineController : MonoBehaviour {
 
 		player.currentBase.shouldRotate = false;
 
-
-
 		startLinePosition = player.transform.position;
-
-
 
 		endLineToPlayer = false;
 
-
 		line.startWidth = line.endWidth = defaultLineWidth;
-
 
 		if (hitSomething)
 		{
@@ -362,11 +287,9 @@ public class LineController : MonoBehaviour {
 
 			baseHitCounter = 0;
 
-
 			StopCoroutine("Retract");
 
 			StartCoroutine("Retract");
-
 
 		}
 
@@ -375,13 +298,11 @@ public class LineController : MonoBehaviour {
 	IEnumerator Attach(object[] objs)
 	{
 
-
 		BaseController hitBase = (BaseController)objs[0];
 
 		Vector2 hitPosition = (Vector2)objs[1];
 
 		GameObject g = (GameObject)objs[2];
-
 
 		attached = true;
 
@@ -395,8 +316,6 @@ public class LineController : MonoBehaviour {
 			gameplayController.IncrementScore();
 
 			hitBase.SetFreeze(true);
-
-
 
 			if (EventManager.OnBaseHit != null)
 			{
@@ -459,7 +378,7 @@ public class LineController : MonoBehaviour {
 
 		player.Round();
 
-		//StopCoroutine("OutsideBounds"); 
+		line.enabled = false;
 
 		if (gameOver)
 		{
@@ -472,19 +391,18 @@ public class LineController : MonoBehaviour {
 
 	public void SetEndLinePosition(Vector3 position)
 	{
-		endLinePosition = position; 
+		endLinePosition = position;
 
 		line.SetPosition(1, position);
 
-		endLineToPlayer = false; 
+		endLineToPlayer = false;
 	}
 
 
 	IEnumerator Retract()
 	{
-//		yield return new WaitForSeconds(2); 
 
-		float difference = Mathf.Abs(Vector2.Distance(endLinePosition, player.transform.position)); 
+		float difference = Mathf.Abs(Vector2.Distance(endLinePosition, player.transform.position));
 
 		while (difference > .07f)
 		{
@@ -498,14 +416,11 @@ public class LineController : MonoBehaviour {
 
 		BaseController.VELOCITY_SCALE = 1F;
 
-		//StopCoroutine("OutsideBounds"); 
-
 		player.currentBase.shouldRotate = true;
 
 		endLineToPlayer = true;
 
-
-
+		line.enabled = false;
 	}
 
 

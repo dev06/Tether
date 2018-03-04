@@ -11,18 +11,14 @@ public class Flash : MonoBehaviour {
 	private Image image;
 	void OnEnable()
 	{
-		EventManager.OnGameStart += OnGameStart;
 		EventManager.OnStateChange += OnStateChange;
 	}
 	void OnDisable()
 	{
-		EventManager.OnGameStart -= OnGameStart;
 		EventManager.OnStateChange -= OnStateChange;
 	}
 
-	void OnGameStart()
-	{
-	}
+
 
 	void OnStateChange(State s)
 	{
@@ -34,6 +30,7 @@ public class Flash : MonoBehaviour {
 	void Start ()
 	{
 		group = GetComponent<CanvasGroup>();
+		StopCoroutine("Fade");
 		StartCoroutine("Fade");
 	}
 

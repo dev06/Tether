@@ -33,19 +33,23 @@ public class LevelController : MonoBehaviour {
 
 	private Transform bases;
 
+	private ParticleSystem spikes;
+
 	private GameObject[] border;
 
 	private GameObject[] powerup;
 
 	private GameObject[] particles;
 
-	private GameObject[] specturmImages; 
+	private GameObject[] specturmImages;
+
+	private GameObject[] boostComplete;
 
 	private ScoreHandler scoreHandler;
 
 	private PlayerController playerController;
 
-	private GameObject[] menuParticles; 
+	private GameObject[] menuParticles;
 
 	private Image pauseButton;
 
@@ -76,8 +80,13 @@ public class LevelController : MonoBehaviour {
 		playerController = PlayerController.Instance;
 		pauseButton = GameObject.FindWithTag("Button/Pause").GetComponent<Image>();
 		tutorialHand = GameObject.FindWithTag("UI/TutorialHand").GetComponent<Image>();
-		specturmImages = GameObject.FindGameObjectsWithTag("UI/Spectrum"); 
+		specturmImages = GameObject.FindGameObjectsWithTag("UI/Spectrum");
 		menuParticles = GameObject.FindGameObjectsWithTag("Particles/menu_particles");
+		boostComplete = GameObject.FindGameObjectsWithTag("Particles/BoostComplete");
+
+		spikes = GameObject.FindWithTag("Particles/Spikes").GetComponent<ParticleSystem>();
+
+
 		isInit = true;
 
 	}
@@ -137,9 +146,17 @@ public class LevelController : MonoBehaviour {
 
 		tutorialHand.color = palette[p_acc];
 
-		for(int i =0 ;i < menuParticles.Length;i++)
+
+		spikes.startColor = palette[p_acc];
+
+		for (int i = 0 ; i < menuParticles.Length; i++)
 		{
 			menuParticles[i].GetComponent<ParticleSystem>().startColor = palette[p_acc];
+		}
+
+		for (int i = 0 ; i < boostComplete.Length; i++)
+		{
+			boostComplete[i].GetComponent<ParticleSystem>().startColor = palette[p_acc];
 		}
 		//menuParticles.startColor = palette[p_acc];
 
@@ -166,10 +183,10 @@ public class LevelController : MonoBehaviour {
 			sr.color = palette[p_acc];
 		}
 
-		for(int i =0 ;i < specturmImages.Length; i++)
+		for (int i = 0 ; i < specturmImages.Length; i++)
 		{
-			Image image = specturmImages[i].GetComponent<Image>(); 
-			image.color = palette[p_acc]; 
+			Image image = specturmImages[i].GetComponent<Image>();
+			image.color = palette[p_acc];
 		}
 
 		for (int i = 0 ; i < particles.Length; i++)
@@ -207,11 +224,11 @@ public class LevelController : MonoBehaviour {
 		switch (i)
 		{
 			case 0:
-			return Level.LEVEL1;
+				return Level.LEVEL1;
 			case 1:
-			return Level.LEVEL2;
+				return Level.LEVEL2;
 			default:
-			return Level.LEVEL1;
+				return Level.LEVEL1;
 		}
 	}
 
