@@ -63,6 +63,7 @@ public enum ButtonID
 	TWITTER,
 	PAUSEMENU,
 	REVERB,
+	VAYSTUDIOS,
 }
 
 

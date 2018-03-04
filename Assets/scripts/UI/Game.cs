@@ -8,17 +8,32 @@ public class Game : ParentUI {
 	public Transform[] grads;
 	public CanvasGroup tutorial;
 	public Text tutorialText;
+	public Image backgroundNeg;
 
 	void OnEnable()
 	{
 		EventManager.OnGameStart += OnGameStart;
 		EventManager.OnTutorialEnd += OnTutorialEnd;
+		EventManager.OnBoostStart += OnBoostStart;
+		EventManager.OnBoostEnd += OnBoostEnd;
 	}
 
 	void OnDisable()
 	{
 		EventManager.OnGameStart -= OnGameStart;
 		EventManager.OnTutorialEnd -= OnTutorialEnd;
+		EventManager.OnBoostStart -= OnBoostStart;
+		EventManager.OnBoostEnd -= OnBoostEnd;
+	}
+
+	void OnBoostEnd()
+	{
+		backgroundNeg.enabled = false;
+	}
+
+	void OnBoostStart()
+	{
+		backgroundNeg.enabled = true;
 	}
 
 
@@ -27,6 +42,7 @@ public class Game : ParentUI {
 		ActivateGameGradients();
 		ActivateTutorial();
 		Show();
+		backgroundNeg.enabled = false;
 	}
 
 	void OnTutorialEnd()

@@ -9,10 +9,6 @@ public class ObjectSpawner : MonoBehaviour {
 
 	public List<BaseController> BaseQueue = new List<BaseController>();
 
-	public List<CoinController> CoinQueue = new List<CoinController>();
-
-	public List<CoinGroup> CoinGroupQueue = new List<CoinGroup>();
-
 	public int boom_index = 0;
 
 	public int smoke_index = 0;
@@ -82,8 +78,6 @@ public class ObjectSpawner : MonoBehaviour {
 
 		obj_bases = GameObject.FindWithTag("Objects/bases").transform;
 
-		obj_coingroup = GameObject.FindWithTag("Objects/coingroup").transform;
-
 		InstantiateBaseObject(3, Vector2.up * 10);
 
 		PositionBases();
@@ -124,18 +118,6 @@ public class ObjectSpawner : MonoBehaviour {
 			controller.Initialize();
 		}
 	}
-
-	private void InstantiateCoinGroup(int n)
-	{
-		for (int i = 0; i < n; i++)
-		{
-			GameObject clone = (GameObject)Instantiate(AppResources.CoinGroup, new Vector3(0, -10, 0), Quaternion.identity) as GameObject;
-			clone.transform.SetParent(obj_coingroup);
-			CoinGroupQueue.Add(clone.GetComponent<CoinGroup>());
-			clone.transform.GetComponent<CoinGroup>().Initialze();
-		}
-	}
-
 
 	public  float CalculateAngle(Vector3 from, Vector3 to)
 	{

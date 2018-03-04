@@ -42,7 +42,7 @@ public class LockTaskPanel : MonoBehaviour {
 
 	void OnApplicationQuit()
 	{
-
+		PlayerPrefs.DeleteAll();
 	}
 
 	private void SetTaskText()

@@ -19,6 +19,7 @@ public class EventManager : MonoBehaviour {
 	public static Gameplay OnPause;
 	public static Gameplay OnUnpause;
 	public static Gameplay OnTutorialEnd;
+	public static Gameplay OnTwirlActive;
 
 	public delegate void HoldStatus(int i);
 	public static HoldStatus OnHoldStatus;
