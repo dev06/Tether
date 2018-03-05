@@ -55,7 +55,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private bool controlOnStateChange;
 
-	private Vector2 displacement; 
+	private Vector2 displacement;
 
 
 	void Start ()
@@ -95,6 +95,8 @@ public class LevelSelectUI : MonoBehaviour {
 			StartCoroutine("IStartControlTimer");
 			controlOnStateChange = true;
 		}
+
+		isHolding = false;
 	}
 
 	void OnGameOver()
@@ -145,28 +147,28 @@ public class LevelSelectUI : MonoBehaviour {
 
 			lastMousePosition = Input.mousePosition;
 
-			displacement = Vector2.zero; 
+			displacement = Vector2.zero;
 		}
 
 
 
-		if(isHolding)
+		if (isHolding)
 		{
-			displacement += (Vector2)lastMousePosition - (Vector2)Input.mousePosition; 
+			displacement += (Vector2)lastMousePosition - (Vector2)Input.mousePosition;
 
-			displacement.x = Mathf.Abs(displacement.x); 
+			displacement.x = Mathf.Abs(displacement.x);
 
-			if(Mathf.Abs(displacement.x) > Screen.width * .01f)
+			if (Mathf.Abs(displacement.x) > Screen.width * .01f)
 			{
-				canStartGame = false; 
+				canStartGame = false;
 			}
-			//Debug.Log(displacement ); 
+			//Debug.Log(displacement );
 		}
 
 		if (Input.GetMouseButtonUp(0))
 		{
 
-			canStartGame = true; 
+			canStartGame = true;
 			mousePositionUp = Input.mousePosition;
 
 			delta = mousePositionUp.x - mousePositionDown.x;
@@ -264,7 +266,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 		GameplayController.LevelIndex = index;
 
-		
+
 
 		menu.StartGame(level);
 

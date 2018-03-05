@@ -4,12 +4,288 @@
 		"selected_items":
 		[
 			[
-				"transfor",
-				"transform.position"
+				"Get",
+				"GetComponent"
+			],
+			[
+				"boo",
+				"boostComplete"
+			],
+			[
+				"Par",
+				"ParticleSystem"
+			],
+			[
+				"S",
+				"StartBoost"
+			],
+			[
+				"Game",
+				"GameplayController"
+			],
+			[
+				"Audio",
+				"AudioSource"
+			],
+			[
+				"Stop",
+				"StopCoroutine"
+			],
+			[
+				"swit",
+				"switchingTrack"
+			],
+			[
+				"sw",
+				"switchingTrack"
+			],
+			[
+				"GEt",
+				"GetComponent"
+			],
+			[
+				"cam",
+				"camera.orthographicSize"
+			],
+			[
+				"player",
+				"player.activeBoost"
+			],
+			[
+				"boos",
+				"boostCameraSize"
+			],
+			[
+				"plac",
+				"player.activeBoost"
+			],
+			[
+				"boost",
+				"boostCameraSizeVel"
+			],
+			[
+				"vor",
+				"vortexAngle"
+			],
+			[
+				"vorT",
+				"vortexAngle"
+			],
+			[
+				"vo",
+				"vortex"
+			],
+			[
+				"CA",
+				"CameraController>().freezeCamera"
+			],
+			[
+				"CAera",
+				"CameraController"
+			],
+			[
+				"value",
+				"valueVel"
+			],
+			[
+				"vorte",
+				"vortex.center"
 			],
 			[
 				"Vec",
 				"Vector2"
+			],
+			[
+				"spawn",
+				"spawnedPowerup"
+			],
+			[
+				"Camera",
+				"CameraController"
+			],
+			[
+				"Camer",
+				"Camera"
+			],
+			[
+				"mk",
+				"mkglow.GlowIntensityInner"
+			],
+			[
+				"MK",
+				"MKGlowFree"
+			],
+			[
+				"currentB",
+				"currentBase"
+			],
+			[
+				"curren",
+				"current"
+			],
+			[
+				"B",
+				"BaseController.MIN_VELOCITY"
+			],
+			[
+				"oj",
+				"objectSpawner"
+			],
+			[
+				"R",
+				"RIGHT"
+			],
+			[
+				"Border",
+				"BorderType"
+			],
+			[
+				"tran",
+				"transform.position"
+			],
+			[
+				"Cac",
+				"CalculateAngle"
+			],
+			[
+				"curr",
+				"current"
+			],
+			[
+				"obj",
+				"objectSpawner.obj_bases.childCount"
+			],
+			[
+				"object",
+				"objectSpawner"
+			],
+			[
+				"next",
+				"next.position"
+			],
+			[
+				"transform",
+				"transform.position"
+			],
+			[
+				"current",
+				"current.position"
+			],
+			[
+				"tra",
+				"transform"
+			],
+			[
+				"Fetc",
+				"FetchNextCoinGroup"
+			],
+			[
+				"Coin",
+				"CoinGroup"
+			],
+			[
+				"Base",
+				"BaseController"
+			],
+			[
+				"BA",
+				"BaseQueue"
+			],
+			[
+				"BAse",
+				"BaseController"
+			],
+			[
+				"nex",
+				"nextBase.transform"
+			],
+			[
+				"Coingr",
+				"CoinGroupQueue"
+			],
+			[
+				"Co",
+				"CoinGroup"
+			],
+			[
+				"Coing",
+				"CoinGroupQueue"
+			],
+			[
+				"App",
+				"AppResources.CoinGroup"
+			],
+			[
+				"Inst",
+				"Instantiate"
+			],
+			[
+				"transfor",
+				"transform.position"
+			],
+			[
+				"Coi",
+				"CoinQueue"
+			],
+			[
+				"obj_",
+				"obj_coins"
+			],
+			[
+				"Ran",
+				"Random"
+			],
+			[
+				"trans",
+				"transform.right"
+			],
+			[
+				"targetlo",
+				"targetLocalPosition"
+			],
+			[
+				"transf",
+				"transform.localScale"
+			],
+			[
+				"line",
+				"line.endWidth"
+			],
+			[
+				"li",
+				"line.startWidth"
+			],
+			[
+				"ret",
+				"retractTimer"
+			],
+			[
+				"Objec",
+				"ObjectSpawner"
+			],
+			[
+				"Ve",
+				"Vector3"
+			],
+			[
+				"Insta",
+				"InstantiateBaseObject"
+			],
+			[
+				"Time",
+				"Time.deltaTime"
+			],
+			[
+				"currentBas",
+				"currentBase.transform"
+			],
+			[
+				"trage",
+				"targetLocation"
+			],
+			[
+				"target",
+				"target"
 			],
 			[
 				"pil",
@@ -28,24 +304,12 @@
 				"lastPillar.localScale.y"
 			],
 			[
-				"trans",
-				"transform.position.x"
-			],
-			[
 				"Tim",
 				"Time.deltaTime"
 			],
 			[
 				"spa",
 				"spawnController"
-			],
-			[
-				"tra",
-				"transform.position"
-			],
-			[
-				"spawn",
-				"spawnController.pillars"
 			],
 			[
 				"spaw",
@@ -62,10 +326,6 @@
 			[
 				"V",
 				"Vector3"
-			],
-			[
-				"target",
-				"target.position"
 			],
 			[
 				"sear",
@@ -240,10 +500,6 @@
 				"transform.position"
 			],
 			[
-				"transf",
-				"transform.eulerAngles.x"
-			],
-			[
 				"tranfor",
 				"transform.rotation"
 			],
@@ -258,281 +514,52 @@
 			[
 				"cube",
 				"cube_1.position"
-			],
-			[
-				"cube3",
-				"cube_3.position.x"
-			],
-			[
-				"cube_3",
-				"cube_3.position.y"
-			],
-			[
-				"DO",
-				"DOT_PER_WAVE"
-			],
-			[
-				"DOT",
-				"DOT_SPAWNED"
-			],
-			[
-				"Instan",
-				"Instantiate"
-			],
-			[
-				"enem",
-				"enemyCollection"
-			],
-			[
-				"ene",
-				"enemyCollection"
-			],
-			[
-				"Rel",
-				"RelocationRate"
-			],
-			[
-				"cenr",
-				"center.position"
-			],
-			[
-				"center",
-				"center.position"
-			],
-			[
-				"Ver",
-				"VeritcalOscillation"
-			],
-			[
-				"ve",
-				"velocity"
-			],
-			[
-				"lines",
-				"lines"
-			],
-			[
-				"Grou",
-				"GroupUtil"
-			],
-			[
-				"gr",
-				"grid.GetLength"
-			],
-			[
-				"Wati",
-				"WaitForSeconds"
-			],
-			[
-				"Start",
-				"StartCoroutine"
-			],
-			[
-				"heigh",
-				"heightModifier"
-			],
-			[
-				"he",
-				"heightModifier"
-			],
-			[
-				"audio",
-				"audioSource"
-			],
-			[
-				"Unity",
-				"UnityEngine.Debug.Log"
-			],
-			[
-				"aud",
-				"audioSource"
-			],
-			[
-				"Playar",
-				"PlayAreaZ"
-			],
-			[
-				"PlayArea",
-				"PlayAreaX"
-			],
-			[
-				"Debug",
-				"DebugFlag.STEP"
-			],
-			[
-				"trial",
-				"trialIndex"
-			],
-			[
-				"AudioRever",
-				"AudioReverbZone"
-			],
-			[
-				"trail",
-				"trialType"
-			],
-			[
-				"Update",
-				"UpdateTrailType"
-			],
-			[
-				"sou",
-				"soundSource"
-			],
-			[
-				"sound",
-				"soundSource.transform.position"
-			],
-			[
-				"pri",
-				"previousGeneratedValue"
-			],
-			[
-				"pr",
-				"previousGeneratedValue"
-			],
-			[
-				"vec",
-				"Vector3"
-			],
-			[
-				"tiral",
-				"trialIndex"
-			],
-			[
-				"TRIAL",
-				"TRIAL_TYPE.ECHO"
-			],
-			[
-				"trai",
-				"trialCount"
-			],
-			[
-				"Trai",
-				"TRIAL_TYPE.ECHO"
-			],
-			[
-				"Tr",
-				"TRIAL_TYPE.ECHO"
-			],
-			[
-				"TRI",
-				"TRIAL_TYPE.NON_ECHO"
-			],
-			[
-				"T",
-				"TRIAL_TYPE.ECHO"
-			],
-			[
-				"tria",
-				"trialType"
-			],
-			[
-				"Tra",
-				"TRIAL_TYPE.NON_ECHO"
-			],
-			[
-				"tril",
-				"trialType"
-			],
-			[
-				"vibra",
-				"vibrationThresholdAngle"
-			],
-			[
-				"trila",
-				"trialCount"
-			],
-			[
-				"Sou",
-				"SoundSource"
-			],
-			[
-				"partTw",
-				"partTwoBegin"
-			],
-			[
-				"part",
-				"partTwoBegin"
-			],
-			[
-				"par",
-				"partTwoEnd"
-			],
-			[
-				"tutor",
-				"tutorial_partComplete"
-			],
-			[
-				"tutorial_",
-				"tutorial_partTwo"
-			],
-			[
-				"Audi",
-				"AudioReverbZone"
-			],
-			[
-				"Ju",
-				"JukeBox.position"
-			],
-			[
-				"tuto",
-				"tutorial_partTwo"
-			],
-			[
-				"AUD",
-				"AudioMode"
-			],
-			[
-				"tu",
-				"tutorial_partOne"
-			],
-			[
-				"Mono",
-				"MonoBehaviour"
-			],
-			[
-				"Star",
-				"StartTutorial"
-			],
-			[
-				"Audio",
-				"AudioMode.SPEECH"
-			],
-			[
-				"Parti",
-				"ParticipantName"
-			],
-			[
-				"tirl",
-				"trialIndex"
-			],
-			[
-				"over",
-				"overwrite"
-			],
-			[
-				"TRIA",
-				"TRIAL_TYPE.ECHO"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/C/Users/Devan/Documents/UnityProjects/ColorBlock/Assets/scripts/PlayerController.cs",
+			"file": "Assets/scripts/Controllers/CameraController.cs",
 			"settings":
 			{
-				"buffer_size": 283,
+				"buffer_size": 5607,
 				"encoding": "UTF-8 with BOM",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/Devan/Documents/UnityProjects/ColorBlock/Assets/scripts/SpawnController.cs",
+			"file": "Assets/scripts/UI/LevelSelectUI.cs",
 			"settings":
 			{
-				"buffer_size": 209,
+				"buffer_size": 4747,
+				"encoding": "UTF-8 with BOM",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Assets/scripts/Controllers/LineController.cs",
+			"settings":
+			{
+				"buffer_size": 7787,
+				"encoding": "UTF-8 with BOM",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Assets/scripts/Controllers/GameplayController.cs",
+			"settings":
+			{
+				"buffer_size": 3779,
+				"encoding": "UTF-8 with BOM",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Assets/scripts/Handler/BoostParticles.cs",
+			"settings":
+			{
+				"buffer_size": 365,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Unix"
 			}
@@ -581,8 +608,62 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts"
+	],
 	"file_history":
 	[
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/Controllers/LevelController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/Game.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/NegativeImage.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/LevelController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/BaseController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/SauniksLogoHandler.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/GameplayController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/PlayerController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/OverlayHandler.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/Flash.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/ButtonEvent/ButtonEventHandler.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/ButtonEvent/SimpleButtonHandler.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/ButtonEvent/SocialLinks.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/ObjectSpawner.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/LineController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/ScoreHandler.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/CameraController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/BoostParticles.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Event/EventManager.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/AudioController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/SwitchTrackHandler.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/Lock/LockTaskPanel.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/UIFade.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/PowerUp.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/System/AppResources.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/Lock/LockTask.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/Intro.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Controllers/BorderController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/BoostSpriteMask.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/PlayerController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/ObjectSpawner.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/CameraController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/LineController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/BaseController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/BorderController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/CoinController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/GameplayController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Particle.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/Standard Assets/Effects/ImageEffects/Scripts/Vortex.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/Standard Assets/Effects/ImageEffects/Scripts/Twirl.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/_MK/MKGlowFree/MKGlowFree.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/AppResources.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/CoinGroup.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/resources/textures/s.shader",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/LineCollider.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Tether/Assets/scripts/Handler/LineCollider.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Tether/Assets/scripts/LineController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Tether/Assets/scripts/PlayerController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/ColorBlock/Assets/scripts/SpawnController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/ColorBlock/Assets/scripts/PlayerController.cs",
 		"/C/Users/Devan/Documents/UnityProjects/BlockJump/Assets/scripts/Controllers/SpawnController.cs",
 		"/C/Users/Devan/Documents/UnityProjects/BlockJump/Assets/scripts/Controllers/CameraController.cs",
 		"/C/Users/Devan/Documents/UnityProjects/BlockJump/Assets/scripts/Objects/Pillar.cs",
@@ -660,67 +741,19 @@
 		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/scripts/Test.cs",
 		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/Generator.cs",
 		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/PlayAreaWarning.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/part_three/Study1_3_Controller_real.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/real/RealWorldPartTwo.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/vive/WandController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/SteamVR/Scripts/SteamVR_Controller.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/real/RealWorldController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/UpKeep/Assets/scripts/game/entity/mob/Mob.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/training/TraningController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/real/RealWorldPartOne.cs",
-		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/Standard Assets/Characters/FirstPersonCharacter/Scripts/MouseLook.cs",
-		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/Standard Assets/Characters/FirstPersonCharacter/Scripts/FirstPersonController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/Water FX Pack/Scripts/ScrollUV.js",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/virtual/part_one/PartOneController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/virtual/part_two/PartTwoController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/debug/Debugger.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/part_two/PartTwoController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/part_three/Study1_3_Controller.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/part_one/PartOneController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/training/TrainingController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/training/TrainingControlelr.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/scenes/editor_scene/SceneController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/data/Group.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/persistent/MasterGroupTestScript.cs",
-		"/C/Users/Devan/AppData/LocalLow/DefaultCompany/ResearchWizard/Experiments/test/data/p2/distance_to_target.txt",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/data/Experiment.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/data/ExperimentData.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/persistent/MasterGroup.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/data/Participant.cs",
-		"/C/Users/Devan/Documents/Personal/Passwords.txt",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/data/Graph.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/data/Demographics.cs",
-		"/C/Users/Devan/AppData/LocalLow/DefaultCompany/ResearchWizard/Experiments/test/data/p1/distance_to_target.txt",
-		"/C/Users/Devan/AppData/LocalLow/DefaultCompany/ResearchWizard/Experiments/test/prefs.txt",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/data/MasterGroup.cs",
-		"/C/Users/Devan/Downloads/VisEngineDataModelSRS.pdf",
-		"/C/Users/Devan/Desktop/ParkourMancer/ParkourMancer/Assets/Scripts/Controllers/LevelGenerator.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Util/EventManager.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Manager/GameManager.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Controller/GamePlayController.cs",
-		"/C/Users/Devan/Desktop/ParkourMancer/ParkourMancer/Assets/Scripts/Movement_Parkour.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Controller/InputController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/test.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Handler/UI/ButtonEventHandler.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Util/AppResources.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Handler/UI/IconHandler.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Handler/PathHandler.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Handler/UI/Icon.cs",
-		"/C/Users/Devan/Documents/UnityProjects/ParkourMancer/Assets/Scripts/Controllers/LevelGenerator.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Manager/StateManager.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/Assets/Scripts/Controller/SpawnController.cs",
-		"/C/Users/Devan/Documents/UnityProjects/FollowThePath/FollowThePath/zt2pwacr.tli.txt",
-		"/C/Users/Devan/Desktop/GitHubLog.txt"
+		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/part_three/Study1_3_Controller_real.cs"
 	],
 	"find":
 	{
-		"height": 29.0
+		"height": 61.0
 	},
 	"find_in_files":
 	{
 		"height": 773.0,
 		"where_history":
 		[
+			"",
+			"<current file>",
 			"",
 			"<current file>",
 			"",
@@ -744,6 +777,39 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cirlce",
+			"menu",
+			"OnTutorialEnd",
+			" \n",
+			"debug",
+			"jitter",
+			"zap",
+			"OutsideBounds",
+			"timeVel",
+			"gameStart",
+			"bsm",
+			"size",
+			"boostShakeTimer",
+			"prevY",
+			"vel",
+			"BoostShake",
+			"ShakeCamera",
+			"SpawnRing",
+			"coin",
+			"SwitchTrack",
+			"c",
+			"DIRECTION",
+			"SpawnParticle",
+			"Jitter",
+			"DIRECTION",
+			"CalculateDirection",
+			"Jitter",
+			"Camera.main.",
+			"Camera.main",
+			"PositionNextBase",
+			"b",
+			"timer",
+			"4f",
 			"}\n",
 			"searchedLocations",
 			";\n",
@@ -838,40 +904,7 @@
 			"ReadEn",
 			"Prepare",
 			"PrepareVideoPath",
-			"awake",
-			"Debug.Log",
-			"AssignVideoTime",
-			"Assign",
-			"Debug",
-			"Debug.Loger",
-			"debug.Loger",
-			"_AllSlides",
-			"SendPageAndSlideShowCountToServer",
-			"pageCount",
-			"SERVER_MSG10",
-			"SendIsClientReadyToServer",
-			"ReadIsCl",
-			"Debug.Log",
-			"CLIENT_MSG10",
-			"AdjustScreen",
-			"DisableQuad",
-			"Debug.Log",
-			"SendPageAndSlideShowCountToServer",
-			"SERVER_MSG14",
-			"SendDisplayPrefToClient",
-			"setScreen",
-			"rotLerp",
-			"Debug.Log",
-			"Debug.Log(\"Volume",
-			"Debug.Log",
-			"Debug.Lo",
-			"Debug.Log",
-			"SendEnvironemntHitTriggerInformation",
-			"Debug.Log",
-			"OnValueChange",
-			"ToggleMovement",
-			"SendToggleMovementMessageToClient",
-			"CanMove"
+			"awake"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -896,7 +929,7 @@
 			"AIMovementHandler"
 		],
 		"reverse": false,
-		"show_context": false,
+		"show_context": true,
 		"use_buffer2": true,
 		"whole_word": false,
 		"wrap": true
@@ -904,24 +937,114 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/Devan/Documents/UnityProjects/ColorBlock/Assets/scripts/PlayerController.cs",
+					"file": "Assets/scripts/Controllers/CameraController.cs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 283,
+						"buffer_size": 5607,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								257,
-								257
+								4255,
+								4255
+							]
+						],
+						"settings":
+						{
+							"side_bar_folders_auto_load_folder": 1,
+							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 5100.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Assets/scripts/UI/LevelSelectUI.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4747,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1683,
+								1683
+							]
+						],
+						"settings":
+						{
+							"side_bar_folders_auto_load_folder": 1,
+							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 627.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Assets/scripts/Controllers/LineController.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7787,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4895,
+								4895
+							]
+						],
+						"settings":
+						{
+							"side_bar_folders_auto_load_folder": 1,
+							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6450.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Assets/scripts/Controllers/GameplayController.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3779,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2736,
+								2736
 							]
 						],
 						"settings":
@@ -938,20 +1061,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/C/Users/Devan/Documents/UnityProjects/ColorBlock/Assets/scripts/SpawnController.cs",
+					"buffer": 4,
+					"file": "Assets/scripts/Handler/BoostParticles.cs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 209,
+						"buffer_size": 365,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								187,
-								187
+								365,
+								365
 							]
 						],
 						"settings":
@@ -964,7 +1087,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -972,7 +1095,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 44.0
 	},
 	"input":
 	{
@@ -1025,7 +1148,7 @@
 	"project": "Sublime.sublime-project",
 	"replace":
 	{
-		"height": 53.0
+		"height": 83.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1035,16 +1158,220 @@
 		"selected_items":
 		[
 			[
-				"ca",
+				"gamp",
+				"Controllers\\GameplayController.cs"
+			],
+			[
+				"line",
+				"Controllers\\LineController.cs"
+			],
+			[
+				"levelui",
+				"UI\\LevelSelectUI.cs"
+			],
+			[
+				"camer",
 				"Controllers\\CameraController.cs"
 			],
 			[
-				"app",
-				"Util\\AppResource.cs"
+				"ne",
+				"Handler\\NegativeImage.cs"
+			],
+			[
+				"level",
+				"Controllers\\LevelController.cs"
+			],
+			[
+				"basecon",
+				"Controllers\\BaseController.cs"
+			],
+			[
+				"booset",
+				"Handler\\BoostParticles.cs"
+			],
+			[
+				"bas",
+				"Controllers\\BaseController.cs"
+			],
+			[
+				"score",
+				"Handler\\ScoreHandler.cs"
+			],
+			[
+				"camera",
+				"Controllers\\CameraController.cs"
 			],
 			[
 				"player",
 				"Controllers\\PlayerController.cs"
+			],
+			[
+				"event",
+				"Event\\EventManager.cs"
+			],
+			[
+				"cae",
+				"Controllers\\CameraController.cs"
+			],
+			[
+				"bosot",
+				"Handler\\BoostParticles.cs"
+			],
+			[
+				"lee",
+				"Controllers\\LevelController.cs"
+			],
+			[
+				"playe",
+				"Controllers\\PlayerController.cs"
+			],
+			[
+				"soical",
+				"UI\\ButtonEvent\\SocialLinks.cs"
+			],
+			[
+				"simp",
+				"UI\\ButtonEvent\\SimpleButtonHandler.cs"
+			],
+			[
+				"buton",
+				"UI\\ButtonEvent\\ButtonEventHandler.cs"
+			],
+			[
+				"uifa",
+				"UI\\UIFade.cs"
+			],
+			[
+				"over",
+				"UI\\OverlayHandler.cs"
+			],
+			[
+				"linecon",
+				"Controllers\\LineController.cs"
+			],
+			[
+				"overa",
+				"UI\\OverlayHandler.cs"
+			],
+			[
+				"camerac",
+				"Controllers\\CameraController.cs"
+			],
+			[
+				"nega",
+				"Handler\\NegativeImage.cs"
+			],
+			[
+				"gamapl",
+				"Controllers\\GameplayController.cs"
+			],
+			[
+				"auid",
+				"Controllers\\AudioController.cs"
+			],
+			[
+				"swit",
+				"Handler\\SwitchTrackHandler.cs"
+			],
+			[
+				"gamep",
+				"Controllers\\GameplayController.cs"
+			],
+			[
+				"base",
+				"Controllers\\BaseController.cs"
+			],
+			[
+				"gamecon",
+				"Controllers\\GameplayController.cs"
+			],
+			[
+				"playerc",
+				"Controllers\\PlayerController.cs"
+			],
+			[
+				"objec",
+				"Controllers\\ObjectSpawner.cs"
+			],
+			[
+				"power",
+				"Handler\\PowerUp.cs"
+			],
+			[
+				"appres",
+				"System\\AppResources.cs"
+			],
+			[
+				"border",
+				"Controllers\\BorderController.cs"
+			],
+			[
+				"locktas",
+				"UI\\Lock\\LockTaskPanel.cs"
+			],
+			[
+				"locak",
+				"UI\\Lock\\LockTask.cs"
+			],
+			[
+				"swi",
+				"Handler\\SwitchTrackHandler.cs"
+			],
+			[
+				"simpe",
+				"UI\\ButtonEvent\\SimpleButtonHandler.cs"
+			],
+			[
+				"audio",
+				"Controllers\\AudioController.cs"
+			],
+			[
+				"par",
+				"Particle.cs"
+			],
+			[
+				"bor",
+				"BorderController.cs"
+			],
+			[
+				"appr",
+				"AppResources.cs"
+			],
+			[
+				"came",
+				"CameraController.cs"
+			],
+			[
+				"",
+				"BaseController.cs"
+			],
+			[
+				"ap",
+				"AppResources.cs"
+			],
+			[
+				"coi",
+				"CoinController.cs"
+			],
+			[
+				"coin",
+				"CoinController.cs"
+			],
+			[
+				"con",
+				"BaseController.cs"
+			],
+			[
+				"app",
+				"AppResources.cs"
+			],
+			[
+				"lineco",
+				"Handler\\LineCollider.cs"
+			],
+			[
+				"ca",
+				"Controllers\\CameraController.cs"
 			],
 			[
 				"pil",
@@ -1145,10 +1472,6 @@
 			[
 				"spawn",
 				"controller\\SpawnController.cs"
-			],
-			[
-				"gamep",
-				"controller\\GameplayController.cs"
 			],
 			[
 				"groupu",
@@ -1335,16 +1658,8 @@
 				"appSystem\\data\\Graph.cs"
 			],
 			[
-				"",
-				"systemTools\\Files.cs"
-			],
-			[
 				"fle",
 				"systemTools\\Files.cs"
-			],
-			[
-				"par",
-				"appSystem\\data\\Participant.cs"
 			],
 			[
 				"dem",
@@ -1353,198 +1668,6 @@
 			[
 				"input",
 				"Controller\\InputController.cs"
-			],
-			[
-				"but",
-				"Handler\\UI\\ButtonEventHandler.cs"
-			],
-			[
-				"event",
-				"Util\\EventManager.cs"
-			],
-			[
-				"gamepl",
-				"Controller\\GamePlayController.cs"
-			],
-			[
-				"path",
-				"Handler\\PathHandler.cs"
-			],
-			[
-				"gamem",
-				"Manager\\GameManager.cs"
-			],
-			[
-				"shopb",
-				"Button\\Shop\\ShopButton.cs"
-			],
-			[
-				"sube",
-				"Containers\\Shop\\element\\SubelementHandler.cs"
-			],
-			[
-				"elem",
-				"Containers\\Shop\\element\\ElementHandler.cs"
-			],
-			[
-				"subele",
-				"Containers\\Shop\\element\\SubelementHandler.cs"
-			],
-			[
-				"timer",
-				"Board\\Timer\\TimerController.cs"
-			],
-			[
-				"intera",
-				"Tile\\InteractiveTile.cs"
-			],
-			[
-				"shop",
-				"Button\\Shop\\ShopButton.cs"
-			],
-			[
-				"conte",
-				"Containers\\Shop\\ContentCreator.cs"
-			],
-			[
-				"conete",
-				"Containers\\Shop\\ContentCreator.cs"
-			],
-			[
-				"boar",
-				"Board\\BoardController.cs"
-			],
-			[
-				"even",
-				"Events\\EventManager.cs"
-			],
-			[
-				"swip",
-				"Controller\\Menu\\SwipeController.cs"
-			],
-			[
-				"eveng",
-				"Events\\EventManager.cs"
-			],
-			[
-				"uithe",
-				"UI\\Theme\\UITheme.cs"
-			],
-			[
-				"uit",
-				"UI\\UIEffects\\UI_Transition.cs"
-			],
-			[
-				"eventm",
-				"Events\\EventManager.cs"
-			],
-			[
-				"suble",
-				"Containers\\Shop\\element\\SubelementHandler.cs"
-			],
-			[
-				"shopcon",
-				"Controller\\Shop\\ShopController.cs"
-			],
-			[
-				"state",
-				"Managers\\StateManager.cs"
-			],
-			[
-				"bo",
-				"Board\\BoardController.cs"
-			],
-			[
-				"content",
-				"Containers\\Shop\\ContentCreator.cs"
-			],
-			[
-				"proj",
-				"Entity\\Projectile\\ProjectileManager.cs"
-			],
-			[
-				"projec",
-				"Entity\\Projectile\\Projectile.cs"
-			],
-			[
-				"camera",
-				"Player\\CameraController.cs"
-			],
-			[
-				"buff",
-				"Entity\\Buff\\Buff.cs"
-			],
-			[
-				"con",
-				"Constants.cs"
-			],
-			[
-				"spee",
-				"Entity\\Buff\\SpeedBuff\\SpeedBuff.cs"
-			],
-			[
-				"entityit",
-				"Entity\\EntityItem.cs"
-			],
-			[
-				"item",
-				"UI\\Inventory\\Item.cs"
-			],
-			[
-				"enitty",
-				"Entity\\EntityItem.cs"
-			],
-			[
-				"gamec",
-				"GameController.cs"
-			],
-			[
-				"droid",
-				"Entity\\Friendly\\Droid.cs"
-			],
-			[
-				"nav",
-				"Controller\\NavMesh\\NavMeshController.cs"
-			],
-			[
-				"bot",
-				"Entity\\Bot.cs"
-			],
-			[
-				"cama",
-				"Player\\CameraController.cs"
-			],
-			[
-				"cons",
-				"Constants.cs"
-			],
-			[
-				"conats",
-				"UI\\Container\\Container.cs"
-			],
-			[
-				"inventoryslo",
-				"UI\\Inventory\\InventorySlot.cs"
-			],
-			[
-				"inventory",
-				"UI\\Inventory\\InventoryManager.cs"
-			],
-			[
-				"mob",
-				"Entity\\Mob.cs"
-			],
-			[
-				"invent",
-				"UI\\Inventory\\InventoryManager.cs"
-			],
-			[
-				"entity",
-				"Entity\\EntityItem.cs"
-			],
-			[
-				"inventoryman",
-				"UI\\Inventory\\InventoryManager.cs"
 			]
 		],
 		"width": 0.0
@@ -1598,7 +1721,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 248.0,
 	"status_bar_visible": false,
 	"template_settings":

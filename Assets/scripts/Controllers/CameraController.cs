@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour {
 
 	private ParticleSystem.ShapeModule shapeModule;
 
+
+
 	public bool isMoving;
 
 	private float jitterAmount;
@@ -177,6 +179,7 @@ public class CameraController : MonoBehaviour {
 
 	void OnGameStart()
 	{
+		menuParticleSystem.transform.gameObject.SetActive(false);
 		menuParticleSystem.Stop();
 	}
 
@@ -224,6 +227,7 @@ public class CameraController : MonoBehaviour {
 		float aspect = (float)Screen.height / (float)(Screen.width);
 		CameraLerpColor();
 		cirlceAnimation.Play();
+		cirlceAnimation.transform.gameObject.SetActive(true);
 		while (va < 1.0f)
 		{
 			va += velocity * Time.unscaledDeltaTime;

@@ -6,6 +6,17 @@ TagManager:
   tags:
   - Objects/powerup
   - Particles/Spikes
+  - Particles/BoostComplete
+  - Objects/border
+  - Task
+  - Particles/menu_particles
+  - UI/TutorialHand
+  - UI/Sauniks
+  - Objects
+  - Objects/bases
+  - Particles/slowmo_1
+  - Button/Pause
+  - UI/Spectrum
   layers:
   - Default
   - TransparentFX
@@ -15,7 +26,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Background
   - 
   - 
   - 
@@ -42,4 +53,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3274568887
     locked: 0
