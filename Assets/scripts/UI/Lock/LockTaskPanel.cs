@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class LockTaskPanel : MonoBehaviour {
 
-	private static bool DEBUG ;
+	private static bool DEBUG;
 
 	GameplayController gameplayController;
 
@@ -38,11 +38,6 @@ public class LockTaskPanel : MonoBehaviour {
 
 		SetTaskText();
 
-	}
-
-	void OnApplicationQuit()
-	{
-		PlayerPrefs.DeleteAll();
 	}
 
 	private void SetTaskText()

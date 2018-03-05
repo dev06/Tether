@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: de0e03a43808b33478983e6e92a8beba
-timeCreated: 1519529220
+guid: 7cdc1a9f9f9b6104cbd6817c6584770b
+timeCreated: 1520224296
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -30,7 +30,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -45,7 +45,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 400
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -92,7 +92,7 @@ TextureImporter:
     sprites: []
     outline: []
     physicsShape: []
-  spritePackingTag: icons
+  spritePackingTag: socialicons
   userData: 
   assetBundleName: 
   assetBundleVariant: 

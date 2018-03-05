@@ -26,7 +26,7 @@ public class GameplayController : MonoBehaviour
 
 	public static float DIFFICULTY;
 
-	public static long VIBRATION_DURATION = 5;
+	public static int POWERUP_FREQ = 15;
 
 	public bool DEBUG;
 
@@ -127,13 +127,13 @@ public class GameplayController : MonoBehaviour
 
 
 
-	void Update ()
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			DEBUG = !DEBUG;
-		}
-	}
+	// void Update ()
+	// {
+	// 	if (Input.GetKeyDown(KeyCode.Space))
+	// 	{
+	// 		DEBUG = !DEBUG;
+	// 	}
+	// }
 
 	void OnGameOver()
 	{
@@ -150,10 +150,10 @@ public class GameplayController : MonoBehaviour
 	{
 	}
 
-	public void DeleteAll()
-	{
-		PlayerPrefs.DeleteAll();
-	}
+	// public void DeleteAll()
+	// {
+	// 	PlayerPrefs.DeleteAll();
+	// }
 
 
 	public void IncrementScore()

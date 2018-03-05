@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
 	private IEnumerator IStartBoost()
 	{
 
-		idealScore += boostScoreAddition;
+		idealScore = ((int)(GameplayController.SCORE) + boostScoreAddition) - 1;
 
 		trailRenderer.enabled = true;
 
@@ -227,6 +227,7 @@ public class PlayerController : MonoBehaviour
 		Time.fixedDeltaTime = Time.timeScale * .02f;
 
 		float dividor = boostScoreAddition / 4f;
+
 
 		float d = 1f;
 		bool b = false;
@@ -275,6 +276,7 @@ public class PlayerController : MonoBehaviour
 
 		FindObjectOfType<CameraController>().Twirl();
 
+		GameplayController.SCORE = idealScore;
 
 		trailRenderer.enabled = false;
 
@@ -401,7 +403,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			if (activeBoost) return;
+			if (activeBoost) { return; }
 
 			fan.startColor = renderer.color;
 

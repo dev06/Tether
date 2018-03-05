@@ -12,9 +12,9 @@ public enum LockTaskID
 
 public class LockTaskValue
 {
-	public static int Task1Value = 1;
-	public static int Task2Value = 1;
-	public static int Task3Value = 1;
+	public static int Task1Value = 200;
+	public static int Task2Value = 75;
+	public static int Task3Value = 50;
 }
 public class LockTask : MonoBehaviour {
 
@@ -56,7 +56,7 @@ public class LockTask : MonoBehaviour {
 	}
 	public void UpdateLockState()
 	{
-		if (background == null) background = GetComponent<Image>();
+		if (background == null) { background = GetComponent<Image>(); }
 		if (!completed)
 		{
 			background.color = lockedColor;
@@ -73,7 +73,7 @@ public class LockTask : MonoBehaviour {
 	{
 		try
 		{
-			if (!PlayerPrefs.HasKey("LockTask" + taskID))return;
+			if (!PlayerPrefs.HasKey("LockTask" + taskID)) { return; }
 			completed = bool.Parse(PlayerPrefs.GetString("LockTask" + taskID));
 		}
 		catch (System.Exception e)

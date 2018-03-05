@@ -206,13 +206,9 @@ public class BaseController : MonoBehaviour {
 
 		SetFreeze(false);
 
-
-
-		int count = 10;
-
 		if (gameplayController.boostActive == false)
 		{
-			if (GameplayController.SCORE > SpawnScore + (count - 2) )
+			if (GameplayController.SCORE > SpawnScore + (GameplayController.POWERUP_FREQ - 2) )
 			{
 				Vector3 pos = (transform.parent.GetChild(transform.parent.childCount - 2).transform.position + transform.position) / 2f;
 

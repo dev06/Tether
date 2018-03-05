@@ -65,6 +65,7 @@ public class CameraController : MonoBehaviour {
 		EventManager.OnGameStart += OnGameStart;
 
 
+
 	}
 
 	void OnDisable()
@@ -72,6 +73,7 @@ public class CameraController : MonoBehaviour {
 
 
 		EventManager.OnGameStart -= OnGameStart;
+
 
 
 	}
@@ -103,6 +105,8 @@ public class CameraController : MonoBehaviour {
 		menuParticleSystem.transform.position = camera.ViewportToWorldPoint(new Vector2(.5f, 0f)) + Vector3.forward;
 
 	}
+
+
 
 	void FixedUpdate ()
 	{
@@ -226,8 +230,7 @@ public class CameraController : MonoBehaviour {
 		float limit = .8f;
 		float aspect = (float)Screen.height / (float)(Screen.width);
 		CameraLerpColor();
-		cirlceAnimation.Play();
-		cirlceAnimation.transform.gameObject.SetActive(true);
+		PlayBoostCircle();
 		while (va < 1.0f)
 		{
 			va += velocity * Time.unscaledDeltaTime;
@@ -266,6 +269,17 @@ public class CameraController : MonoBehaviour {
 			camera.backgroundColor = Color.Lerp(camera.backgroundColor, defaultBackgroundColor, Time.unscaledDeltaTime * 2f);
 			yield return null;
 		}
+	}
+
+	public void PlayBoostCircle()
+	{
+		if (cirlceAnimation == null)
+		{
+			cirlceAnimation = GetComponent<Animation>();
+		}
+
+		cirlceAnimation.transform.gameObject.SetActive(true);
+		cirlceAnimation.Play();
 	}
 
 

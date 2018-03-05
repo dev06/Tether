@@ -45,7 +45,7 @@ public class ScoreHandler : MonoBehaviour {
 
 	void Update ()
 	{
-		if (GameplayController.GAME_STATE != State.GAME) return;
+		if (GameplayController.GAME_STATE != State.GAME) { return; }
 		speed = player.activeBoost ? 7f : 10f;
 		transform.localScale = Vector3.Lerp(transform.localScale, defaultScale, Time.unscaledDeltaTime * speed);
 	}
@@ -65,7 +65,7 @@ public class ScoreHandler : MonoBehaviour {
 
 	private void OnBoostStart()
 	{
-		GameplayController.SCORE = player.IdealScore;
+		GameplayController.SCORE += 1;
 		scoreText.text = ((int)GameplayController.SCORE).ToString();
 		SetColor(defaultColor);
 		inBoost = true;
