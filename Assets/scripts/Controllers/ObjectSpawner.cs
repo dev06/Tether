@@ -49,8 +49,6 @@ public class ObjectSpawner : MonoBehaviour {
 	{
 	}
 
-
-
 	void Awake()
 	{
 		if (Instance == null)

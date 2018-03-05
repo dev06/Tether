@@ -93,7 +93,6 @@ public class BaseController : MonoBehaviour {
 
 		}
 
-
 		if (player == null)
 		{
 			gameObject.layer = 8;

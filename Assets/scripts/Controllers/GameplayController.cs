@@ -10,6 +10,8 @@ public class GameplayController : MonoBehaviour
 
 	private static bool Loaded = true;
 
+
+
 	public float LastScore = 0;
 
 	public float BestScore = 0;
@@ -22,13 +24,11 @@ public class GameplayController : MonoBehaviour
 
 	public static State GAME_STATE = State.MENU;
 
-	public bool DEBUG;
-
 	public static float DIFFICULTY;
 
 	public static long VIBRATION_DURATION = 5;
 
-	private bool isPaused;
+	public bool DEBUG;
 
 	public List<LockTask> lockTasks = new List<LockTask>();
 
@@ -36,13 +36,17 @@ public class GameplayController : MonoBehaviour
 
 	public bool AllTaskComplete;
 
-	private LockTaskPanel locktaskpanel;
-
-	private PlayerController player;
-
 	public bool inTutorial = true;
 
 	public bool boostActive;
+
+	public UnityEngine.Rendering.SortingGroup sortingGroup;
+
+	private LockTaskPanel locktaskpanel;
+
+	private bool isPaused;
+
+	private PlayerController player;
 
 	public static void SetState(State s)
 	{
@@ -82,12 +86,7 @@ public class GameplayController : MonoBehaviour
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-
-
 		InitGameSettings();
-
-
-
 
 	}
 
@@ -103,21 +102,26 @@ public class GameplayController : MonoBehaviour
 
 	}
 
-	// void OnApplicationQuit()
-	// {
-	// 	DeleteAll();
-	// }
 
 	public void InitGameSettings()
 	{
+
 		Time.timeScale = 1f;
+
 		Time.fixedDeltaTime = Time.timeScale * .02f;
+
 		DIFFICULTY = 0F;
+
 		LastScore = PlayerPrefs.GetFloat("last");
+
 		BestScore = PlayerPrefs.GetFloat("best");
+
 		SCORE = 0;
+
 		BaseController.SpawnScore = 0;
+
 		SetState(!Loaded ? State.INTRO : State.MENU);
+
 		Loaded = true;
 	}
 
@@ -133,15 +137,17 @@ public class GameplayController : MonoBehaviour
 
 	void OnGameOver()
 	{
+
 		PlayerPrefs.SetFloat("last", SCORE);
+
 		SaveBestScore();
+
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 
 
 	void OnGameStart()
 	{
-
 	}
 
 	public void DeleteAll()
@@ -169,7 +175,9 @@ public class GameplayController : MonoBehaviour
 		{
 			SCORE++;
 		}
+
 		DIFFICULTY = Mathf.Log(SCORE);
+
 		DIFFICULTY = Mathf.Clamp(DIFFICULTY, 0, 10F);
 
 
@@ -194,8 +202,6 @@ public class GameplayController : MonoBehaviour
 	{
 		this.isPaused = b;
 
-
-
 		if (isPaused)
 		{
 			if (EventManager.OnPause != null)
@@ -204,6 +210,7 @@ public class GameplayController : MonoBehaviour
 			}
 
 			GAME_STATE = State.PAUSE;
+
 		}
 		else if (!isPaused)
 		{
@@ -214,6 +221,7 @@ public class GameplayController : MonoBehaviour
 
 			GAME_STATE = State.GAME;
 		}
+
 	}
 
 
