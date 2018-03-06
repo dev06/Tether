@@ -234,7 +234,7 @@ public class CameraController : MonoBehaviour {
 		while (va < 1.0f)
 		{
 			va += velocity * Time.unscaledDeltaTime;
-			velocity -= Time.unscaledDeltaTime * 3f;
+			velocity -= Time.unscaledDeltaTime * 4.0f;
 			velocity = Mathf.Clamp(velocity, .4f, velocity);
 
 			va = Mathf.Clamp(va, 0f, 1f);
@@ -246,7 +246,7 @@ public class CameraController : MonoBehaviour {
 			twirl[1].angle =  360 - (va * 360f);
 			twirl[1].angle = Mathf.Clamp(twirl[1].angle, 0f, 360f);
 
-			yield return new WaitForSeconds(Time.unscaledDeltaTime);
+			yield return null;
 		}
 
 		ToggleTwirl(false);

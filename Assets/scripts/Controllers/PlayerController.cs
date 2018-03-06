@@ -212,13 +212,11 @@ public class PlayerController : MonoBehaviour
 
 		spikes.GetComponent<Particle>().Play();
 
-
 		boostPrism.gameObject.SetActive(true);
 
 		boostPrism.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0));
 
 		boostPrism.Play();
-
 
 		transform.position = objectSpawner.nextBase.transform.position;
 
@@ -228,17 +226,16 @@ public class PlayerController : MonoBehaviour
 
 		float dividor = boostScoreAddition / 4f;
 
-
-		float d = 1f;
-		bool b = false;
 		float time = 0;
+
 		while (bsm.isPlaying())
 		{
 			GameplayController.SCORE +=  Time.deltaTime * dividor;
 
 			transform.position = objectSpawner.nextBase.transform.position;
 
-			time += Time.unscaledDeltaTime * d;
+			time += Time.unscaledDeltaTime;
+
 			time = Mathf.Clamp(time, .5f, 1.34f);
 
 			Time.timeScale = time;
@@ -250,8 +247,6 @@ public class PlayerController : MonoBehaviour
 
 			yield return null;
 		}
-
-
 
 		gameplayController.boostActive = activeBoost = false;
 

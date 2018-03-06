@@ -127,13 +127,13 @@ public class GameplayController : MonoBehaviour
 
 
 
-	// void Update ()
-	// {
-	// 	if (Input.GetKeyDown(KeyCode.Space))
-	// 	{
-	// 		DEBUG = !DEBUG;
-	// 	}
-	// }
+	void Update ()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			DEBUG = !DEBUG;
+		}
+	}
 
 	void OnGameOver()
 	{

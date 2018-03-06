@@ -13,7 +13,7 @@ public class AudioController : MonoBehaviour {
 
 	public static bool ReverbOn;
 
-	private  float menu_pitch = .85f;
+	private  float menu_pitch = .9f;
 
 	private  float slomo_pitch = .6f;
 
@@ -33,7 +33,7 @@ public class AudioController : MonoBehaviour {
 
 	private AudioSource source;
 
-	private float slowmo_freq = 500f;
+	private float slowmo_freq = 1800f;
 
 	private float default_freq = 1500;
 
@@ -129,6 +129,11 @@ public class AudioController : MonoBehaviour {
 		// StartCoroutine("SetMixer", slowmo_freq);
 		// //StartCoroutine("SetPitch", menu_pitch);
 		// StartCoroutine("SetVolume", default_vol);
+
+		Play();
+
+		source.time = 45f;
+		source.volume = 1f;
 	}
 
 
@@ -171,7 +176,7 @@ public class AudioController : MonoBehaviour {
 
 	void OnGameOver()
 	{
-//		StopAllCoroutines();
+		//		StopAllCoroutines();
 		SwitchTrack(Level.LEVEL1);
 		// StartCoroutine("SetMixer", slowmo_freq);
 		// StartCoroutine("SetPitch", menu_pitch);
