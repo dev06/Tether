@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class BorderController : MonoBehaviour {
 
-	Camera camera;
-	Vector3 position;
-	float borderThickness = 30f;
-	BoxCollider2D collider;
-	GameplayController gameplayController;
-	PlayerController player;
-	float timer;
+
+	private Camera camera;
+
+	private Vector3 position;
+
+	private float borderThickness = 30f;
+
+	private BoxCollider2D collider;
+
+	private GameplayController gameplayController;
+
+	private PlayerController player;
+
+	private float timer;
+
+	private float startOffset;
+
+	private float targetOffset;
+
+	private float offsetSpeed;
 
 	public enum BorderType
 	{
@@ -24,20 +37,41 @@ public class BorderController : MonoBehaviour {
 
 	void Start ()
 	{
+
 		camera = Camera.main;
+
 		gameplayController = GameplayController.Instance;
+
 		collider = GetComponent<BoxCollider2D>();
+
 		collider.enabled = false;
+
 		player = PlayerController.Instance;
+
+		startOffset = type == BorderType.LEFT ? -.2f : 1.2f;
+
+		targetOffset = type == BorderType.LEFT ? 0f : 1f;
 	}
 
 
 	void Update ()
 	{
-		if (GameplayController.GAME_STATE != State.GAME) return;
+		if (GameplayController.GAME_STATE != State.GAME || gameplayController.inTutorial) { return; }
 
-		collider.enabled = !player.activeBoost;
+		if (Mathf.Abs(targetOffset - startOffset) > .01f)
+		{
+			startOffset = Mathf.SmoothDamp(startOffset, targetOffset , ref offsetSpeed, Time.unscaledDeltaTime * 15f);
+		}
+		else
+		{
+			startOffset = targetOffset;
+		}
+
+
+		collider.enabled = !player.activeBoost && !gameplayController.inTutorial;
+
 		SetPosition(type);
+
 		transform.gameObject.SetActive(!gameplayController.DEBUG);
 	}
 
@@ -47,7 +81,7 @@ public class BorderController : MonoBehaviour {
 		{
 			case BorderType.LEFT:
 			{
-				position = Camera.main.ViewportToWorldPoint(new Vector3(0, .5f, 0));
+				position = Camera.main.ViewportToWorldPoint(new Vector3(startOffset, .5f, 0));
 				position.z = 0;
 				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2.0f, 0);
 				transform.position = position - new Vector3(transform.localScale.x * .495f, 0, 0);
@@ -71,7 +105,7 @@ public class BorderController : MonoBehaviour {
 			// }
 			case BorderType.RIGHT:
 			{
-				position = Camera.main.ViewportToWorldPoint(new Vector3(1, .5f, 0));
+				position = Camera.main.ViewportToWorldPoint(new Vector3(startOffset, .5f, 0));
 				position.z = 0;
 				transform.localScale = new Vector3(borderThickness, camera.orthographicSize * 2.0f, 0);
 				transform.position = position +  new Vector3(transform.localScale.x * .495f, 0, 0);;

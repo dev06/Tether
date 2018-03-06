@@ -29,7 +29,7 @@ public class Intro : ParentUI {
 				GameplayController.SetState(State.MENU);
 
 				//GameplayController.GAME_STATE = State.MENU;
-				AudioController.Instance.Play();
+				AudioController.Instance.SwitchTrack(Level.LEVEL1);
 
 				Hide();
 				done = true;

@@ -75,6 +75,8 @@ public class AudioController : MonoBehaviour {
 
 		EventManager.OnGameStart += OnGameStart;
 
+		EventManager.OnGameOver += OnGameOver;
+
 		EventManager.OnHoldStatus += OnHoldStatus;
 
 		EventManager.OnLevelChange += OnLevelChange;
@@ -91,6 +93,8 @@ public class AudioController : MonoBehaviour {
 	{
 
 		EventManager.OnGameStart -= OnGameStart;
+
+		EventManager.OnGameOver -= OnGameOver;
 
 		EventManager.OnHoldStatus -= OnHoldStatus;
 
@@ -142,9 +146,15 @@ public class AudioController : MonoBehaviour {
 
 	void OnGameStart()
 	{
+
 		targetPitch = default_pitch;
 
 		targetMixer = default_freq;
+	}
+
+	void OnGameOver()
+	{
+		SwitchTrack(Level.LEVEL1);
 	}
 
 	void OnPause()
@@ -183,7 +193,7 @@ public class AudioController : MonoBehaviour {
 		SwitchTrack(l);
 	}
 
-	private void SwitchTrack(Level l)
+	public void SwitchTrack(Level l)
 	{
 
 		Track t = Track.NONE;
@@ -286,7 +296,7 @@ public class AudioController : MonoBehaviour {
 
 	public void Play()
 	{
-		SwitchTrack(Level.LEVEL1);
+		//SwitchTrack(Level.LEVEL1);
 		//source.Play();
 	}
 }
