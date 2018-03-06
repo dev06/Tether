@@ -367,7 +367,7 @@ public class AudioController : MonoBehaviour {
 			case Track.BELLS:
 			{
 				LockTaskPanel p = FindObjectOfType<LockTaskPanel>();
-				name = !p.Active ?  "Carols Of The Bells - Sauniks" : "Locked";
+				name = !p.Active ?  "Carol Of The Bells - Sauniks" : "Locked";
 				break;
 			}
 		}

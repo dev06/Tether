@@ -39,14 +39,7 @@ public class SimpleButtonHandler : ButtonEventHandler {
 					break;
 				}
 
-				case ButtonID.PAUSEMENU:
-				{
-					if (EventManager.OnGameOver != null)
-					{
-						EventManager.OnGameOver();
-					}
-					break;
-				}
+
 
 				case ButtonID.VAYSTUDIOS:
 				{
@@ -114,6 +107,20 @@ public class SimpleButtonHandler : ButtonEventHandler {
 				}
 			}
 		}
+
+		switch(buttonID)
+		{
+			case ButtonID.PAUSEMENU:
+			{
+				if (EventManager.OnGameOver != null)
+				{
+					EventManager.OnGameOver();
+				}
+				break;
+			}
+			
+		}
+
 
 	}
 }
