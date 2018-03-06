@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class LockTaskPanel : MonoBehaviour {
 
-	private static bool DEBUG = true;
+	private static bool DEBUG;
 
 	GameplayController gameplayController;
 

@@ -8,7 +8,7 @@ public class GameplayController : MonoBehaviour
 
 	public static GameplayController Instance;
 
-	private static bool Loaded = true;
+	private static bool Loaded;
 
 
 
@@ -61,16 +61,12 @@ public class GameplayController : MonoBehaviour
 	void OnEnable()
 	{
 		EventManager.OnGameOver += OnGameOver;
-
-		EventManager.OnGameStart += OnGameStart;
 	}
 
 
 	void OnDisable()
 	{
 		EventManager.OnGameOver -= OnGameOver;
-
-		EventManager.OnGameStart -= OnGameStart;
 	}
 	void Awake()
 	{
@@ -127,13 +123,13 @@ public class GameplayController : MonoBehaviour
 
 
 
-	void Update ()
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			DEBUG = !DEBUG;
-		}
-	}
+	// void Update ()
+	// {
+	// 	if (Input.GetKeyDown(KeyCode.Space))
+	// 	{
+	// 		DEBUG = !DEBUG;
+	// 	}
+	// }
 
 	void OnGameOver()
 	{
@@ -143,17 +139,15 @@ public class GameplayController : MonoBehaviour
 		SaveBestScore();
 
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+
+		//	DeleteAll();
 	}
 
 
-	void OnGameStart()
+	public void DeleteAll()
 	{
+		PlayerPrefs.DeleteAll();
 	}
-
-	// public void DeleteAll()
-	// {
-	// 	PlayerPrefs.DeleteAll();
-	// }
 
 
 	public void IncrementScore()
