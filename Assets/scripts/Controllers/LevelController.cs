@@ -35,6 +35,7 @@ public class LevelController : MonoBehaviour {
 
 	private ParticleSystem spikes;
 
+
 	private GameObject[] border;
 
 	private GameObject[] powerup;
@@ -46,6 +47,8 @@ public class LevelController : MonoBehaviour {
 	private GameObject[] boostComplete;
 
 	private ScoreHandler scoreHandler;
+
+	public Text highscoreText;
 
 	private PlayerController playerController;
 
@@ -84,6 +87,7 @@ public class LevelController : MonoBehaviour {
 		menuParticles = GameObject.FindGameObjectsWithTag("Particles/menu_particles");
 		boostComplete = GameObject.FindGameObjectsWithTag("Particles/BoostComplete");
 
+		//	Debug.LogError(highscoreText);
 		spikes = GameObject.FindWithTag("Particles/Spikes").GetComponent<ParticleSystem>();
 
 
@@ -146,6 +150,9 @@ public class LevelController : MonoBehaviour {
 
 		tutorialHand.color = palette[p_acc];
 
+
+
+		highscoreText.color = palette[p_acc];
 
 		spikes.startColor = palette[p_acc];
 

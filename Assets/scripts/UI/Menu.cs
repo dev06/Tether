@@ -11,11 +11,24 @@ public class Menu : ParentUI {
 	private LevelSelectUI tints;
 
 	public Text scoreText;
+
+	public float sizeX, sizeY;
+
+	private RectTransform rt;
 	void Start ()
 	{
 		Init();
 		currentTrackText.text = AudioController.Instance.CurrentTrack();
 		tints = FindObjectOfType<LevelSelectUI>();
+		rt = GetComponent<RectTransform>();
+		sizeX = rt.rect.width;
+		sizeY = rt.rect.height;
+
+
+		if (EventManager.OnDisplayChange != null)
+		{
+			EventManager.OnDisplayChange(sizeX, sizeY);
+		}
 	}
 
 	void OnEnable()
@@ -48,6 +61,17 @@ public class Menu : ParentUI {
 
 	void Update ()
 	{
+		if (sizeX != rt.rect.width || sizeY != rt.rect.height)
+		{
+			sizeX =  rt.rect.width;
+			sizeY =  rt.rect.height;
+
+			if (EventManager.OnDisplayChange != null)
+			{
+				EventManager.OnDisplayChange(sizeX, sizeY);
+			}
+		}
+
 		if (GameplayController.GAME_STATE != State.MENU)
 		{
 			tints.transform.gameObject.SetActive(false);
@@ -58,6 +82,7 @@ public class Menu : ParentUI {
 		{
 			tints.transform.gameObject.SetActive(true);
 		}
+
 	}
 
 

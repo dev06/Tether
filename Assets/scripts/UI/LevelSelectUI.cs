@@ -59,6 +59,15 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private float screen;
 
+	public RectTransform canvasRect;
+
+	private Transform child;
+
+	private Vector3 childPosition = Vector2.zero;
+
+	float registerdscreen = -1f;
+
+
 
 	void Start ()
 	{
@@ -68,7 +77,12 @@ public class LevelSelectUI : MonoBehaviour {
 
 		levelController = LevelController.Instance;
 
-		screen =scaler.referenceResolution.x; 
+		child = transform.GetChild(0);
+
+		screen = canvasRect.rect.width;
+
+
+		child.gameObject.SetActive(true);
 	}
 
 	void OnEnable()
@@ -77,6 +91,7 @@ public class LevelSelectUI : MonoBehaviour {
 		EventManager.OnStateChange += OnStateChange;
 		EventManager.OnGameStart += OnGameStart;
 		EventManager.OnGameOver += OnGameOver;
+		EventManager.OnDisplayChange += OnDisplayChange;
 
 
 	}
@@ -87,6 +102,7 @@ public class LevelSelectUI : MonoBehaviour {
 		EventManager.OnStateChange -= OnStateChange;
 		EventManager.OnGameStart -= OnGameStart;
 		EventManager.OnGameOver -= OnGameOver;
+		EventManager.OnDisplayChange -= OnDisplayChange;
 
 
 	}
@@ -112,6 +128,10 @@ public class LevelSelectUI : MonoBehaviour {
 	}
 
 
+	void OnDisplayChange(float x, float y)
+	{
+		registerdscreen = x;
+	}
 
 
 
@@ -134,11 +154,16 @@ public class LevelSelectUI : MonoBehaviour {
 
 		if (GameplayController.GAME_STATE != State.MENU) { return; }
 
-		// if (controlTimer < controlTimerThreshold)
-		// {
-		// 	isHolding = false;
-		// 	return;
-		// }
+		screen = canvasRect.rect.width;
+
+		if (registerdscreen == -1f)
+		{
+			registerdscreen = screen;
+
+		}
+
+		childPosition.x = screen;
+		child.localPosition = childPosition;
 
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -162,7 +187,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 			displacement.x = Mathf.Abs(displacement.x);
 
-			if (Mathf.Abs(displacement.x) > Screen.width * .01f)
+			if (Mathf.Abs(displacement.x) > registerdscreen * .01f)
 			{
 				canStartGame = false;
 			}
@@ -186,9 +211,9 @@ public class LevelSelectUI : MonoBehaviour {
 
 
 
-			if (magnitude < nextSwipeThreshold * Screen.width) {
+			if (magnitude < nextSwipeThreshold * registerdscreen) {
 
-				range = -holdIndex * Screen.width;
+				range = -holdIndex * registerdscreen;
 
 
 
@@ -199,7 +224,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 			index = Mathf.Clamp(index, 0, transform.childCount);
 
-			range = -index * Screen.width;
+			range = -index * registerdscreen;
 
 
 			Level l = levelController.ParseLevel(index);
@@ -225,7 +250,8 @@ public class LevelSelectUI : MonoBehaviour {
 
 		targetPosition = Mathf.SmoothDamp(targetPosition, range, ref distanceVel, Time.unscaledDeltaTime * swipeSmoothTime);
 
-		transform.localPosition = new Vector2((targetPosition * screen) / Screen.width, 0);
+
+		transform.localPosition = new Vector2((targetPosition * screen) / ( registerdscreen), 0);
 
 		float xClamp = Mathf.Clamp(transform.localPosition.x, -transform.childCount * screen, 0);
 
@@ -245,7 +271,7 @@ public class LevelSelectUI : MonoBehaviour {
 
 		index = Mathf.Clamp(index, 0, transform.childCount);
 
-		range = -index * Screen.width;
+		range = -index * registerdscreen;
 	}
 
 	public void StartGame()
@@ -269,8 +295,6 @@ public class LevelSelectUI : MonoBehaviour {
 		transform.gameObject.SetActive(false);
 
 		GameplayController.LevelIndex = index;
-
-
 
 		menu.StartGame(level);
 

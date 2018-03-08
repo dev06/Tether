@@ -23,7 +23,12 @@ public class NegativeImage : MonoBehaviour {
 
 	void OnHoldStatus(int i)
 	{
-		Toggle((i == 1) ? true : false);
+
+		// if (i == 1)
+		// {
+		// 	Toggle(true);
+
+		// }
 	}
 
 
@@ -32,11 +37,12 @@ public class NegativeImage : MonoBehaviour {
 		player = PlayerController.Instance;
 		image.material.SetColor("_Color", new Color(0, 0, 0, 0));
 		group = GetComponent<CanvasGroup>();
+
 	}
 
 	void Update ()
 	{
-		if (GameplayController.GAME_STATE  != State.GAME) return;
+		if (GameplayController.GAME_STATE  != State.GAME) { return; }
 		if (player.isHolding && !started)
 		{
 			StopCoroutine("ShiftColor2");
@@ -57,6 +63,8 @@ public class NegativeImage : MonoBehaviour {
 	float alpha = 0;
 	IEnumerator ShiftColor()
 	{
+		Toggle(true);
+
 		started = true;
 		alpha = image.material.GetColor("_Color").a;
 		while (alpha < 1f)
@@ -71,13 +79,14 @@ public class NegativeImage : MonoBehaviour {
 	IEnumerator ShiftColor2()
 	{
 		started2 = true;
-		//float alpha = image.material.GetColor("_Color").a /2f;
 		while (alpha > 0f)
 		{
-			alpha -= Time.unscaledDeltaTime * 7.25f;
+			alpha -= Time.unscaledDeltaTime * 7.225f;
 			image.material.SetColor("_Color", new Color(alpha / 2f,  alpha / 2f, alpha / 2f, alpha));
 			yield return null;
 		}
+
+		Toggle(false);
 	}
 
 	void Toggle(bool b)

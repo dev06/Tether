@@ -116,6 +116,10 @@ public class GameplayController : MonoBehaviour
 
 		BaseController.SpawnScore = 0;
 
+		Level = Level.LEVEL1;
+
+		LevelIndex = 0;
+
 		SetState(!Loaded ? State.INTRO : State.MENU);
 
 		Loaded = true;

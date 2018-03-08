@@ -14,6 +14,10 @@ public class ScoreHandler : MonoBehaviour {
 	private PlayerController player;
 	private float speed;
 	public Color boostColor = Color.white;
+	GameplayController gameplayController;
+	public Text highscoreText;
+	string message = "New Highscore!";
+	bool hasStarted;
 	void OnEnable()
 	{
 		EventManager.OnBaseHit += OnBaseHit;
@@ -36,11 +40,14 @@ public class ScoreHandler : MonoBehaviour {
 		scoreText = GetComponent<Text>();
 		defaultColor = scoreText.color;
 		defaultScale = transform.localScale;
+		gameplayController = GameplayController.Instance;
 		scoreText.text = GameplayController.SCORE.ToString();
 	}
 	void Start ()
 	{
 		Init();
+
+		//PlayerPrefs.DeleteAll();
 	}
 
 	void Update ()
@@ -48,6 +55,15 @@ public class ScoreHandler : MonoBehaviour {
 		if (GameplayController.GAME_STATE != State.GAME) { return; }
 		speed = player.activeBoost ? 7f : 10f;
 		transform.localScale = Vector3.Lerp(transform.localScale, defaultScale, Time.unscaledDeltaTime * speed);
+
+		if ( ((int)(GameplayController.SCORE)) > gameplayController.BestScore && !player.activeBoost)
+		{
+			if (!hasStarted)
+			{
+				StopCoroutine("IType");
+				StartCoroutine("IType");
+			}
+		}
 	}
 
 	void OnGameStart()
@@ -84,4 +100,24 @@ public class ScoreHandler : MonoBehaviour {
 	{
 		scoreText.color = c;
 	}
+
+
+	IEnumerator IType()
+	{
+		hasStarted = true;
+		string msg = "";
+		highscoreText.text = "";
+		for (int i = 0; i < message.Length; i++)
+		{
+			msg += message[i];
+			highscoreText.text = msg;
+			yield return new WaitForSeconds(.10f);
+		}
+
+		yield return new WaitForSeconds(2f);
+		highscoreText.text = "";
+		StopCoroutine("IType");
+
+	}
+
 }

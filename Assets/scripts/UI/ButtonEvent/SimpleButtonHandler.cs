@@ -104,11 +104,14 @@ public class SimpleButtonHandler : ButtonEventHandler {
 				if (mag < 20)
 				{
 					FindObjectOfType<LevelSelectUI>().StartGame();
+
+
+
 				}
 			}
 		}
 
-		switch(buttonID)
+		switch (buttonID)
 		{
 			case ButtonID.PAUSEMENU:
 			{
@@ -118,7 +121,7 @@ public class SimpleButtonHandler : ButtonEventHandler {
 				}
 				break;
 			}
-			
+
 		}
 
 

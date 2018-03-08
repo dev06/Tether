@@ -18,6 +18,8 @@ TagManager:
   - Button/Pause
   - UI/Spectrum
   - Canvas/UI
+  - Particles/menu
+  - UI/HighscoreText
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - 
   - 
   - Background
-  - 
+  - Border
   - 
   - 
   - 

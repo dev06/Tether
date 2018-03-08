@@ -56,7 +56,9 @@ public class CameraController : MonoBehaviour {
 
 	private float prevY;
 
+	private Vector2 resolution;
 
+	public Camera backgroundCamera;
 
 	void OnEnable()
 	{
@@ -64,6 +66,7 @@ public class CameraController : MonoBehaviour {
 
 		EventManager.OnGameStart += OnGameStart;
 
+		EventManager.OnDisplayChange += OnDisplayChange;
 
 
 	}
@@ -73,6 +76,7 @@ public class CameraController : MonoBehaviour {
 
 
 		EventManager.OnGameStart -= OnGameStart;
+		EventManager.OnDisplayChange -= OnDisplayChange;
 
 
 
@@ -102,19 +106,59 @@ public class CameraController : MonoBehaviour {
 
 		shapeModule = menuParticleSystem.shape;
 
+
+
 		menuParticleSystem.transform.position = camera.ViewportToWorldPoint(new Vector2(.5f, 0f)) + Vector3.forward;
 
+
+		if (Screen.width > Screen.height)
+		{
+			camera.rect = new Rect(.25f, 0.0f, .5f, 1.0f);
+			backgroundCamera.transform.gameObject.SetActive(true);
+		} else
+		{
+			camera.rect = new Rect(0f, 0.0f, 1f, 1.0f);
+			backgroundCamera.transform.gameObject.SetActive(false);
+		}
+
+		backgroundCamera.transform.position = transform.position - Vector3.up * 3f;
+
+		backgroundCamera.orthographicSize = 1.5f;
 	}
 
+	void OnDisplayChange(float x, float y)
+	{
+	}
 
+	void Update()
+	{
+
+		if (Screen.width > Screen.height)
+		{
+			camera.rect = new Rect(0.3025f, 0.0f, .35f, 1.0f);
+			if (!backgroundCamera.transform.gameObject.activeSelf)
+			{
+				backgroundCamera.transform.gameObject.SetActive(true);
+			}
+		} else
+		{
+			camera.rect = new Rect(0f, 0.0f, 1f, 1.0f);
+			if (backgroundCamera.transform.gameObject.activeSelf)
+			{
+				backgroundCamera.transform.gameObject.SetActive(false);
+			}
+		}
+
+
+	}
 
 	void FixedUpdate ()
 	{
 
+
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			Time.timeScale = .1f;
-			Time.fixedDeltaTime = Time.timeScale * .01f;
+			ToggleTwirl(true);
 		}
 		if (Mathf.Abs((int)transform.position.y - (int)prevY) > 0)
 		{
@@ -148,6 +192,10 @@ public class CameraController : MonoBehaviour {
 		Camera.main.orthographicSize = Mathf.SmoothDamp(Camera.main.orthographicSize, GetDistance(), ref vel, Time.deltaTime * 15f);
 
 		transform.position = Vector3.Lerp(transform.position, GetAveragePosition() +  new Vector3(0, 0, -10f) + new Vector3(jitter.x, jitter.y * .5f, -10f) + hitOffset, Time.unscaledDeltaTime * 3.5f);
+
+		menuParticleSystem.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0.05f)) + Vector3.forward * 10f;
+
+
 	}
 
 	public void StopJitter()
@@ -183,8 +231,10 @@ public class CameraController : MonoBehaviour {
 
 	void OnGameStart()
 	{
-		menuParticleSystem.transform.gameObject.SetActive(false);
-		menuParticleSystem.Stop();
+		// menuParticleSystem.transform.gameObject.SetActive(false);
+		// menuParticleSystem.Stop();
+
+		backgroundCamera.backgroundColor = GameplayController.Level == Level.LEVEL2 ? Color.white : Color.black;
 	}
 
 
@@ -229,7 +279,6 @@ public class CameraController : MonoBehaviour {
 		float velocity = 1.9f;
 		float limit = .8f;
 		float aspect = (float)Screen.height / (float)(Screen.width);
-		CameraLerpColor();
 		PlayBoostCircle();
 		while (va < 1.0f)
 		{
@@ -238,11 +287,11 @@ public class CameraController : MonoBehaviour {
 			velocity = Mathf.Clamp(velocity, .4f, velocity);
 
 			va = Mathf.Clamp(va, 0f, 1f);
-			twirl[0].radius = new Vector2(va * aspect, va) * limit;
+			twirl[0].radius = new Vector2((va * aspect) / camera.rect.width, va) * limit;
 			twirl[0].angle = (va * 360f);
 			twirl[0].angle = Mathf.Clamp(twirl[0].angle, 0f, 360f);
 
-			twirl[1].radius = new Vector2(va * aspect, va) * limit;
+			twirl[1].radius = new Vector2((va * aspect) / camera.rect.width, va) * limit;
 			twirl[1].angle =  360 - (va * 360f);
 			twirl[1].angle = Mathf.Clamp(twirl[1].angle, 0f, 360f);
 
