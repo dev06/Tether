@@ -57,6 +57,8 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private Vector2 displacement;
 
+	private float screen;
+
 
 	void Start ()
 	{
@@ -65,6 +67,8 @@ public class LevelSelectUI : MonoBehaviour {
 		settingPanel = FindObjectOfType<SettingPanel>();
 
 		levelController = LevelController.Instance;
+
+		screen =scaler.referenceResolution.x; 
 	}
 
 	void OnEnable()
@@ -221,9 +225,9 @@ public class LevelSelectUI : MonoBehaviour {
 
 		targetPosition = Mathf.SmoothDamp(targetPosition, range, ref distanceVel, Time.unscaledDeltaTime * swipeSmoothTime);
 
-		transform.localPosition = new Vector2((targetPosition * scaler.referenceResolution.x) / Screen.width, 0);
+		transform.localPosition = new Vector2((targetPosition * screen) / Screen.width, 0);
 
-		float xClamp = Mathf.Clamp(transform.localPosition.x, -transform.childCount * scaler.referenceResolution.x, 0);
+		float xClamp = Mathf.Clamp(transform.localPosition.x, -transform.childCount * screen, 0);
 
 		transform.localPosition = new Vector2(xClamp, 0);
 

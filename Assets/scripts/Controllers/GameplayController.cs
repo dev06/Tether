@@ -8,7 +8,7 @@ public class GameplayController : MonoBehaviour
 
 	public static GameplayController Instance;
 
-	private static bool Loaded;
+	private static bool Loaded = true;
 
 
 

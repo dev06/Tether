@@ -17,6 +17,7 @@ TagManager:
   - Particles/slowmo_1
   - Button/Pause
   - UI/Spectrum
+  - Canvas/UI
   layers:
   - Default
   - TransparentFX
