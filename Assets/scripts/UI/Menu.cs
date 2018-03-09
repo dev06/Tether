@@ -61,7 +61,7 @@ public class Menu : ParentUI {
 
 	void Update ()
 	{
-		if (sizeX != rt.rect.width || sizeY != rt.rect.height)
+		if (sizeX != rt.rect.width)
 		{
 			sizeX =  rt.rect.width;
 			sizeY =  rt.rect.height;

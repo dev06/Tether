@@ -131,10 +131,20 @@ public class LevelSelectUI : MonoBehaviour {
 	void OnDisplayChange(float x, float y)
 	{
 		registerdscreen = x;
+
+		range = -index * registerdscreen;
+		targetPosition = range; 
+		//StopCoroutine("AdjustSize"); 
+		//StartCoroutine("AdjustSize"); 
 	}
 
 
-
+	IEnumerator AdjustSize()
+	{
+		yield return new WaitForSeconds(.1f); 
+		childPosition.x = screen;
+		child.localPosition = childPosition;		
+	}
 
 
 	private IEnumerator IStartControlTimer()
@@ -261,8 +271,6 @@ public class LevelSelectUI : MonoBehaviour {
 		{
 			lastMousePosition = Input.mousePosition;
 		}
-
-
 	}
 
 	private void SwitchPanel()
