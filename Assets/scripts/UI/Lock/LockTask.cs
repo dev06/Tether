@@ -13,7 +13,7 @@ public enum LockTaskID
 public class LockTaskValue
 {
 	public static int Task1Value = 200;
-	public static int Task2Value = 75;
+	public static int Task2Value = 100;
 	public static int Task3Value = 50;
 }
 public class LockTask : MonoBehaviour {

@@ -143,7 +143,8 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.VayStudios.Tether
     iOS: com.devVayStudios.Tether
-  buildNumber: {}
+  buildNumber:
+    iOS: 2
   AndroidBundleVersionCode: 2
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0

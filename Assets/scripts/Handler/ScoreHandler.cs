@@ -56,7 +56,7 @@ public class ScoreHandler : MonoBehaviour {
 		speed = player.activeBoost ? 7f : 10f;
 		transform.localScale = Vector3.Lerp(transform.localScale, defaultScale, Time.unscaledDeltaTime * speed);
 
-		if ( ((int)(GameplayController.SCORE)) > gameplayController.BestScore && !player.activeBoost)
+		if ( ((int)(GameplayController.SCORE)) > gameplayController.BestScore && !inBoost)
 		{
 			if (!hasStarted)
 			{

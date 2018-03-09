@@ -55,7 +55,7 @@ public class LockTaskPanel : MonoBehaviour {
 
 				case LockTaskID.ID_2:
 				{
-					t.SetText("Tether to " + LockTaskValue.Task2Value + " bases consecutively");
+					t.SetText("Tether to " + LockTaskValue.Task2Value + " bases without missing");
 					break;
 				}
 
