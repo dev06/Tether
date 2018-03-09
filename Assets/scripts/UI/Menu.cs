@@ -94,6 +94,8 @@ public class Menu : ParentUI {
 
 		GameplayController.SetState(State.GAME);
 
+		PlayerPrefs.SetInt("LastLevelPlayed", level == Level.LEVEL1 ? 0 : 1);
+
 		if (EventManager.OnGameStart != null)
 		{
 			EventManager.OnGameStart();

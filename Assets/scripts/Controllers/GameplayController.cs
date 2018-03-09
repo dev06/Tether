@@ -6,11 +6,11 @@ using UnityEngine;
 public class GameplayController : MonoBehaviour
 {
 
+	public static bool GAMESTARTED = false;
+
 	public static GameplayController Instance;
 
 	private static bool Loaded = true;
-
-
 
 	public float LastScore = 0;
 
@@ -80,6 +80,16 @@ public class GameplayController : MonoBehaviour
 			DestroyImmediate(gameObject);
 		}
 
+		if (GAMESTARTED == false)
+		{
+			PlayerPrefs.DeleteKey("LastLevelPlayed");
+		}
+
+
+		GAMESTARTED = true;
+
+
+
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
 		InitGameSettings();
@@ -116,9 +126,12 @@ public class GameplayController : MonoBehaviour
 
 		BaseController.SpawnScore = 0;
 
-		Level = Level.LEVEL1;
+		if (PlayerPrefs.HasKey("LastLevelPlayed"))
+		{
+			LevelIndex = PlayerPrefs.GetInt("LastLevelPlayed");
 
-		LevelIndex = 0;
+			Level = LevelIndex == 0 ? Level.LEVEL1 : Level.LEVEL2;
+		}
 
 		SetState(!Loaded ? State.INTRO : State.MENU);
 
@@ -260,6 +273,12 @@ public class GameplayController : MonoBehaviour
 		}
 
 		return null;
+	}
+
+	void OnApplicationQuit()
+	{
+		PlayerPrefs.DeleteKey("LastLevelPlayed");
+		DeleteAll();
 	}
 
 }

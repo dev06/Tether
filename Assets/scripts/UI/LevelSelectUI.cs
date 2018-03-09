@@ -65,6 +65,8 @@ public class LevelSelectUI : MonoBehaviour {
 
 	private Vector3 childPosition = Vector2.zero;
 
+	private GameplayController gameplayController;
+
 	float registerdscreen = -1f;
 
 
@@ -75,14 +77,21 @@ public class LevelSelectUI : MonoBehaviour {
 
 		settingPanel = FindObjectOfType<SettingPanel>();
 
+		gameplayController = GameplayController.Instance;
+
 		levelController = LevelController.Instance;
 
 		child = transform.GetChild(0);
 
 		screen = canvasRect.rect.width;
 
-
 		child.gameObject.SetActive(true);
+
+		index = GameplayController.LevelIndex;
+
+		range = -index * registerdscreen;
+
+		targetPosition = range;
 	}
 
 	void OnEnable()
@@ -133,17 +142,17 @@ public class LevelSelectUI : MonoBehaviour {
 		registerdscreen = x;
 
 		range = -index * registerdscreen;
-		targetPosition = range; 
-		//StopCoroutine("AdjustSize"); 
-		//StartCoroutine("AdjustSize"); 
+		targetPosition = range;
+		//StopCoroutine("AdjustSize");
+		//StartCoroutine("AdjustSize");
 	}
 
 
 	IEnumerator AdjustSize()
 	{
-		yield return new WaitForSeconds(.1f); 
+		yield return new WaitForSeconds(.1f);
 		childPosition.x = screen;
-		child.localPosition = childPosition;		
+		child.localPosition = childPosition;
 	}
 
 
@@ -218,14 +227,9 @@ public class LevelSelectUI : MonoBehaviour {
 			magnitude = Mathf.Abs(delta);
 
 
-
-
-
 			if (magnitude < nextSwipeThreshold * registerdscreen) {
 
 				range = -holdIndex * registerdscreen;
-
-
 
 				return;
 			}

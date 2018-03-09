@@ -1,64 +1,81 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Pause : ParentUI {
 
 
+	private Color color;
+	private Image image;
 	void OnEnable()
 	{
-		EventManager.OnPause+=OnPause; 
-		EventManager.OnUnpause+=OnUnpause; 
+		EventManager.OnPause += OnPause;
+		EventManager.OnUnpause += OnUnpause;
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnPause-=OnPause; 
-		EventManager.OnUnpause-=OnUnpause; 
+		EventManager.OnPause -= OnPause;
+		EventManager.OnUnpause -= OnUnpause;
 
 	}
 
 	void Start ()
 	{
 		Init();
-		IHide(); 
+		image = GetComponent<Image>();
+		IHide();
 	}
 
 	void OnPause()
 	{
-		IShow(); 
+		if (image == null)
+		{
+			image = GetComponent<Image>();
+		}
+		image.color = GameplayController.LevelIndex == 1 ? Color.white : Color.black;
+		IShow();
 	}
 
 	void OnUnpause()
 	{
-		IHide(); 
+		if (image == null)
+		{
+			image = GetComponent<Image>();
+		}
+
+		image.color = GameplayController.LevelIndex == 1 ? Color.white : Color.black;
+		IHide();
 	}
 
 
 	protected  void IShow()
 	{
-		StopCoroutine("DampAlpha"); 
+
+		StopCoroutine("DampAlpha");
 		StartCoroutine("DampAlpha", 1f);
 	}
 
 	protected void IHide()
 	{
-		StopCoroutine("DampAlpha"); 
+		StopCoroutine("DampAlpha");
 		StartCoroutine("DampAlpha", 0f);
 	}
 
 	private IEnumerator DampAlpha(float target)
 	{
-		float vel = 0; 
-		if(canvasGroup == null)
+		float vel = 0;
+
+		if (canvasGroup == null)
 		{
-			canvasGroup = GetComponent<CanvasGroup>(); 
+			canvasGroup = GetComponent<CanvasGroup>();
 		}
-		canvasGroup.blocksRaycasts = (target == 1); 
-		while(canvasGroup.alpha != target)
+
+		canvasGroup.blocksRaycasts = (target == 1);
+		while (canvasGroup.alpha != target)
 		{
-			canvasGroup.alpha = Mathf.SmoothDamp(canvasGroup.alpha, target, ref vel, Time.unscaledDeltaTime * 2f); 
-			yield return new WaitForSeconds(Time.unscaledDeltaTime);
+			canvasGroup.alpha = Mathf.SmoothDamp(canvasGroup.alpha, target, ref vel, Time.unscaledDeltaTime * 5f);
+			yield return null;
 		}
 	}
 }

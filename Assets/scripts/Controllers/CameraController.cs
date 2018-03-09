@@ -60,6 +60,8 @@ public class CameraController : MonoBehaviour {
 
 	public Camera backgroundCamera;
 
+	public GameObject Level2BlurCamGraident;
+
 	void OnEnable()
 	{
 
@@ -121,9 +123,9 @@ public class CameraController : MonoBehaviour {
 			backgroundCamera.transform.gameObject.SetActive(false);
 		}
 
-		backgroundCamera.transform.position = transform.position - Vector3.up * 3f;
+		//	backgroundCamera.transform.position = transform.position - Vector3.up * 3f;
 
-		backgroundCamera.orthographicSize = 1.5f;
+
 	}
 
 	void OnDisplayChange(float x, float y)
@@ -132,6 +134,7 @@ public class CameraController : MonoBehaviour {
 
 	void Update()
 	{
+
 
 		if (Screen.width > Screen.height)
 		{
@@ -148,13 +151,13 @@ public class CameraController : MonoBehaviour {
 				backgroundCamera.transform.gameObject.SetActive(false);
 			}
 		}
-
-
 	}
 
 	void FixedUpdate ()
 	{
+		float value = Camera.main.orthographicSize * .5f * Camera.main.rect.x;
 
+		backgroundCamera.orthographicSize = (Camera.main.orthographicSize * .5f) - value;
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{
@@ -233,8 +236,9 @@ public class CameraController : MonoBehaviour {
 	{
 		// menuParticleSystem.transform.gameObject.SetActive(false);
 		// menuParticleSystem.Stop();
-
-		backgroundCamera.backgroundColor = GameplayController.Level == Level.LEVEL2 ? Color.white : Color.black;
+		backgroundCamera.transform.position = transform.position - Vector3.up * 3f;
+		Level2BlurCamGraident.SetActive(GameplayController.Level == Level.LEVEL2);
+		backgroundCamera.backgroundColor = GameplayController.Level == Level.LEVEL2 ? Color.white : new Color(34f / 255f, 34f / 255f, 34f / 255f, 1f);
 	}
 
 

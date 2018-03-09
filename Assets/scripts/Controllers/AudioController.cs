@@ -150,11 +150,20 @@ public class AudioController : MonoBehaviour {
 		targetPitch = default_pitch;
 
 		targetMixer = default_freq;
+
 	}
 
 	void OnGameOver()
 	{
-		SwitchTrack(Level.LEVEL1);
+		Level l = Level.LEVEL1;
+		if (PlayerPrefs.HasKey("LastLevelPlayed"))
+		{
+			int index = PlayerPrefs.GetInt("LastLevelPlayed");
+
+			l = index == 1 ? Level.LEVEL2 : l;
+		}
+
+		SwitchTrack(l);
 	}
 
 	void OnPause()
@@ -219,8 +228,14 @@ public class AudioController : MonoBehaviour {
 
 				LockTaskPanel p = FindObjectOfType<LockTaskPanel>();
 
-				volume = !p.Active ? 1f : 0f;
-
+				if (p != null)
+				{
+					volume = !p.Active ? 1f : 0f;
+				}
+				else
+				{
+					volume = 1f;
+				}
 				break;
 			}
 		}
