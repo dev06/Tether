@@ -159,12 +159,6 @@ public class GameplayController : MonoBehaviour
 	}
 
 
-	public void DeleteAll()
-	{
-		PlayerPrefs.DeleteAll();
-	}
-
-
 	public void IncrementScore()
 	{
 		if (inTutorial)

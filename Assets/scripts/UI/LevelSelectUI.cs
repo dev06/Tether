@@ -92,6 +92,10 @@ public class LevelSelectUI : MonoBehaviour {
 		range = -index * registerdscreen;
 
 		targetPosition = range;
+
+		childPosition.x = screen;
+
+		child.localPosition = childPosition;
 	}
 
 	void OnEnable()
