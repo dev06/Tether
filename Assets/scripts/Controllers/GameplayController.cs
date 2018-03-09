@@ -10,7 +10,7 @@ public class GameplayController : MonoBehaviour
 
 	public static GameplayController Instance;
 
-	private static bool Loaded = true;
+	private static bool Loaded;
 
 	public float LastScore = 0;
 
@@ -156,8 +156,6 @@ public class GameplayController : MonoBehaviour
 		SaveBestScore();
 
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
-		//	DeleteAll();
 	}
 
 
@@ -274,13 +272,6 @@ public class GameplayController : MonoBehaviour
 
 		return null;
 	}
-
-	void OnApplicationQuit()
-	{
-		PlayerPrefs.DeleteKey("LastLevelPlayed");
-		DeleteAll();
-	}
-
 }
 
 
