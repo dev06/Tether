@@ -77,11 +77,6 @@ public class SimpleButtonHandler : ButtonEventHandler {
 					}
 					break;
 				}
-				case ButtonID.SETTINGS:
-				{
-					// /GameplayController.SetState(State.SETTING);
-					break;
-				}
 			}
 		}
 		catch (System.Exception e)
@@ -101,12 +96,9 @@ public class SimpleButtonHandler : ButtonEventHandler {
 
 				float mag = Mathf.Abs(mouseUp.x - mouseDown.x);
 
-				if (mag < 20)
+				if (mag < Screen.width * .1f)
 				{
 					FindObjectOfType<LevelSelectUI>().StartGame();
-
-
-
 				}
 			}
 		}

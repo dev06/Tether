@@ -69,6 +69,8 @@ public class LevelSelectUI : MonoBehaviour {
 
 	float registerdscreen = -1f;
 
+	private float restartTimer;
+
 
 
 	void Start ()
@@ -176,6 +178,11 @@ public class LevelSelectUI : MonoBehaviour {
 	{
 
 		if (GameplayController.GAME_STATE != State.MENU) { return; }
+
+		if (restartTimer < 1f)
+		{
+			restartTimer += Time.deltaTime;
+		}
 
 		screen = canvasRect.rect.width;
 
@@ -304,7 +311,7 @@ public class LevelSelectUI : MonoBehaviour {
 			canStart = !panel.Active;
 		}
 
-		if (!canStart || !canStartGame) { return; }
+		if (!canStart || !canStartGame || restartTimer < .45f) { return; }
 
 		levelController.SetLevel( Level.LEVEL1);
 

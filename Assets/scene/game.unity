@@ -13205,8 +13205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   downsample: 0
-  blurSize: 2.55
-  blurIterations: 2
+  blurSize: 1.49
+  blurIterations: 1
   blurType: 0
   blurShader: {fileID: 4800000, guid: f9d5fa183cd6b45eeb1491f74863cd91, type: 3}
 --- !u!1 &525361315
@@ -21157,7 +21157,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 811498538}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -21527,7 +21527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &914109465
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30114,6 +30114,7 @@ MonoBehaviour:
   tutorial: {fileID: 657870444}
   tutorialText: {fileID: 0}
   backgroundNeg: {fileID: 77015779}
+  pauseButton: {fileID: 1561566135}
 --- !u!1 &1318060439
 GameObject:
   m_ObjectHideFlags: 0
@@ -41089,7 +41090,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.142}
   m_AnchorMax: {x: 1, y: 0.28139788}
-  m_AnchoredPosition: {x: 0, y: -0.59999084}
+  m_AnchoredPosition: {x: 0, y: -0.5999756}
   m_SizeDelta: {x: 0, y: 0.79999924}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1518663736

@@ -153,11 +153,13 @@ public class CameraController : MonoBehaviour {
 		}
 	}
 
+
 	void FixedUpdate ()
 	{
 		float value = Camera.main.orthographicSize * .5f * Camera.main.rect.x;
 
-		backgroundCamera.orthographicSize = (Camera.main.orthographicSize * .5f) - value;
+
+		backgroundCamera.orthographicSize = ((Camera.main.orthographicSize * .5f) - value) * .5f;
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{

@@ -9,6 +9,7 @@ public class Game : ParentUI {
 	public CanvasGroup tutorial;
 	public Text tutorialText;
 	public Image backgroundNeg;
+	public Image pauseButton;
 
 	void OnEnable()
 	{
@@ -29,11 +30,13 @@ public class Game : ParentUI {
 	void OnBoostEnd()
 	{
 		backgroundNeg.enabled = false;
+		pauseButton.enabled = true;
 	}
 
 	void OnBoostStart()
 	{
 		backgroundNeg.enabled = true;
+		pauseButton.enabled = false;
 	}
 
 

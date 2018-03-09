@@ -11,12 +11,14 @@ public class Pause : ParentUI {
 	{
 		EventManager.OnPause += OnPause;
 		EventManager.OnUnpause += OnUnpause;
+		//	EventManager.OnBoostStart +=
 	}
 
 	void OnDisable()
 	{
 		EventManager.OnPause -= OnPause;
 		EventManager.OnUnpause -= OnUnpause;
+		//EventManager.OnBoostStart+=
 
 	}
 

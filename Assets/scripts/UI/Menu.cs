@@ -29,6 +29,7 @@ public class Menu : ParentUI {
 		{
 			EventManager.OnDisplayChange(sizeX, sizeY);
 		}
+
 	}
 
 	void OnEnable()
@@ -50,6 +51,8 @@ public class Menu : ParentUI {
 		if (s == State.MENU)
 		{
 			scoreText.text = ((int)GameplayController.Instance.BestScore) + " | " + ((int)GameplayController.Instance.LastScore);
+
+			Show();
 		}
 	}
 
