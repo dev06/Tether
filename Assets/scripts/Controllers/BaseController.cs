@@ -13,6 +13,8 @@ public class BaseController : MonoBehaviour {
 
 	public static float BASE_VELOCITY = 200f;
 
+	public static float CURRENT_VELOCITY = 100F;
+
 	public static float VELOCITY_SCALE = 1f;
 
 	public static float DEFAULT_MIN_SCALE = 1.1F;
@@ -53,6 +55,7 @@ public class BaseController : MonoBehaviour {
 	private SpriteRenderer renderer;
 
 	private ParticleSystem zap;
+
 
 
 	public void Initialize()
@@ -142,7 +145,7 @@ public class BaseController : MonoBehaviour {
 
 			float distance = Vector3.Angle(targetDir, player.transform.right);
 
-			transform.Rotate(Vector3.forward, (Time.deltaTime * ((velocity * distance) * .6f + BASE_VELOCITY) * VELOCITY_SCALE)  * DIRECTION);
+			transform.Rotate(Vector3.forward, (Time.deltaTime * ((velocity * distance) * .6f + CURRENT_VELOCITY) * VELOCITY_SCALE)  * DIRECTION);
 
 		}
 
@@ -178,9 +181,13 @@ public class BaseController : MonoBehaviour {
 	private void PoolBase()
 	{
 
+		CURRENT_VELOCITY += 1f;
+
+		CURRENT_VELOCITY = Mathf.Clamp(CURRENT_VELOCITY, 100f, BASE_VELOCITY);
+
 		BaseController lastBase = transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<BaseController>();
 
-		float xRange = Random.Range(-1.45f, 2.45f) * GameplayController.DIFFICULTY * .2f;
+		float xRange = Random.Range(-1.55f, 2.55f) * GameplayController.DIFFICULTY * .2f;
 
 		xRange = Mathf.Clamp(xRange, -3.5f, 3.5f);
 

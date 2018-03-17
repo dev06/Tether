@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
 
 	public Transform hit_base;
 
+	public Transform skin;
+
 	private bool isInit;
 
 
@@ -158,6 +160,7 @@ public class PlayerController : MonoBehaviour
 
 		transform.localScale = new Vector3(scale, scale, scale);
 
+		skin.transform.position = line.line.GetPosition(1) + (line.transform.right * .2f);
 
 		// if (Input.GetKeyDown(KeyCode.L))
 		// {

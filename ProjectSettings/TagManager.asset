@@ -20,6 +20,7 @@ TagManager:
   - Canvas/UI
   - Particles/menu
   - UI/HighscoreText
+  - Particles/Powerup
   layers:
   - Default
   - TransparentFX
@@ -31,7 +32,7 @@ TagManager:
   - 
   - Background
   - Border
-  - 
+  - Powerup
   - 
   - 
   - 

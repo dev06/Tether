@@ -332,15 +332,15 @@ public class LineController : MonoBehaviour {
 
 					Camera.main.GetComponent<CameraController>().freezeCamera = true;
 
-					Time.timeScale = .1f;
+					Time.timeScale = .2f;
 
 					Time.fixedDeltaTime = Time.timeScale * .02f;
 
 					gameOver = true;
 
-					StopCoroutine("LerpTimeToNormal");
+					// StopCoroutine("LerpTimeToNormal");
 
-					StartCoroutine("LerpTimeToNormal");
+					// StartCoroutine("LerpTimeToNormal");
 				}
 			}
 
@@ -430,7 +430,7 @@ public class LineController : MonoBehaviour {
 
 		while (Time.timeScale < 1)
 		{
-			Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1f, ref timeScaleVel, Time.unscaledDeltaTime * 6f);
+			Time.timeScale = Mathf.SmoothDamp(Time.timeScale, 1f, ref timeScaleVel, Time.unscaledDeltaTime * 15f);
 
 			Time.fixedDeltaTime = Time.timeScale * .02f;
 

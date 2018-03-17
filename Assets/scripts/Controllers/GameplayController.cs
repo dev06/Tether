@@ -10,7 +10,7 @@ public class GameplayController : MonoBehaviour
 
 	public static GameplayController Instance;
 
-	private static bool Loaded;
+	private static bool Loaded = true;
 
 	public float LastScore = 0;
 
@@ -26,7 +26,7 @@ public class GameplayController : MonoBehaviour
 
 	public static float DIFFICULTY;
 
-	public static int POWERUP_FREQ = 15;
+	public static int POWERUP_FREQ = 10;
 
 	public bool DEBUG;
 
@@ -126,6 +126,8 @@ public class GameplayController : MonoBehaviour
 
 		BaseController.SpawnScore = 0;
 
+		BaseController.CURRENT_VELOCITY = 100F;
+
 		if (PlayerPrefs.HasKey("LastLevelPlayed"))
 		{
 			LevelIndex = PlayerPrefs.GetInt("LastLevelPlayed");
@@ -140,13 +142,13 @@ public class GameplayController : MonoBehaviour
 
 
 
-	// void Update ()
-	// {
-	// 	if (Input.GetKeyDown(KeyCode.Space))
-	// 	{
-	// 		DEBUG = !DEBUG;
-	// 	}
-	// }
+	void Update ()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			DEBUG = !DEBUG;
+		}
+	}
 
 	void OnGameOver()
 	{

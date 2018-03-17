@@ -46,6 +46,8 @@ public class LevelController : MonoBehaviour {
 
 	private GameObject[] boostComplete;
 
+	private GameObject[] powerupParticles;
+
 	private ScoreHandler scoreHandler;
 
 	public Text highscoreText;
@@ -86,7 +88,7 @@ public class LevelController : MonoBehaviour {
 		specturmImages = GameObject.FindGameObjectsWithTag("UI/Spectrum");
 		menuParticles = GameObject.FindGameObjectsWithTag("Particles/menu_particles");
 		boostComplete = GameObject.FindGameObjectsWithTag("Particles/BoostComplete");
-
+		powerupParticles = GameObject.FindGameObjectsWithTag("Particles/Powerup");
 		//	Debug.LogError(highscoreText);
 		spikes = GameObject.FindWithTag("Particles/Spikes").GetComponent<ParticleSystem>();
 
@@ -159,6 +161,11 @@ public class LevelController : MonoBehaviour {
 		for (int i = 0 ; i < menuParticles.Length; i++)
 		{
 			menuParticles[i].GetComponent<ParticleSystem>().startColor = palette[p_acc];
+		}
+
+		for (int i = 0 ; i < powerupParticles.Length; i++)
+		{
+			powerupParticles[i].GetComponent<ParticleSystem>().startColor = palette[p_acc];
 		}
 
 		for (int i = 0 ; i < boostComplete.Length; i++)

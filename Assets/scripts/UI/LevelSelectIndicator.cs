@@ -18,7 +18,7 @@ public class LevelSelectIndicator : MonoBehaviour {
 	{
 		defaultScale = transform.localScale;
 
-		hoverScale = defaultScale * 1.2f;
+		hoverScale = defaultScale * 1.4f;
 
 	}
 
