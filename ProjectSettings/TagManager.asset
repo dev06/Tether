@@ -21,6 +21,7 @@ TagManager:
   - Particles/menu
   - UI/HighscoreText
   - Particles/Powerup
+  - UI/Message
   layers:
   - Default
   - TransparentFX

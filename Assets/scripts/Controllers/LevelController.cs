@@ -48,9 +48,10 @@ public class LevelController : MonoBehaviour {
 
 	private GameObject[] powerupParticles;
 
+	private GameObject[] hitMessages;
+
 	private ScoreHandler scoreHandler;
 
-	public Text highscoreText;
 
 	private PlayerController playerController;
 
@@ -89,6 +90,8 @@ public class LevelController : MonoBehaviour {
 		menuParticles = GameObject.FindGameObjectsWithTag("Particles/menu_particles");
 		boostComplete = GameObject.FindGameObjectsWithTag("Particles/BoostComplete");
 		powerupParticles = GameObject.FindGameObjectsWithTag("Particles/Powerup");
+		hitMessages = GameObject.FindGameObjectsWithTag("UI/Message");
+
 		//	Debug.LogError(highscoreText);
 		spikes = GameObject.FindWithTag("Particles/Spikes").GetComponent<ParticleSystem>();
 
@@ -154,9 +157,11 @@ public class LevelController : MonoBehaviour {
 
 
 
-		highscoreText.color = palette[p_acc];
-
 		spikes.startColor = palette[p_acc];
+
+		hitMessages[0].GetComponent<Text>().color = (level == Level.LEVEL1) ? Color.black :  Color.white;
+
+		hitMessages[1].GetComponent<Image>().color = palette[p_acc];
 
 		for (int i = 0 ; i < menuParticles.Length; i++)
 		{

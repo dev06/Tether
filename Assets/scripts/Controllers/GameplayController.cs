@@ -126,7 +126,7 @@ public class GameplayController : MonoBehaviour
 
 		BaseController.SpawnScore = 0;
 
-		BaseController.CURRENT_VELOCITY = 100F;
+		BaseController.CURRENT_VELOCITY = BaseController.MIN_VELOCITY;
 
 		if (PlayerPrefs.HasKey("LastLevelPlayed"))
 		{

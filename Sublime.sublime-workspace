@@ -519,51 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "Assets/scripts/Controllers/CameraController.cs",
-			"settings":
-			{
-				"buffer_size": 5607,
-				"encoding": "UTF-8 with BOM",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Assets/scripts/UI/LevelSelectUI.cs",
-			"settings":
-			{
-				"buffer_size": 4747,
-				"encoding": "UTF-8 with BOM",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Assets/scripts/Controllers/LineController.cs",
-			"settings":
-			{
-				"buffer_size": 7787,
-				"encoding": "UTF-8 with BOM",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Assets/scripts/Controllers/GameplayController.cs",
-			"settings":
-			{
-				"buffer_size": 3779,
-				"encoding": "UTF-8 with BOM",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Assets/scripts/Handler/BoostParticles.cs",
-			"settings":
-			{
-				"buffer_size": 365,
-				"encoding": "UTF-8 with BOM",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -614,6 +569,12 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/Controllers/CameraController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/UI/LevelSelectUI.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/Controllers/LineController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/Controllers/GameplayController.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/UI/Game.cs",
+		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/Handler/BoostParticles.cs",
 		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Tether/Assets/scripts/Controllers/LevelController.cs",
 		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/UI/Game.cs",
 		"/C/Users/Devan/Documents/UnityProjects/Github/Tether/Assets/scripts/Handler/NegativeImage.cs",
@@ -735,17 +696,11 @@
 		"/C/Users/Devan/Documents/UnityProjects/UpKeep/Assets/scripts/game/entity/mob/Player.cs",
 		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/virtual/VirtualWorldController.cs",
 		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/virtual/part_one/VirtualPartOne.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/virtual/part_two/VirtualPartTwo.cs",
-		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/scripts/Generator.cs",
-		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/scripts/TerrainGenerator.cs",
-		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/scripts/Test.cs",
-		"/C/Users/Devan/Documents/UnityProjects/Sandbox/Assets/Generator.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/PlayAreaWarning.cs",
-		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/part_three/Study1_3_Controller_real.cs"
+		"/C/Users/Devan/Documents/UnityProjects/KSU_ResearchWizard/ResearchWizard/Assets/scripts/appSystem/study/study_one/virtual/part_two/VirtualPartTwo.cs"
 	],
 	"find":
 	{
-		"height": 61.0
+		"height": 44.0
 	},
 	"find_in_files":
 	{
@@ -937,159 +892,8 @@
 	"groups":
 	[
 		{
-			"selected": 3,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Assets/scripts/Controllers/CameraController.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5607,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4255,
-								4255
-							]
-						],
-						"settings":
-						{
-							"side_bar_folders_auto_load_folder": 1,
-							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5100.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Assets/scripts/UI/LevelSelectUI.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4747,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1683,
-								1683
-							]
-						],
-						"settings":
-						{
-							"side_bar_folders_auto_load_folder": 1,
-							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 627.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Assets/scripts/Controllers/LineController.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7787,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4895,
-								4895
-							]
-						],
-						"settings":
-						{
-							"side_bar_folders_auto_load_folder": 1,
-							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 6450.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "Assets/scripts/Controllers/GameplayController.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3779,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2736,
-								2736
-							]
-						],
-						"settings":
-						{
-							"side_bar_folders_auto_load_folder": 1,
-							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Assets/scripts/Handler/BoostParticles.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 365,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								365,
-								365
-							]
-						],
-						"settings":
-						{
-							"side_bar_folders_auto_load_folder": 1,
-							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1680,7 +1484,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Devan\\Documents\\UnityProjects\\SublimeProjects\\Upkeep Sublime.sublime-project"
+				"C:\\Users\\Devan\\Documents\\UnityProjects\\SublimeProjects\\TetherGIT.sublime-project"
 			],
 			[
 				"android",

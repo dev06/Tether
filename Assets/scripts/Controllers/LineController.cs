@@ -116,6 +116,11 @@ public class LineController : MonoBehaviour {
 		isInit = true;
 	}
 
+	void LateUpdate()
+	{
+
+	}
+
 	void Update ()
 	{
 		if (GameplayController.GAME_STATE == State.PAUSE) { return; }
@@ -166,6 +171,7 @@ public class LineController : MonoBehaviour {
 					}
 				}
 				inSlowmo = true;
+
 
 				player.isHolding = true;
 
@@ -242,6 +248,11 @@ public class LineController : MonoBehaviour {
 		if (hitSomething)
 		{
 
+			if (EventManager.OnBaseHitPerfection != null)
+			{
+				float theta = Vector3.Angle(player.transform.position - hit.transform.position, -player.transform.right);
+				EventManager.OnBaseHitPerfection(theta);
+			}
 			float a = CalculateAngle(hit.point, hit.transform.position);
 
 			BaseController.DIRECTION = (a > 0 && a < 270) ? -1 : 1;
@@ -254,7 +265,7 @@ public class LineController : MonoBehaviour {
 
 			player.hit_base = hit.transform;
 
-			player.thrustDirection = transform.right * 15f;
+			player.thrustDirection = transform.right * (inSlowmo ? 25f : 12f);
 
 			object[] objs = new object[3] {hit.transform.GetComponent<BaseController>(), hit.point, hit.transform.gameObject};
 

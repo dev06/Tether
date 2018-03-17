@@ -355,8 +355,7 @@ public class PlayerController : MonoBehaviour
 
 			float shrinkFactor = Random.Range(9.0f, 10.0f);
 
-			cameraController.Jitter(shake, shrinkFactor);
-
+//			cameraController.Jitter(shake, shrinkFactor);
 			cameraController.SetYOffset(thrustDirection);
 
 

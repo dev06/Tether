@@ -7,13 +7,13 @@ public class BaseController : MonoBehaviour {
 
 	public static float DIRECTION = -1f;
 
-	public static float MIN_VELOCITY = 215f;
+	public static float MIN_VELOCITY = 100f;
 
 	public static float MAX_VELOCITY = 300F;
 
 	public static float BASE_VELOCITY = 200f;
 
-	public static float CURRENT_VELOCITY = 100F;
+	public static float CURRENT_VELOCITY = MIN_VELOCITY;
 
 	public static float VELOCITY_SCALE = 1f;
 
@@ -181,9 +181,9 @@ public class BaseController : MonoBehaviour {
 	private void PoolBase()
 	{
 
-		CURRENT_VELOCITY += 1f;
+		CURRENT_VELOCITY += 2f;
 
-		CURRENT_VELOCITY = Mathf.Clamp(CURRENT_VELOCITY, 100f, BASE_VELOCITY);
+		CURRENT_VELOCITY = Mathf.Clamp(CURRENT_VELOCITY, MIN_VELOCITY, BASE_VELOCITY);
 
 		BaseController lastBase = transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<BaseController>();
 
