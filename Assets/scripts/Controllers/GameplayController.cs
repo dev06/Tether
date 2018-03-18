@@ -90,7 +90,7 @@ public class GameplayController : MonoBehaviour
 
 		GAMESTARTED = true;
 
-//		PlayerPrefs.DeleteAll();
+		//PlayerPrefs.DeleteAll();
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 

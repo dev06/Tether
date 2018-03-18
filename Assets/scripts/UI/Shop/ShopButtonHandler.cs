@@ -23,9 +23,7 @@ public class ShopButtonHandler : MonoBehaviour {
 		{
 			DestroyImmediate(gameObject);
 		}
-		AddTetherHeads();
 
-		PlayerPrefs.SetString("TetherHead_0", "False");
 		// PlayerPrefs.SetString("TetherHead_1", "False");
 		//PlayerPrefs.DeleteAll();
 	}
@@ -49,6 +47,9 @@ public class ShopButtonHandler : MonoBehaviour {
 
 	void Start ()
 	{
+		AddTetherHeads();
+
+		PlayerPrefs.SetString("TetherHead_0", "False");
 		currentHead = transform.GetChild(0).GetComponent<Image>();
 		shopPanel = FindObjectOfType<ShopPanel>();
 		currentHead.sprite = GetCurrentTetherHead().sprite;

@@ -40,6 +40,10 @@ public class TetherHead : MonoBehaviour {
 		if (PlayerPrefs.HasKey("TetherHead_" + ID))
 		{
 			Locked = bool.Parse(PlayerPrefs.GetString("TetherHead_" + ID));
+		} else if (GameplayController.Instance.BestScore >= UnlockAt)
+		{
+			Locked = false;
+			PlayerPrefs.SetString("TetherHead_" + ID, "False");
 		}
 		UpdateLock();
 	}
