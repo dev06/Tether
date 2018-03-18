@@ -52,7 +52,7 @@ public class PerfectBastHit : MonoBehaviour {
 			{
 				message = "New Highscore!";
 				StopCoroutine("IType");
-				StartCoroutine("IType", new float[2] {.1f, 5f});
+				StartCoroutine("IType", new float[2] {.1f, 1f});
 
 			}
 
@@ -77,7 +77,7 @@ public class PerfectBastHit : MonoBehaviour {
 
 		if (gpc.inTutorial) return;
 
-		if (angle >= 1f && angle <= 3f)
+		if (angle >= 1f && angle <= 2f)
 		{
 			if (message.Length > 0) return;
 			message = displayMessages_t2[Random.Range(0, displayMessages_t2.Length)];

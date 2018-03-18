@@ -61,6 +61,7 @@ public class LineController : MonoBehaviour {
 
 	public int baseHitCounter;
 
+
 	private LockTaskPanel locktaskpanel;
 
 	public LayerMask layer, allHit;
@@ -112,6 +113,7 @@ public class LineController : MonoBehaviour {
 		line.startWidth = line.endWidth = 0;
 
 		locktaskpanel = FindObjectOfType<LockTaskPanel>();
+
 
 		isInit = true;
 	}
@@ -265,7 +267,7 @@ public class LineController : MonoBehaviour {
 
 			player.hit_base = hit.transform;
 
-			player.thrustDirection = transform.right * (inSlowmo ? 25f : 12f);
+			player.thrustDirection = transform.right * (inSlowmo ? 18f : 6f);
 
 			object[] objs = new object[3] {hit.transform.GetComponent<BaseController>(), hit.point, hit.transform.gameObject};
 
@@ -279,16 +281,20 @@ public class LineController : MonoBehaviour {
 
 			objectSpawner.SpawnParticle(ParticleType.ONLINEHITBASE, hit.point, color);
 
-			baseHitCounter++;
-
-			if (baseHitCounter >= LockTaskValue.Task2Value)
+			if (hit.transform.GetComponent<BaseController>() != null)
 			{
-				if (locktaskpanel != null)
-				{
+				baseHitCounter++;
 
-					locktaskpanel.InvokeLockTask(LockTaskID.ID_2);
+				if (baseHitCounter >= LockTaskValue.Task2Value)
+				{
+					if (locktaskpanel != null)
+					{
+
+						locktaskpanel.InvokeLockTask(LockTaskID.ID_2);
+					}
 				}
 			}
+
 		}
 		else
 		{

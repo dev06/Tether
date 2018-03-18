@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class LockTaskPanel : MonoBehaviour {
 
-	private static bool DEBUG = true;
+	private static bool DEBUG;
 
 	GameplayController gameplayController;
 
@@ -61,7 +61,7 @@ public class LockTaskPanel : MonoBehaviour {
 
 				case LockTaskID.ID_3:
 				{
-					t.SetText("Get a score of " + LockTaskValue.Task3Value + " without using a boost");
+					t.SetText("Get a score of " + LockTaskValue.Task3Value + " WITHOUT using a boost");
 					break;
 				}
 			}

@@ -88,7 +88,7 @@ public class GameplayController : MonoBehaviour
 
 		GAMESTARTED = true;
 
-
+//		PlayerPrefs.DeleteAll();
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -127,6 +127,7 @@ public class GameplayController : MonoBehaviour
 		BaseController.SpawnScore = 0;
 
 		BaseController.CURRENT_VELOCITY = BaseController.MIN_VELOCITY;
+
 
 		if (PlayerPrefs.HasKey("LastLevelPlayed"))
 		{
