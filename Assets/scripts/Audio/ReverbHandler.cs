@@ -41,9 +41,4 @@ public class ReverbHandler : MonoBehaviour {
 	{
 		UpdateSprite(AudioController.ReverbOn);
 	}
-
-	// Update is called once per frame
-	void Update () {
-
-	}
 }

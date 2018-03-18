@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
 	public static PlayerController Instance;
 
+	public Sprite[] tether_sprites;
+
 	public bool activeBoost;
 
 	public AudioSource sfx;
@@ -67,6 +69,8 @@ public class PlayerController : MonoBehaviour
 
 	public Transform skin;
 
+	private SpriteRenderer skinSprite;
+
 	private bool isInit;
 
 
@@ -98,6 +102,8 @@ public class PlayerController : MonoBehaviour
 		EventManager.OnBoostStart += OnBoostStart;
 
 		EventManager.OnHoldStatus += OnHoldStatus;
+
+		EventManager.OnGameStart += OnGameStart;
 	}
 
 	void OnDisable()
@@ -109,6 +115,13 @@ public class PlayerController : MonoBehaviour
 
 		EventManager.OnHoldStatus -= OnHoldStatus;
 
+		EventManager.OnGameStart -= OnGameStart;
+
+	}
+
+	void OnGameStart()
+	{
+		skinSprite.sprite = tether_sprites[GameplayController.LevelIndex];
 	}
 
 
@@ -139,6 +152,12 @@ public class PlayerController : MonoBehaviour
 
 		SetCurrentBase();
 
+		skinSprite = skin.GetComponent<SpriteRenderer>();
+
+
+		skinSprite.sprite = tether_sprites[GameplayController.LevelIndex];
+
+
 		isInit = true;
 
 	}
@@ -160,7 +179,6 @@ public class PlayerController : MonoBehaviour
 
 		transform.localScale = new Vector3(scale, scale, scale);
 
-		skin.transform.position = line.line.GetPosition(1) + (line.transform.right * .2f);
 
 		// if (Input.GetKeyDown(KeyCode.L))
 		// {
@@ -180,6 +198,12 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
+
+	}
+
+	void LateUpdate()
+	{
+		skin.transform.position = line.line.GetPosition(1) + (line.transform.right * .35f);
 
 	}
 

@@ -77,6 +77,18 @@ public class SimpleButtonHandler : ButtonEventHandler {
 					}
 					break;
 				}
+
+				case ButtonID.TUTORIAL:
+				{
+					GameplayController.TutorialEnabled = !GameplayController.TutorialEnabled;
+
+					if (EventManager.OnTutorialActive != null)
+					{
+						EventManager.OnTutorialActive(GameplayController.TutorialEnabled);
+					}
+
+					break;
+				}
 			}
 		}
 		catch (System.Exception e)

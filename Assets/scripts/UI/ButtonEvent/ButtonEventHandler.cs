@@ -30,8 +30,6 @@ public class ButtonEventHandler : MonoBehaviour, IPointerDownHandler, IPointerUp
 	{
 		if (buttonID == ButtonID.STARTAREA)
 		{
-			Debug.Log(buttonID);
-
 			if (EventManager.OnButtonPress != null)
 			{
 				EventManager.OnButtonPress(buttonID);
@@ -64,6 +62,7 @@ public enum ButtonID
 	PAUSEMENU,
 	REVERB,
 	VAYSTUDIOS,
+	TUTORIAL,
 }
 
 

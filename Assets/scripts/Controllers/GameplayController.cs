@@ -38,6 +38,8 @@ public class GameplayController : MonoBehaviour
 
 	public bool inTutorial = true;
 
+	public static bool TutorialEnabled = true;
+
 	public bool boostActive;
 
 	public UnityEngine.Rendering.SortingGroup sortingGroup;

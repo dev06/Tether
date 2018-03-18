@@ -46,6 +46,10 @@ public class EventManager : MonoBehaviour {
 	public delegate void Reverb(bool active);
 	public static Reverb OnReverb;
 
+	public delegate void TutorialActive(bool active);
+	public static TutorialActive OnTutorialActive;
+
+
 	public delegate void LockTaskComplete(LockTaskID id);
 	public static LockTaskComplete OnLockTaskComplete;
 

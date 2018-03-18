@@ -15,8 +15,8 @@ public class PerfectBastHit : MonoBehaviour {
 	private bool hasStarted;
 
 
-	private float[] defaultValues = {.06f, .45f};
-	private float[] slowValues = {.1f, 1f};
+	private float[] defaultValues = {.06f, .45f, 0f};
+	private float[] slowValues = {.1f, 1f, 0f};
 
 
 	void Start ()
@@ -29,6 +29,8 @@ public class PerfectBastHit : MonoBehaviour {
 		{
 			gpc = GameplayController.Instance;
 		}
+
+		//PlayerPrefs.DeleteAll();
 
 	}
 
@@ -44,19 +46,80 @@ public class PerfectBastHit : MonoBehaviour {
 		EventManager.OnBoostStart -= OnBoostStart;
 	}
 
+	bool b1;
+	bool b2;
+	bool b3;
+	bool b4;
+	bool b5;
 	void Update()
 	{
-		if (((int)(GameplayController.SCORE)) > gpc.BestScore)
+		if (GameplayController.GAME_STATE != State.GAME) return;
+		if (((int)(GameplayController.SCORE)) > gpc.BestScore && gpc.inTutorial == false)
 		{
 			if (!hasStarted)
 			{
+
 				message = "New Highscore!";
 				StopCoroutine("IType");
-				StartCoroutine("IType", new float[2] {.1f, 1f});
-
+				StartCoroutine("IType", new float[3] {.1f, 1f, 0f});
+				hasStarted = true;
 			}
-
 		}
+
+		if (GameplayController.TutorialEnabled)
+		{
+			if ((int)(GameplayController.SCORE) == 0)
+			{
+				if (!b1)
+				{
+					Hide();
+					message = "Tap to shoot the tether!";
+					StopCoroutine("IType");
+					StartCoroutine("IType", new float[3] {.04f, 2f, .5f});
+					b1 = true;
+				}
+			} else if ((int)(GameplayController.SCORE) == 1)
+			{
+				if (!b2)
+				{
+					Hide();
+					message = "Tap and Hold for Slow Motion!";
+					StopCoroutine("IType");
+					StartCoroutine("IType", new float[3] {.04f, 2f, 0f});
+					b2 = true;
+				}
+			}
+			else if ((int)(GameplayController.SCORE) == 2)
+			{
+				if (!b3)
+				{
+					Hide();
+					message = "Avoid The Boundaries!";
+					StopCoroutine("IType");
+					StartCoroutine("IType", new float[3] {.04f, 2f, 0f});
+					b3 = true;
+				}
+			} else if ((int)(GameplayController.SCORE) == 3)
+			{
+				if (!b4)
+				{
+					message = "Good Luck!";
+					StopCoroutine("IType");
+					StartCoroutine("IType", new float[3] {.04f, 1f, 0f});
+					b4 = true;
+				}
+			} else
+			{
+				if (!b5)
+				{
+					Hide();
+					image.enabled = false;
+					StopCoroutine("IType");
+					b5 = true;
+				}
+			}
+		}
+
 	}
 
 	void OnBoostStart()
@@ -75,7 +138,7 @@ public class PerfectBastHit : MonoBehaviour {
 		}
 
 
-		if (gpc.inTutorial) return;
+		if ((int)GameplayController.SCORE <= 3) return;
 
 		if (angle >= 1f && angle <= 2f)
 		{
@@ -96,15 +159,13 @@ public class PerfectBastHit : MonoBehaviour {
 
 	IEnumerator IType(float[] values)
 	{
-		image.enabled = true;
 		string msg = "";
 		text.text = "";
 		float delay = values[0];
 		float hold = values[1];
-		if (message == "New Highscore!")
-		{
-			hasStarted = true;
-		}
+		float startindDelay = values[2];
+		yield return new WaitForSeconds(startindDelay);
+		image.enabled = true;
 		for (int i = 0; i < message.Length; i++)
 		{
 			msg += message[i];
@@ -113,8 +174,13 @@ public class PerfectBastHit : MonoBehaviour {
 		}
 
 		yield return new WaitForSeconds(hold);
-		message = "";
-		text.text = message;
+		Hide();
 		image.enabled = false;
+	}
+
+	void Hide()
+	{
+		message = "";
+		text.text = "";
 	}
 }
