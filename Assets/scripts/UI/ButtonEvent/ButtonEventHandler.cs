@@ -63,6 +63,9 @@ public enum ButtonID
 	REVERB,
 	VAYSTUDIOS,
 	TUTORIAL,
+	SHOP,
+	TETHER_HEAD,
+	SHOPBACKGROUND,
 }
 
 

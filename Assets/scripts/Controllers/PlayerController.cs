@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
 
 	void OnGameStart()
 	{
-		skinSprite.sprite = tether_sprites[GameplayController.LevelIndex];
+		skinSprite.sprite = ShopButtonHandler.Instance.GetCurrentTetherHead().sprite;
 	}
 
 

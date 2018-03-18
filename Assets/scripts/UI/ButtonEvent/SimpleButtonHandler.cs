@@ -19,7 +19,6 @@ public class SimpleButtonHandler : ButtonEventHandler {
 		if (buttonID == ButtonID.BACK)
 		{
 			GameplayController.SetState(State.MENU);
-
 		}
 	}
 
@@ -39,15 +38,11 @@ public class SimpleButtonHandler : ButtonEventHandler {
 					break;
 				}
 
-
-
 				case ButtonID.VAYSTUDIOS:
 				{
 					Application.OpenURL("https://www.vaystudios.com");
 					break;
 				}
-
-
 
 				case ButtonID.CREDIT:
 				{
@@ -99,20 +94,27 @@ public class SimpleButtonHandler : ButtonEventHandler {
 
 	public override void OnPointerClick(PointerEventData data)
 	{
-		//base.OnPointerClick(data);
 		if (GameplayController.GAME_STATE == State.MENU)
 		{
 			if (buttonID == ButtonID.STARTAREA)
 			{
-				mouseUp = data.position;
-
-				float mag = Mathf.Abs(mouseUp.x - mouseDown.x);
-
-				if (mag < Screen.width * .1f)
+				if (!ShopPanel.ACTIVE)
 				{
-					FindObjectOfType<LevelSelectUI>().StartGame();
+					mouseUp = data.position;
+
+					float mag = Mathf.Abs(mouseUp.x - mouseDown.x);
+
+					if (mag < Screen.width * .1f)
+					{
+						FindObjectOfType<LevelSelectUI>().StartGame();
+					}
+				}
+				else
+				{
+					FindObjectOfType<ShopPanel>().Close();
 				}
 			}
+
 		}
 
 		switch (buttonID)
@@ -122,6 +124,22 @@ public class SimpleButtonHandler : ButtonEventHandler {
 				if (EventManager.OnGameOver != null)
 				{
 					EventManager.OnGameOver();
+				}
+				break;
+			}
+
+			case ButtonID.SHOP:
+			{
+				FindObjectOfType<ShopButtonHandler>().ShopPanel.Open();
+				break;
+			}
+
+			case ButtonID.TETHER_HEAD:
+			{
+				if (EventManager.OnTetherHeadClick != null)
+				{
+					TetherHead t = GetComponent<TetherHead>();
+					EventManager.OnTetherHeadClick(t);
 				}
 				break;
 			}

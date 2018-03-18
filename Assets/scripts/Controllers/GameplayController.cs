@@ -130,6 +130,8 @@ public class GameplayController : MonoBehaviour
 
 		BaseController.CURRENT_VELOCITY = BaseController.MIN_VELOCITY;
 
+		//CheckForTetherHeadUnlocks();
+
 
 		if (PlayerPrefs.HasKey("LastLevelPlayed"))
 		{
@@ -151,6 +153,7 @@ public class GameplayController : MonoBehaviour
 		{
 			DEBUG = !DEBUG;
 		}
+
 	}
 
 	void OnGameOver()
@@ -158,9 +161,25 @@ public class GameplayController : MonoBehaviour
 
 		PlayerPrefs.SetFloat("last", SCORE);
 
+		CheckForTetherHeadUnlocks();
+
 		SaveBestScore();
 
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+	}
+
+	public void CheckForTetherHeadUnlocks()
+	{
+		PlayerPrefs.SetInt("CurrentTetherHeadID", ShopButtonHandler.Instance.GetCurrentTetherHead().ID);
+		List<TetherHead> heads = ShopButtonHandler.Instance.TetherHeads;
+		for (int i = 0; i < heads.Count; i++)
+		{
+			if (SCORE >= heads[i].UnlockAt)
+			{
+				heads[i].Locked = false;
+				PlayerPrefs.SetString("TetherHead_" + i, "False");
+			}
+		}
 	}
 
 

@@ -221,7 +221,6 @@ public class LevelSelectUI : MonoBehaviour {
 			{
 				canStartGame = false;
 			}
-			//Debug.Log(displacement );
 		}
 
 		if (Input.GetMouseButtonUp(0))
@@ -323,6 +322,20 @@ public class LevelSelectUI : MonoBehaviour {
 
 
 	}
+
+	public bool IsHolding {
+		get {
+			return isHolding;
+		}
+	}
+
+
+	public Vector2 Displacement {
+		get {
+			return displacement;
+		}
+	}
+
 
 
 	private void UpdateLevelHUDScale()

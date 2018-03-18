@@ -53,6 +53,9 @@ public class EventManager : MonoBehaviour {
 	public delegate void LockTaskComplete(LockTaskID id);
 	public static LockTaskComplete OnLockTaskComplete;
 
+	public delegate void TetherHeadClick(TetherHead t);
+	public static TetherHeadClick OnTetherHeadClick;
+
 
 	public delegate void Display(float x, float y);
 	public static Display OnDisplayChange;
