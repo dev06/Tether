@@ -145,7 +145,7 @@ public class BaseController : MonoBehaviour {
 
 			float distance = Vector3.Angle(targetDir, player.transform.right);
 
-			transform.Rotate(Vector3.forward, (Time.deltaTime * ((velocity * distance) * .6f + CURRENT_VELOCITY) * VELOCITY_SCALE)  * DIRECTION);
+			transform.Rotate(Vector3.forward, (Time.deltaTime * ((velocity * distance) * .45f + CURRENT_VELOCITY) * VELOCITY_SCALE)  * DIRECTION);
 
 		}
 

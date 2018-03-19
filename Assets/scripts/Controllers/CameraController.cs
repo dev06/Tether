@@ -132,10 +132,11 @@ public class CameraController : MonoBehaviour {
 	{
 	}
 
-	void Update()
+
+
+
+	void Update ()
 	{
-
-
 		if (Screen.width > Screen.height)
 		{
 			camera.rect = new Rect(0.3025f, 0.0f, .35f, 1.0f);
@@ -151,11 +152,7 @@ public class CameraController : MonoBehaviour {
 				backgroundCamera.transform.gameObject.SetActive(false);
 			}
 		}
-	}
 
-
-	void FixedUpdate ()
-	{
 		float value = Camera.main.orthographicSize * .5f * Camera.main.rect.x;
 
 

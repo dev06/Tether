@@ -90,7 +90,8 @@ public class GameplayController : MonoBehaviour
 
 		GAMESTARTED = true;
 
-		//PlayerPrefs.DeleteAll();
+//		PlayerPrefs.DeleteAll();
+		//Debug.Log("dsfs")
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -100,7 +101,6 @@ public class GameplayController : MonoBehaviour
 
 	void Start ()
 	{
-		Application.targetFrameRate = 60;
 
 		ObjectSpawner.Instance.Init();
 
@@ -123,6 +123,7 @@ public class GameplayController : MonoBehaviour
 		LastScore = PlayerPrefs.GetFloat("last");
 
 		BestScore = PlayerPrefs.GetFloat("best");
+
 
 		SCORE = 0;
 

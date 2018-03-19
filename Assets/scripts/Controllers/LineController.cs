@@ -267,7 +267,7 @@ public class LineController : MonoBehaviour {
 
 			player.hit_base = hit.transform;
 
-			player.thrustDirection = transform.right * (inSlowmo ? 18f : 6f);
+			player.thrustDirection = transform.right * (inSlowmo ? 18f : 0f);
 
 			object[] objs = new object[3] {hit.transform.GetComponent<BaseController>(), hit.point, hit.transform.gameObject};
 
@@ -371,19 +371,18 @@ public class LineController : MonoBehaviour {
 
 		yield return new WaitForSeconds(.1f);
 
-		hitSomething = false;
-
 
 		while (Mathf.Abs(Vector2.Distance(hitPosition, startLinePosition)) > .02f)
 		{
 
-			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.unscaledDeltaTime * 25f);
+			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.deltaTime * 20f);
 
 			player.SetLocation(startLinePosition);
 
 			yield return null;
 		}
 
+		hitSomething = false;
 		attached = false;
 
 

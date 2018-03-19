@@ -43,16 +43,17 @@ public class ShopButtonHandler : MonoBehaviour {
 			t.Init();
 			t.CheckForIsLocked();
 		}
+		currentHead.sprite = GetCurrentTetherHead().sprite;
 	}
 
 	void Start ()
 	{
-		AddTetherHeads();
 
 		PlayerPrefs.SetString("TetherHead_0", "False");
 		currentHead = transform.GetChild(0).GetComponent<Image>();
 		shopPanel = FindObjectOfType<ShopPanel>();
-		currentHead.sprite = GetCurrentTetherHead().sprite;
+		AddTetherHeads();
+
 	}
 	void OnEnable()
 	{
@@ -68,7 +69,8 @@ public class ShopButtonHandler : MonoBehaviour {
 
 		if (t.Locked) return;
 		SetCurrentHead(t);
-
+		PlayerPrefs.SetInt("CurrentTetherHeadID", t.ID);
+		currentHead.sprite = GetCurrentTetherHead().sprite;
 		GameObject[] tetherHeads = GameObject.FindGameObjectsWithTag("UI/Head");
 		foreach (GameObject g in tetherHeads)
 		{
