@@ -53,7 +53,7 @@ public class PerfectBastHit : MonoBehaviour {
 	bool b5;
 	void Update()
 	{
-		if (GameplayController.GAME_STATE != State.GAME) return;
+		if (GameplayController.GAME_STATE != State.GAME) { return; }
 		if (((int)(GameplayController.SCORE)) > gpc.BestScore && gpc.inTutorial == false)
 		{
 			if (!hasStarted)
@@ -138,11 +138,11 @@ public class PerfectBastHit : MonoBehaviour {
 		}
 
 
-		if ((int)GameplayController.SCORE <= 3) return;
+		if ((int)GameplayController.SCORE <= 3) { return; }
 
 		if (angle >= 1f && angle <= 2f)
 		{
-			if (message.Length > 0) return;
+			if (message.Length > 0) { return; }
 			message = displayMessages_t2[Random.Range(0, displayMessages_t2.Length)];
 			StopCoroutine("IType");
 			StartCoroutine("IType", defaultValues);
@@ -150,7 +150,7 @@ public class PerfectBastHit : MonoBehaviour {
 		}
 		else if (angle <= 1f)
 		{
-			if (message.Length > 0) return;
+			if (message.Length > 0) { return; }
 			message = displayMessages_t1[Random.Range(0, displayMessages_t1.Length)];
 			StopCoroutine("IType");
 			StartCoroutine("IType", defaultValues);
@@ -159,6 +159,7 @@ public class PerfectBastHit : MonoBehaviour {
 
 	IEnumerator IType(float[] values)
 	{
+		text.enabled = true;
 		string msg = "";
 		text.text = "";
 		float delay = values[0];
@@ -182,5 +183,7 @@ public class PerfectBastHit : MonoBehaviour {
 	{
 		message = "";
 		text.text = "";
+		text.enabled = false;
+
 	}
 }

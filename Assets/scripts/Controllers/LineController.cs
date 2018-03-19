@@ -211,6 +211,7 @@ public class LineController : MonoBehaviour {
 		return Quaternion.FromToRotation(Vector3.right, from - to).eulerAngles.z;
 	}
 
+	bool running;
 	public void Shoot()
 	{
 		if (attached) { return; }
@@ -267,15 +268,19 @@ public class LineController : MonoBehaviour {
 
 			player.hit_base = hit.transform;
 
-			player.thrustDirection = transform.right * (inSlowmo ? 18f : 0f);
+			player.thrustDirection = transform.right * (inSlowmo ? 18f : 6f);
 
 			object[] objs = new object[3] {hit.transform.GetComponent<BaseController>(), hit.point, hit.transform.gameObject};
 
-			StopCoroutine("Retract");
+			// StopCoroutine("Retract");
 
-			StopCoroutine("Attach");
+			// StopCoroutine("Attach");
 
-			StartCoroutine("Attach", objs);
+			if (!running)
+			{
+
+				StartCoroutine("Attach", objs);
+			}
 
 			Color color = GameplayController.LevelIndex == 0 ? Color.white : Color.black;
 
@@ -314,6 +319,7 @@ public class LineController : MonoBehaviour {
 
 	IEnumerator Attach(object[] objs)
 	{
+		running = true;
 
 		BaseController hitBase = (BaseController)objs[0];
 
@@ -371,18 +377,18 @@ public class LineController : MonoBehaviour {
 
 		yield return new WaitForSeconds(.1f);
 
+		hitSomething = false;
 
 		while (Mathf.Abs(Vector2.Distance(hitPosition, startLinePosition)) > .02f)
 		{
 
-			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.deltaTime * 20f);
+			startLinePosition = Vector3.Lerp(startLinePosition, hitPosition, Time.unscaledDeltaTime * 25f);
 
 			player.SetLocation(startLinePosition);
 
 			yield return null;
 		}
 
-		hitSomething = false;
 		attached = false;
 
 
@@ -395,6 +401,8 @@ public class LineController : MonoBehaviour {
 		player.Round();
 
 		line.enabled = false;
+
+		running = false;
 
 		if (gameOver)
 		{
