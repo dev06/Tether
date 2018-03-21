@@ -355,7 +355,7 @@
 			"file": "/Users/devan/Documents/Unity/Github/Myo Arm Band/Assets/Myo Samples/Scripts/ColorBoxByPose.cs",
 			"settings":
 			{
-				"buffer_size": 2938,
+				"buffer_size": 3073,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Windows"
 			}
@@ -540,20 +540,22 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2938,
+						"buffer_size": 3073,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2054,
-								2062
+								317,
+								317
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C#/C#.sublime-syntax"
+							"syntax": "Packages/C#/C#.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
