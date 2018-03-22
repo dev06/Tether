@@ -7,7 +7,7 @@ public class BaseController : MonoBehaviour {
 
 	public static float DIRECTION = -1f;
 
-	public static float MIN_VELOCITY = 100f;
+	public static float MIN_VELOCITY = 50f;
 
 	public static float MAX_VELOCITY = 300F;
 
@@ -223,9 +223,9 @@ public class BaseController : MonoBehaviour {
 
 				SpawnScore = GameplayController.SCORE;
 
-				GameplayController.POWERUP_FREQ+=3; 
+				GameplayController.POWERUP_FREQ += 3;
 			}
-		} 
+		}
 		else
 		{
 			SpawnScore = GameplayController.SCORE;

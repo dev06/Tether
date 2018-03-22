@@ -243,7 +243,7 @@ namespace GameAnalyticsSDK.Wrapper
 				Debug.Log ("gameAnalyticsEndSession()");
 			}
 		}
-
+			
 		#endif
 
 		public static void SetAvailableCustomDimensions01 (string list)
@@ -284,24 +284,24 @@ namespace GameAnalyticsSDK.Wrapper
 		public static void SetBuild (string build)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateBuild (build)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateBuild (build)) {
 				configureBuild (build);
 			}
 #else
-			configureBuild (build);
+				configureBuild (build);
 #endif
-		}
+        }
 
 		public static void SetCustomUserId (string userId)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateUserId (userId)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateUserId (userId)) {
 				configureUserId (userId);
 			}
 #else
-			configureUserId (userId);
+				configureUserId (userId);
 #endif
-		}
+        }
 
 		public static void SetEnabledManualSessionHandling (bool enabled)
 		{
@@ -329,29 +329,29 @@ namespace GameAnalyticsSDK.Wrapper
 		public static void Initialize (string gamekey, string gamesecret)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateKeys (gamekey, gamesecret)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateKeys (gamekey, gamesecret)) {
 				initialize (gamekey, gamesecret);
 			}
 #else
-			initialize (gamekey, gamesecret);
+				initialize (gamekey, gamesecret);
 #endif
-		}
+        }
 
 		public static void SetCustomDimension01 (string customDimension)
 		{
 			setCustomDimension01 (customDimension);
-		}
+        }
 
 		public static void SetCustomDimension02 (string customDimension)
 		{
 
 			setCustomDimension02 (customDimension);
-		}
+        }
 
 		public static void SetCustomDimension03 (string customDimension)
 		{
 			setCustomDimension03 (customDimension);
-		}
+        }
 		
 #if UNITY_IOS || UNITY_TVOS
 		public static void AddBusinessEvent(string currency, int amount, string itemType, string itemId, string cartType, string receipt)
@@ -376,80 +376,80 @@ namespace GameAnalyticsSDK.Wrapper
 		public static void AddBusinessEvent (string currency, int amount, string itemType, string itemId, string cartType)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateBusinessEvent (currency, amount, cartType, itemType, itemId)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateBusinessEvent (currency, amount, cartType, itemType, itemId)) {
 				addBusinessEvent (currency, amount, itemType, itemId, cartType);
 			}
 #else
-			addBusinessEvent (currency, amount, itemType, itemId, cartType);
+				addBusinessEvent (currency, amount, itemType, itemId, cartType);
 #endif
-		}
+        }
 #endif
 
-		public static void AddResourceEvent (GAResourceFlowType flowType, string currency, float amount, string itemType, string itemId)
+        public static void AddResourceEvent (GAResourceFlowType flowType, string currency, float amount, string itemType, string itemId)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateResourceEvent (flowType, currency, amount, itemType, itemId)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateResourceEvent (flowType, currency, amount, itemType, itemId)) {
 				addResourceEvent ((int)flowType, currency, amount, itemType, itemId);
 			}
 #else
-			addResourceEvent ((int)flowType, currency, amount, itemType, itemId);
+				addResourceEvent ((int)flowType, currency, amount, itemType, itemId);
 #endif
-		}
+        }
 
 		public static void AddProgressionEvent (GAProgressionStatus progressionStatus, string progression01, string progression02, string progression03)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateProgressionEvent (progressionStatus, progression01, progression02, progression03)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateProgressionEvent (progressionStatus, progression01, progression02, progression03)) {
 				addProgressionEvent ((int)progressionStatus, progression01, progression02, progression03);
 			}
 #else
-			addProgressionEvent ((int)progressionStatus, progression01, progression02, progression03);
+				addProgressionEvent ((int)progressionStatus, progression01, progression02, progression03);
 #endif
-		}
+        }
 
 		public static void AddProgressionEventWithScore (GAProgressionStatus progressionStatus, string progression01, string progression02, string progression03, int score)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateProgressionEvent (progressionStatus, progression01, progression02, progression03)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateProgressionEvent (progressionStatus, progression01, progression02, progression03)) {
 				addProgressionEventWithScore ((int)progressionStatus, progression01, progression02, progression03, score);
 			}
 #else
-			addProgressionEventWithScore ((int)progressionStatus, progression01, progression02, progression03, score);
+				addProgressionEventWithScore ((int)progressionStatus, progression01, progression02, progression03, score);
 #endif
-		}
+        }
 
 		public static void AddDesignEvent (string eventID, float eventValue)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateDesignEvent (eventID)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateDesignEvent (eventID)) {
 				addDesignEventWithValue (eventID, eventValue);
 			}
 #else
-			addDesignEventWithValue (eventID, eventValue);
+				addDesignEventWithValue (eventID, eventValue);
 #endif
-		}
+        }
 
 		public static void AddDesignEvent (string eventID)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateDesignEvent (eventID)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateDesignEvent (eventID)) {
 				addDesignEvent (eventID);
 			}
 #else
-			addDesignEvent (eventID);
+				addDesignEvent (eventID);
 #endif
-		}
+        }
 
 		public static void AddErrorEvent (GAErrorSeverity severity, string message)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateErrorEvent(severity,message)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateErrorEvent(severity,message)) {
 				addErrorEvent ((int)severity, message);
 			}
 #else
-			addErrorEvent ((int)severity, message);
+				addErrorEvent ((int)severity, message);
 #endif
-		}
+        }
 
 		public static void SetInfoLog (bool enabled)
 		{
@@ -464,34 +464,34 @@ namespace GameAnalyticsSDK.Wrapper
 		public static void SetFacebookId (string facebookId)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateFacebookId (facebookId)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateFacebookId (facebookId)) {
 				setFacebookId (facebookId);
 			}
 #else
-			setFacebookId (facebookId);
+				setFacebookId (facebookId);
 #endif
-		}
+        }
 
 		public static void SetGender (string gender)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateGender (gender)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateGender (gender)) {
 				setGender (gender);
 			}
 #else
-			setGender (gender);
+				setGender (gender);
 #endif
-		}
+        }
 
 		public static void SetBirthYear (int birthYear)
 		{
 #if UNITY_EDITOR
-			if (GameAnalyticsSDK.Validators.GAValidator.ValidateBirthyear (birthYear)) {
+            if (GameAnalyticsSDK.Validators.GAValidator.ValidateBirthyear (birthYear)) {
 				setBirthYear (birthYear);
 			}
 #else
-			setBirthYear (birthYear);
+				setBirthYear (birthYear);
 #endif
-		}
+        }
 	}
 }

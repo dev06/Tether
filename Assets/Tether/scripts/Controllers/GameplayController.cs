@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameAnalyticsSDK; 
-
+using GameAnalyticsSDK;
+using Facebook.Unity;
 public class GameplayController : MonoBehaviour
 {
 
@@ -26,7 +26,7 @@ public class GameplayController : MonoBehaviour
 
 	public static float DIFFICULTY;
 
-	private static int POWERUP_START = 4; 
+	private static int POWERUP_START = 4;
 
 	public static int POWERUP_FREQ = POWERUP_START;
 
@@ -65,18 +65,18 @@ public class GameplayController : MonoBehaviour
 	void OnEnable()
 	{
 		EventManager.OnGameOver += OnGameOver;
-		EventManager.OnGameStart+=OnGameStart; 
+		EventManager.OnGameStart += OnGameStart;
 	}
 
 
 	void OnDisable()
 	{
 		EventManager.OnGameOver -= OnGameOver;
-		EventManager.OnGameStart-=OnGameStart; 
+		EventManager.OnGameStart -= OnGameStart;
 	}
 	void Awake()
 	{
-		Application.targetFrameRate = 300; 
+		Application.targetFrameRate = 300;
 
 		if (Instance == null)
 		{
@@ -87,6 +87,14 @@ public class GameplayController : MonoBehaviour
 			DestroyImmediate(gameObject);
 		}
 
+		if (!FB.IsInitialized)
+		{
+			FB.Init();
+		} else
+		{
+			FB.ActivateApp();
+		}
+
 		if (GAMESTARTED == false)
 		{
 			PlayerPrefs.DeleteKey("LastLevelPlayed");
@@ -95,7 +103,7 @@ public class GameplayController : MonoBehaviour
 
 		GAMESTARTED = true;
 
-//		PlayerPrefs.DeleteAll();
+		//		PlayerPrefs.DeleteAll();
 		//Debug.Log("dsfs")
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -129,7 +137,7 @@ public class GameplayController : MonoBehaviour
 
 		BestScore = PlayerPrefs.GetFloat("best");
 
-		POWERUP_FREQ = POWERUP_START; 
+		POWERUP_FREQ = POWERUP_START;
 
 		SCORE = 0;
 
@@ -177,7 +185,7 @@ public class GameplayController : MonoBehaviour
 
 		SaveBestScore();
 
-		int progScore = (int)SCORE; 
+		int progScore = (int)SCORE;
 		GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "game", progScore);
 
 		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
