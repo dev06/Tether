@@ -12,17 +12,17 @@ public class Haptic : MonoBehaviour {
 		{
 			case HapticIntensity.Light:
 			{
-				TapticManager.Vibrate(ImpactFeedback.Light);
+				TapticManager.Impact(ImpactFeedback.Light);
 				break;
 			}
 			case HapticIntensity.Medium:
 			{
-				TapticManager.Vibrate(ImpactFeedback.Midium);
+				TapticManager.Impact(ImpactFeedback.Midium);
 				break;
 			}
 			case HapticIntensity.Heavy:
 			{
-				TapticManager.Vibrate(ImpactFeedback.Heavy);
+				TapticManager.Impact(ImpactFeedback.Heavy);
 				break;
 			}
 		}
