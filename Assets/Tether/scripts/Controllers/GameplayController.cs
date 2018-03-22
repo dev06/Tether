@@ -174,6 +174,11 @@ public class GameplayController : MonoBehaviour
 	void OnGameStart()
 	{
 		GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "game");
+
+		if (LevelIndex == 1)
+		{
+			BaseController.CURRENT_VELOCITY = 200F;
+		}
 	}
 
 	void OnGameOver()

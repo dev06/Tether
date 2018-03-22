@@ -146,6 +146,8 @@ public class PerfectBastHit : MonoBehaviour {
 			message = displayMessages_t2[Random.Range(0, displayMessages_t2.Length)];
 			StopCoroutine("IType");
 			StartCoroutine("IType", defaultValues);
+			Haptic.Vibrate(HapticIntensity.Light);
+
 
 		}
 		else if (angle <= 1f)
@@ -154,6 +156,8 @@ public class PerfectBastHit : MonoBehaviour {
 			message = displayMessages_t1[Random.Range(0, displayMessages_t1.Length)];
 			StopCoroutine("IType");
 			StartCoroutine("IType", defaultValues);
+			Haptic.Vibrate(HapticIntensity.Light);
+
 		}
 	}
 

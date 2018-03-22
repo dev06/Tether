@@ -214,6 +214,22 @@ public class PlayerController : MonoBehaviour
 
 		StartCoroutine("IStartBoost");
 
+		StopCoroutine("BoostVibrate");
+
+		StartCoroutine("BoostVibrate");
+
+	}
+
+	private IEnumerator BoostVibrate()
+	{
+		while (activeBoost)
+		{
+			Haptic.Vibrate(HapticIntensity.Medium);
+
+			yield return new WaitForSeconds(.1f);
+		}
+
+		StopCoroutine("BoostVibrate");
 	}
 
 	private IEnumerator IStartBoost()
@@ -254,6 +270,8 @@ public class PlayerController : MonoBehaviour
 		float dividor = boostScoreAddition / 4f;
 
 		float time = 0;
+
+
 
 		while (bsm.isPlaying())
 		{
@@ -384,8 +402,13 @@ public class PlayerController : MonoBehaviour
 
 
 			SpawnEffect();
-
 		}
+
+		if (activeBoost == false)
+		{
+			Haptic.Vibrate(HapticIntensity.Medium);
+		}
+
 	}
 
 
@@ -451,6 +474,9 @@ public class PlayerController : MonoBehaviour
 			slowmotionParticle.Play();
 
 			slowmotionParticle.transform.position = Camera.main.ViewportToWorldPoint(new Vector2(.5f, 0f)) + new Vector3(0, 0, 10);
+
+			StopCoroutine("HoldVibrate");
+			StartCoroutine("HoldVibrate");
 		}
 		else
 		{
@@ -466,6 +492,19 @@ public class PlayerController : MonoBehaviour
 				Time.fixedDeltaTime = Time.timeScale * .02f;
 
 			}
+
+			StopCoroutine("HoldVibrate");
+		}
+	}
+
+	private IEnumerator HoldVibrate()
+	{
+		while (true)
+		{
+			Haptic.Vibrate(HapticIntensity.Medium);
+			yield return new WaitForSeconds(.07f);
+			Haptic.Vibrate(HapticIntensity.Heavy);
+			yield return new WaitForSeconds(.25f);
 		}
 	}
 

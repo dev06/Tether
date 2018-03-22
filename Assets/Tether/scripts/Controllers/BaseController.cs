@@ -74,6 +74,7 @@ public class BaseController : MonoBehaviour {
 		zap = GameObject.Find("Zap").GetComponent<ParticleSystem>();
 
 		depletionRate = default_depletion_rate;
+
 	}
 	void Update()
 	{
