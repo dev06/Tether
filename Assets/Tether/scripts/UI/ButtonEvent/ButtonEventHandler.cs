@@ -66,6 +66,7 @@ public enum ButtonID
 	SHOP,
 	TETHER_HEAD,
 	SHOPBACKGROUND,
+	HAPTIC,
 }
 
 

@@ -182,7 +182,7 @@ public class BaseController : MonoBehaviour {
 	private void PoolBase()
 	{
 
-		CURRENT_VELOCITY += 2f;
+		CURRENT_VELOCITY += 1f;
 
 		CURRENT_VELOCITY = Mathf.Clamp(CURRENT_VELOCITY, MIN_VELOCITY, BASE_VELOCITY);
 

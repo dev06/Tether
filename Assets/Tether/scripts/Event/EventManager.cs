@@ -49,6 +49,10 @@ public class EventManager : MonoBehaviour {
 	public delegate void TutorialActive(bool active);
 	public static TutorialActive OnTutorialActive;
 
+	public delegate void HapticVibrate(bool active);
+	public static HapticVibrate OnHapticVibrate;
+
+
 
 	public delegate void LockTaskComplete(LockTaskID id);
 	public static LockTaskComplete OnLockTaskComplete;

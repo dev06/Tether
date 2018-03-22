@@ -499,6 +499,7 @@ public class PlayerController : MonoBehaviour
 
 	private IEnumerator HoldVibrate()
 	{
+		yield return new WaitForSeconds(.15f);
 		while (true)
 		{
 			Haptic.Vibrate(HapticIntensity.Medium);

@@ -84,6 +84,18 @@ public class SimpleButtonHandler : ButtonEventHandler {
 
 					break;
 				}
+
+
+				case ButtonID.HAPTIC:
+				{
+					GameplayController.HAPTIC = !GameplayController.HAPTIC;
+
+					if (EventManager.OnHapticVibrate != null)
+					{
+						EventManager.OnHapticVibrate(GameplayController.HAPTIC);
+					}
+					break;
+				}
 			}
 		}
 		catch (System.Exception e)

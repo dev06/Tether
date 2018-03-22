@@ -8,6 +8,8 @@ public class GameplayController : MonoBehaviour
 
 	public static bool GAMESTARTED = false;
 
+	public static bool HAPTIC = true;
+
 	public static GameplayController Instance;
 
 	private static bool Loaded = true;
