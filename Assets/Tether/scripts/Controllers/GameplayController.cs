@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameAnalyticsSDK;
-using Facebook.Unity;
+
 public class GameplayController : MonoBehaviour
 {
 
@@ -89,13 +89,6 @@ public class GameplayController : MonoBehaviour
 			DestroyImmediate(gameObject);
 		}
 
-		if (!FB.IsInitialized)
-		{
-			FB.Init();
-		} else
-		{
-			FB.ActivateApp();
-		}
 
 		if (GAMESTARTED == false)
 		{

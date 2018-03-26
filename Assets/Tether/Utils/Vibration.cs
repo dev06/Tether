@@ -19,7 +19,7 @@ public static class Vibration
             vibrator.Call("vibrate");
         }
         else {
-            Handheld.Vibrate();
+         //   Handheld.Vibrate();
         }
     }
 
@@ -30,7 +30,7 @@ public static class Vibration
             vibrator.Call("vibrate", milliseconds);
         }
         else {
-            Handheld.Vibrate();
+        //    Handheld.Vibrate();
         }
     }
 
@@ -40,7 +40,7 @@ public static class Vibration
             vibrator.Call("vibrate", pattern, repeat);
         }
         else {
-            Handheld.Vibrate();
+         //   Handheld.Vibrate();
         }
     }
 

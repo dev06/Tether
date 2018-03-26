@@ -12,6 +12,7 @@ public class PerfectBastHit : MonoBehaviour {
 	private string[] displayMessages_t1 = {"Perfect Hit!", "Dead on!", "On Spot!", "Bulls Eye!", "Flawless!"};
 	private Image image;
 	private GameplayController gpc;
+	private PlayerController player; 
 	private bool hasStarted;
 
 
@@ -28,6 +29,11 @@ public class PerfectBastHit : MonoBehaviour {
 		if (gpc == null)
 		{
 			gpc = GameplayController.Instance;
+		}
+
+		if(player == null)
+		{
+			player = PlayerController.Instance; 
 		}
 
 		//PlayerPrefs.DeleteAll();
@@ -78,7 +84,8 @@ public class PerfectBastHit : MonoBehaviour {
 					StartCoroutine("IType", new float[3] {.04f, 2f, .5f});
 					b1 = true;
 				}
-			} else if ((int)(GameplayController.SCORE) == 1)
+			} 
+			else if ((int)(GameplayController.SCORE) == 1)
 			{
 				if (!b2)
 				{
@@ -99,7 +106,8 @@ public class PerfectBastHit : MonoBehaviour {
 					StartCoroutine("IType", new float[3] {.04f, 2f, 0f});
 					b3 = true;
 				}
-			} else if ((int)(GameplayController.SCORE) == 3)
+			} 
+			else if ((int)(GameplayController.SCORE) == 3)
 			{
 				if (!b4)
 				{
@@ -108,7 +116,8 @@ public class PerfectBastHit : MonoBehaviour {
 					StartCoroutine("IType", new float[3] {.04f, 1f, 0f});
 					b4 = true;
 				}
-			} else
+			} 
+			else
 			{
 				if (!b5)
 				{
@@ -163,6 +172,7 @@ public class PerfectBastHit : MonoBehaviour {
 
 	IEnumerator IType(float[] values)
 	{
+		
 		text.enabled = true;
 		string msg = "";
 		text.text = "";

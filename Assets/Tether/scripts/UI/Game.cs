@@ -34,13 +34,13 @@ namespace Tether
 		void OnBoostEnd()
 		{
 			backgroundNeg.enabled = false;
-			pauseButton.enabled = true;
+			pauseButton.gameObject.SetActive(true);
 		}
 
 		void OnBoostStart()
 		{
 			backgroundNeg.enabled = true;
-			pauseButton.enabled = false;
+			pauseButton.gameObject.SetActive(false);
 		}
 
 
