@@ -43,7 +43,7 @@ MonoBehaviour:
   FirstName: 
   LastName: 
   StudioName: 
-  GameName: Tether
+  GameName: 
   PasswordConfirm: 
   EmailOptIn: 1
   EmailGA: vaystudios@gmail.com

@@ -4,9 +4,18 @@ using UnityEngine;
 using Facebook.Unity.Mobile;
 public class FacebookManager : MonoBehaviour {
 
+	public static FacebookManager instance; 
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject); 
+		if(instance == null)
+		{
+			instance = this; 
+		}
+		else
+		{
+			Destroy(gameObject); 
+		}
 #if !UNITY_EDITOR
 		if (!Facebook.Unity.FB.IsInitialized)
 		{
