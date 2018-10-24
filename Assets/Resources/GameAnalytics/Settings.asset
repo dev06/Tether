@@ -25,20 +25,75 @@ MonoBehaviour:
   UserMessagesFailed: 0
   CustomArea: 
   gameKey:
-  - b22261eb2413e1462e416a84ce4d346b
+  - 41b4c2357175d9121bfde17cabd5ec6c
   secretKey:
-  - 127ecb4e6b43d235aa56bdb0d1e45f9d70863b2f
+  - 3b9124018d5d902a1ec775ebc15e5b322ebf04c5
   Build:
   - 0.1
   SelectedPlatformStudio:
-  - Voodoo
+  - Vay Studios
   SelectedPlatformGame:
-  - Tether - iOS (Vay Studio)
-  SelectedPlatformGameID: 6ebe0000
-  SelectedStudio: 01000000
-  SelectedGame: 01000000
-  NewVersion: 
-  Changes: 
+  - Tether
+  SelectedPlatformGameID: 37be0000
+  SelectedStudio: 02000000
+  SelectedGame: 02000000
+  NewVersion: 4.0.4
+  Changes: '4.0.4
+
+    - fixes to android session handling
+
+    - added custom dimensions to design and error events
+
+    - fixes to sqlite db path for windows and linux platforms
+
+
+    4.0.3
+
+    - small uwp bug fix (uwp)
+
+
+    4.0.2
+
+    - small editor bug fixes for stop showing log warnings after calling initialize
+    function
+
+
+    4.0.1
+
+    - small update for wehn signing up in editor
+
+
+    4.0.0
+
+    - dumped major version to emphasize the need to use manual initialization of the
+    SDK now
+
+    - added log warnings to warn if the SDK has not been manually initialized before
+    sending events
+
+
+    3.11.3
+
+    - fixed session length bug
+
+    - fixed not allowing to send event when session is not started
+
+
+    3.11.2
+
+    - updated android google play libraries (android)
+
+
+    3.11.1
+
+    - various bug fixes in android native library (android)
+
+
+    3.11.0
+
+    - ui updated for sign up dialog
+
+    - PLEASE NOTE: initialization is now manual and not automatic anymore'
   SignUpOpen: 0
   FirstName: 
   LastName: 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameAnalyticsSDK;
-
+using RabaGames; 
 public class GameplayController : MonoBehaviour
 {
 
@@ -53,6 +53,8 @@ public class GameplayController : MonoBehaviour
 	private bool isPaused;
 
 	private PlayerController player;
+
+	private static int gamePlayedInSession;
 
 	public static void SetState(State s)
 	{
@@ -115,7 +117,6 @@ public class GameplayController : MonoBehaviour
 		player = PlayerController.Instance;
 
 		locktaskpanel = FindObjectOfType<LockTaskPanel>();
-
 	}
 
 
@@ -150,7 +151,21 @@ public class GameplayController : MonoBehaviour
 			Level = LevelIndex == 0 ? Level.LEVEL1 : Level.LEVEL2;
 		}
 
-		SetState(!Loaded ? State.INTRO : State.MENU);
+		State toLoadState = !Loaded ? State.INTRO : State.MENU;
+
+		SetState(toLoadState);
+
+		if(toLoadState == State.MENU)
+		{
+			gamePlayedInSession++; 
+
+			if(gamePlayedInSession % 4 == 0)
+			{
+				#if !UNITY_EDITOR
+				RateInsideAppiOS.DisplayReviewDialog(); 	
+				#endif
+			}
+		}
 
 		Loaded = true;
 	}
